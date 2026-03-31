@@ -7,17 +7,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
   :root {
-    --void: #04060f;
-    --deep: #080d1a;
-    --panel: #0c1427;
-    --border: #1a2a4a;
-    --accent: #00c8ff;
-    --gold: #f0a500;
-    --green: #00ff88;
-    --red: #ff4060;
-    --muted: #3a5070;
-    --text: #c8d8f0;
-    --dim: #607090;
+    --void: #080806;
+    --deep: #100e0a;
+    --panel: #181510;
+    --border: #2e2820;
+    --accent: #c8922a;
+    --gold: #e8c060;
+    --green: #52c47a;
+    --red: #c84848;
+    --muted: #4a4030;
+    --text: #c8bfb0;
+    --dim: #786858;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -35,16 +35,16 @@
     position: fixed;
     inset: 0;
     background-image:
-      radial-gradient(1px 1px at 10% 15%, rgba(200,216,240,0.4) 0%, transparent 100%),
-      radial-gradient(1px 1px at 30% 45%, rgba(200,216,240,0.3) 0%, transparent 100%),
-      radial-gradient(1px 1px at 55% 20%, rgba(200,216,240,0.5) 0%, transparent 100%),
-      radial-gradient(1px 1px at 75% 60%, rgba(200,216,240,0.2) 0%, transparent 100%),
-      radial-gradient(1px 1px at 90% 10%, rgba(200,216,240,0.4) 0%, transparent 100%),
-      radial-gradient(1px 1px at 20% 80%, rgba(200,216,240,0.3) 0%, transparent 100%),
-      radial-gradient(1px 1px at 65% 85%, rgba(200,216,240,0.4) 0%, transparent 100%),
-      radial-gradient(1px 1px at 45% 70%, rgba(200,216,240,0.2) 0%, transparent 100%),
-      radial-gradient(2px 2px at 85% 35%, rgba(0,200,255,0.3) 0%, transparent 100%),
-      radial-gradient(2px 2px at 15% 55%, rgba(240,165,0,0.2) 0%, transparent 100%);
+      radial-gradient(1px 1px at 10% 15%, rgba(220,210,190,0.35) 0%, transparent 100%),
+      radial-gradient(1px 1px at 30% 45%, rgba(220,210,190,0.25) 0%, transparent 100%),
+      radial-gradient(1px 1px at 55% 20%, rgba(220,210,190,0.40) 0%, transparent 100%),
+      radial-gradient(1px 1px at 75% 60%, rgba(220,210,190,0.20) 0%, transparent 100%),
+      radial-gradient(1px 1px at 90% 10%, rgba(220,210,190,0.35) 0%, transparent 100%),
+      radial-gradient(1px 1px at 20% 80%, rgba(220,210,190,0.25) 0%, transparent 100%),
+      radial-gradient(1px 1px at 65% 85%, rgba(220,210,190,0.30) 0%, transparent 100%),
+      radial-gradient(1px 1px at 45% 70%, rgba(220,210,190,0.20) 0%, transparent 100%),
+      radial-gradient(2px 2px at 85% 35%, rgba(200,146,42,0.25) 0%, transparent 100%),
+      radial-gradient(2px 2px at 15% 55%, rgba(200,146,42,0.15) 0%, transparent 100%);
     pointer-events: none;
     z-index: 0;
   }
@@ -56,7 +56,7 @@
     right: -10%;
     width: 60vw;
     height: 60vh;
-    background: radial-gradient(ellipse, rgba(0,80,160,0.08) 0%, transparent 70%);
+    background: radial-gradient(ellipse, rgba(80,50,10,0.12) 0%, transparent 70%);
     pointer-events: none;
     z-index: 0;
   }
@@ -73,7 +73,7 @@
   header {
     padding: 20px 0 0;
     border-bottom: 1px solid var(--border);
-    background: linear-gradient(180deg, rgba(4,6,15,0.95) 0%, transparent 100%);
+    background: linear-gradient(180deg, rgba(8,8,6,0.97) 0%, transparent 100%);
     position: sticky;
     top: 0;
     z-index: 100;
@@ -95,7 +95,7 @@
     font-size: 28px;
     color: var(--accent);
     letter-spacing: 0.06em;
-    text-shadow: 0 0 30px rgba(0,200,255,0.4);
+    text-shadow: 0 0 30px rgba(200,146,42,0.45);
   }
 
   .logo-tag { font-size: 11px; color: var(--gold); letter-spacing: 0.2em; text-transform: uppercase; }
@@ -189,7 +189,7 @@
   }
 
   .badge-live { background: rgba(0,255,136,0.1); color: var(--green); border: 1px solid rgba(0,255,136,0.3); }
-  .badge-ai { background: rgba(0,200,255,0.1); color: var(--accent); border: 1px solid rgba(0,200,255,0.3); }
+  .badge-ai { background: rgba(200,146,42,0.12); color: var(--accent); border: 1px solid rgba(200,146,42,0.35); }
   .badge-gold { background: rgba(240,165,0,0.1); color: var(--gold); border: 1px solid rgba(240,165,0,0.3); }
 
   /* ── METRICS ROW ── */
@@ -323,7 +323,7 @@
     flex-shrink: 0;
   }
 
-  .msg-avatar.ai { background: rgba(0,200,255,0.1); border: 1px solid rgba(0,200,255,0.3); }
+  .msg-avatar.ai { background: rgba(200,146,42,0.12); border: 1px solid rgba(200,146,42,0.35); }
   .msg-avatar.user { background: rgba(240,165,0,0.1); border: 1px solid rgba(240,165,0,0.3); }
 
   .msg-bubble {
@@ -334,13 +334,13 @@
     line-height: 1.6;
   }
 
-  .msg-bubble.ai { background: rgba(0,200,255,0.06); border: 1px solid rgba(0,200,255,0.15); }
+  .msg-bubble.ai { background: rgba(200,146,42,0.07); border: 1px solid rgba(200,146,42,0.18); }
   .msg-bubble.user { background: rgba(240,165,0,0.06); border: 1px solid rgba(240,165,0,0.15); text-align: right; }
 
   .msg-concept {
     display: inline-block;
-    background: rgba(0,200,255,0.1);
-    border: 1px solid rgba(0,200,255,0.2);
+    background: rgba(200,146,42,0.12);
+    border: 1px solid rgba(200,146,42,0.25);
     border-radius: 4px;
     padding: 2px 7px;
     font-size: 9px;
@@ -374,8 +374,8 @@
   }
 
   .concept-pill {
-    background: rgba(0,200,255,0.05);
-    border: 1px solid rgba(0,200,255,0.2);
+    background: rgba(200,146,42,0.06);
+    border: 1px solid rgba(200,146,42,0.25);
     border-radius: 20px;
     padding: 5px 12px;
     font-size: 10px;
@@ -384,7 +384,7 @@
     transition: all 0.2s;
   }
 
-  .concept-pill:hover { background: rgba(0,200,255,0.15); color: var(--accent); box-shadow: 0 0 10px rgba(0,200,255,0.15); }
+  .concept-pill:hover { background: rgba(200,146,42,0.18); color: var(--accent); box-shadow: 0 0 10px rgba(200,146,42,0.18); }
 
   .chat-input-area {
     padding: 12px 16px;
@@ -410,8 +410,8 @@
   .chat-input::placeholder { color: var(--muted); }
 
   .send-btn {
-    background: rgba(0,200,255,0.1);
-    border: 1px solid rgba(0,200,255,0.4);
+    background: rgba(200,146,42,0.12);
+    border: 1px solid rgba(200,146,42,0.45);
     border-radius: 6px;
     padding: 9px 18px;
     font-family: 'Orbitron', sans-serif;
@@ -422,7 +422,7 @@
     letter-spacing: 0.1em;
   }
 
-  .send-btn:hover { background: rgba(0,200,255,0.2); box-shadow: 0 0 15px rgba(0,200,255,0.2); }
+  .send-btn:hover { background: rgba(200,146,42,0.25); box-shadow: 0 0 15px rgba(200,146,42,0.25); }
   .send-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
   /* ── CHART ── */
@@ -433,7 +433,7 @@
   /* ── CERTS ── */
   .cert-list { padding: 8px 0; }
   .cert-item { display: flex; align-items: center; gap: 12px; padding: 12px 20px; border-bottom: 1px solid rgba(26,42,74,0.5); transition: background 0.2s; }
-  .cert-item:hover { background: rgba(0,200,255,0.03); }
+  .cert-item:hover { background: rgba(200,146,42,0.04); }
   .cert-icon { font-size: 20px; flex-shrink: 0; }
   .cert-info { flex: 1; }
   .cert-name { font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
@@ -550,18 +550,18 @@
   .lesson-body { padding: 20px; }
   .lesson-title { font-family: 'Orbitron', sans-serif; font-size: 13px; color: var(--accent); margin-bottom: 12px; letter-spacing: 0.08em; }
   .lesson-text { font-size: 11px; color: var(--text); line-height: 1.8; margin-bottom: 16px; }
-  .lesson-tag { display: inline-block; background: rgba(0,200,255,0.1); border: 1px solid rgba(0,200,255,0.2); border-radius: 4px; padding: 3px 10px; font-size: 9px; color: var(--accent); letter-spacing: 0.1em; margin: 3px 3px 0 0; }
+  .lesson-tag { display: inline-block; background: rgba(200,146,42,0.12); border: 1px solid rgba(200,146,42,0.25); border-radius: 4px; padding: 3px 10px; font-size: 9px; color: var(--accent); letter-spacing: 0.1em; margin: 3px 3px 0 0; }
   .lesson-divider { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
   .lesson-eve { font-size: 11px; color: var(--gold); line-height: 1.7; }
   .start-btn {
     display: block; width: 100%;
-    background: rgba(0,200,255,0.1); border: 1px solid rgba(0,200,255,0.4);
+    background: rgba(200,146,42,0.12); border: 1px solid rgba(200,146,42,0.45);
     border-radius: 6px; padding: 12px;
     font-family: 'Orbitron', sans-serif; font-size: 10px; letter-spacing: 0.15em;
     color: var(--accent); cursor: pointer; transition: all 0.2s; margin-top: 16px;
     text-align: center;
   }
-  .start-btn:hover { background: rgba(0,200,255,0.2); box-shadow: 0 0 20px rgba(0,200,255,0.15); }
+  .start-btn:hover { background: rgba(200,146,42,0.25); box-shadow: 0 0 20px rgba(200,146,42,0.18); }
 
   /* ── MARKETS TAB ── */
   .markets-grid {
@@ -581,7 +581,7 @@
     text-transform: uppercase;
   }
   .price-table td { padding: 10px 20px; font-size: 11px; border-bottom: 1px solid rgba(26,42,74,0.4); }
-  .price-table tr:hover td { background: rgba(0,200,255,0.03); }
+  .price-table tr:hover td { background: rgba(200,146,42,0.04); }
   .price-up { color: var(--green); }
   .price-down { color: var(--red); }
   .price-flat { color: var(--muted); }
@@ -621,7 +621,7 @@
     padding: 12px 20px; border-bottom: 1px solid rgba(26,42,74,0.4);
     transition: background 0.2s;
   }
-  .member-row:hover { background: rgba(0,200,255,0.03); }
+  .member-row:hover { background: rgba(200,146,42,0.04); }
   .member-avatar {
     width: 32px; height: 32px; border-radius: 50%;
     background: linear-gradient(135deg, #0a2040, #1a4080);
@@ -656,7 +656,7 @@
   .contract-title { font-size: 12px; color: var(--text); margin-bottom: 4px; }
   .contract-meta { font-size: 10px; color: var(--dim); }
   .contract-badge { font-family: 'Orbitron', sans-serif; font-size: 8px; padding: 2px 6px; border-radius: 3px; float: right; }
-  .badge-active { background: rgba(0,200,255,0.1); color: var(--accent); border: 1px solid rgba(0,200,255,0.3); }
+  .badge-active { background: rgba(200,146,42,0.12); color: var(--accent); border: 1px solid rgba(200,146,42,0.35); }
   .badge-pending { background: rgba(240,165,0,0.1); color: var(--gold); border: 1px solid rgba(240,165,0,0.3); }
 
   /* ── CREDENTIALS TAB ── */
@@ -713,14 +713,14 @@
     position: absolute;
     inset: 0;
     background-image:
-      radial-gradient(1px 1px at 8% 12%, rgba(200,216,240,0.5) 0%, transparent 100%),
-      radial-gradient(1px 1px at 22% 55%, rgba(200,216,240,0.3) 0%, transparent 100%),
-      radial-gradient(1px 1px at 60% 18%, rgba(200,216,240,0.4) 0%, transparent 100%),
-      radial-gradient(1px 1px at 80% 72%, rgba(200,216,240,0.3) 0%, transparent 100%),
-      radial-gradient(1px 1px at 35% 88%, rgba(200,216,240,0.4) 0%, transparent 100%),
-      radial-gradient(1px 1px at 91% 30%, rgba(200,216,240,0.3) 0%, transparent 100%),
-      radial-gradient(2px 2px at 50% 50%, rgba(0,200,255,0.15) 0%, transparent 100%),
-      radial-gradient(600px 600px at 50% 50%, rgba(0,40,100,0.12) 0%, transparent 70%);
+      radial-gradient(1px 1px at 8% 12%, rgba(220,210,190,0.40) 0%, transparent 100%),
+      radial-gradient(1px 1px at 22% 55%, rgba(220,210,190,0.25) 0%, transparent 100%),
+      radial-gradient(1px 1px at 60% 18%, rgba(220,210,190,0.35) 0%, transparent 100%),
+      radial-gradient(1px 1px at 80% 72%, rgba(220,210,190,0.25) 0%, transparent 100%),
+      radial-gradient(1px 1px at 35% 88%, rgba(220,210,190,0.30) 0%, transparent 100%),
+      radial-gradient(1px 1px at 91% 30%, rgba(220,210,190,0.25) 0%, transparent 100%),
+      radial-gradient(2px 2px at 50% 50%, rgba(200,146,42,0.20) 0%, transparent 100%),
+      radial-gradient(600px 600px at 50% 50%, rgba(60,40,10,0.15) 0%, transparent 70%);
     pointer-events: none;
   }
 
@@ -746,13 +746,13 @@
     font-size: 52px;
     color: var(--accent);
     letter-spacing: 0.06em;
-    text-shadow: 0 0 60px rgba(0,200,255,0.5), 0 0 120px rgba(0,200,255,0.2);
+    text-shadow: 0 0 60px rgba(200,146,42,0.55), 0 0 120px rgba(200,146,42,0.25);
     animation: pulseGlow 3s ease-in-out infinite;
   }
 
   @keyframes pulseGlow {
-    0%, 100% { text-shadow: 0 0 60px rgba(0,200,255,0.5), 0 0 120px rgba(0,200,255,0.2); }
-    50% { text-shadow: 0 0 80px rgba(0,200,255,0.7), 0 0 160px rgba(0,200,255,0.3); }
+    0%, 100% { text-shadow: 0 0 60px rgba(200,146,42,0.55), 0 0 120px rgba(200,146,42,0.25); }
+    50% { text-shadow: 0 0 80px rgba(200,146,42,0.80), 0 0 160px rgba(232,192,96,0.35); }
   }
 
   .connect-tagline {
@@ -787,8 +787,8 @@
     gap: 10px;
     width: 100%;
     padding: 14px 28px;
-    background: linear-gradient(135deg, rgba(0,200,255,0.12), rgba(0,200,255,0.04));
-    border: 1px solid rgba(0,200,255,0.4);
+    background: linear-gradient(135deg, rgba(200,146,42,0.12), rgba(200,146,42,0.04));
+    border: 1px solid rgba(200,146,42,0.40);
     border-radius: 10px;
     font-family: 'Orbitron', sans-serif;
     font-size: 11px;
@@ -796,12 +796,12 @@
     color: var(--accent);
     cursor: pointer;
     transition: all 0.3s;
-    box-shadow: 0 0 20px rgba(0,200,255,0.08);
+    box-shadow: 0 0 20px rgba(200,146,42,0.08);
   }
 
   .connect-wallet-btn:hover {
-    background: linear-gradient(135deg, rgba(0,200,255,0.22), rgba(0,200,255,0.08));
-    box-shadow: 0 0 35px rgba(0,200,255,0.2);
+    background: linear-gradient(135deg, rgba(200,146,42,0.22), rgba(200,146,42,0.08));
+    box-shadow: 0 0 35px rgba(200,146,42,0.25);
     transform: translateY(-1px);
   }
 
@@ -1052,17 +1052,17 @@
             <svg class="sparkline" id="sparklineSvg" viewBox="0 0 600 120" preserveAspectRatio="none">
               <defs>
                 <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="rgba(0,200,255,0.3)"/>
-                  <stop offset="100%" stop-color="rgba(0,200,255,0)"/>
+                  <stop offset="0%" stop-color="rgba(200,146,42,0.35)"/>
+                  <stop offset="100%" stop-color="rgba(200,146,42,0)"/>
                 </linearGradient>
               </defs>
               <line x1="0" y1="30" x2="600" y2="30" stroke="rgba(26,42,74,0.6)" stroke-width="1"/>
               <line x1="0" y1="60" x2="600" y2="60" stroke="rgba(26,42,74,0.6)" stroke-width="1"/>
               <line x1="0" y1="90" x2="600" y2="90" stroke="rgba(26,42,74,0.6)" stroke-width="1"/>
               <path id="chartArea" d="" fill="url(#areaGrad)"/>
-              <path id="chartLine" d="" fill="none" stroke="#00c8ff" stroke-width="2"/>
-              <circle id="chartDot" cx="600" cy="15" r="4" fill="#00c8ff"/>
-              <circle id="chartPulse" cx="600" cy="15" r="8" fill="none" stroke="rgba(0,200,255,0.4)" stroke-width="1">
+              <path id="chartLine" d="" fill="none" stroke="#c8922a" stroke-width="2"/>
+              <circle id="chartDot" cx="600" cy="15" r="4" fill="#c8922a"/>
+              <circle id="chartPulse" cx="600" cy="15" r="8" fill="none" stroke="rgba(200,146,42,0.45)" stroke-width="1">
                 <animate attributeName="r" from="4" to="14" dur="1.5s" repeatCount="indefinite"/>
                 <animate attributeName="opacity" from="1" to="0" dur="1.5s" repeatCount="indefinite"/>
               </circle>
@@ -1381,15 +1381,15 @@
             <svg class="sparkline" id="sparkline2" viewBox="0 0 600 120" preserveAspectRatio="none">
               <defs>
                 <linearGradient id="areaGrad2" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="rgba(0,200,255,0.25)"/>
-                  <stop offset="100%" stop-color="rgba(0,200,255,0)"/>
+                  <stop offset="0%" stop-color="rgba(200,146,42,0.30)"/>
+                  <stop offset="100%" stop-color="rgba(200,146,42,0)"/>
                 </linearGradient>
               </defs>
               <line x1="0" y1="30" x2="600" y2="30" stroke="rgba(26,42,74,0.6)" stroke-width="1"/>
               <line x1="0" y1="60" x2="600" y2="60" stroke="rgba(26,42,74,0.6)" stroke-width="1"/>
               <line x1="0" y1="90" x2="600" y2="90" stroke="rgba(26,42,74,0.6)" stroke-width="1"/>
               <path id="chartArea2" fill="url(#areaGrad2)"/>
-              <path id="chartLine2" fill="none" stroke="#00c8ff" stroke-width="2"/>
+              <path id="chartLine2" fill="none" stroke="#c8922a" stroke-width="2"/>
             </svg>
           </div>
         </div>
@@ -1595,7 +1595,7 @@
               <div class="alliance-name">🤝 House Solara — FRIENDLY</div>
               <div class="alliance-detail">Transit agreement active · Gate access granted · +42 standing</div>
             </div>
-            <div class="alliance-card" style="border-color:rgba(0,200,255,0.2);background:rgba(0,200,255,0.04);">
+            <div class="alliance-card" style="border-color:rgba(200,146,42,0.25);background:rgba(200,146,42,0.04);">
               <div class="alliance-name" style="color:var(--accent);">🌐 The Concordat — NEUTRAL</div>
               <div class="alliance-detail">Diplomatic channel open · Sector 12 access under negotiation · Standing: 0</div>
             </div>
