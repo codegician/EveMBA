@@ -1,0 +1,2548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EveMBA — Interstellar Business Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --void: #04060f;
+    --deep: #080d1a;
+    --panel: #0c1427;
+    --border: #1a2a4a;
+    --accent: #00c8ff;
+    --gold: #f0a500;
+    --green: #00ff88;
+    --red: #ff4060;
+    --muted: #3a5070;
+    --text: #c8d8f0;
+    --dim: #607090;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Space Mono', monospace;
+    background: var(--void);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 10% 15%, rgba(200,216,240,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 30% 45%, rgba(200,216,240,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 55% 20%, rgba(200,216,240,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 75% 60%, rgba(200,216,240,0.2) 0%, transparent 100%),
+      radial-gradient(1px 1px at 90% 10%, rgba(200,216,240,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 20% 80%, rgba(200,216,240,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 65% 85%, rgba(200,216,240,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 45% 70%, rgba(200,216,240,0.2) 0%, transparent 100%),
+      radial-gradient(2px 2px at 85% 35%, rgba(0,200,255,0.3) 0%, transparent 100%),
+      radial-gradient(2px 2px at 15% 55%, rgba(240,165,0,0.2) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    top: -20%;
+    right: -10%;
+    width: 60vw;
+    height: 60vh;
+    background: radial-gradient(ellipse, rgba(0,80,160,0.08) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ── HEADER ── */
+  header {
+    padding: 20px 0 0;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, rgba(4,6,15,0.95) 0%, transparent 100%);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(12px);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 16px;
+  }
+
+  .logo { display: flex; align-items: baseline; gap: 10px; }
+
+  .logo-main {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: 28px;
+    color: var(--accent);
+    letter-spacing: 0.06em;
+    text-shadow: 0 0 30px rgba(0,200,255,0.4);
+  }
+
+  .logo-tag { font-size: 11px; color: var(--gold); letter-spacing: 0.2em; text-transform: uppercase; }
+
+  .pilot-badge {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 16px;
+  }
+
+  .pilot-avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #0a2040, #1a4080);
+    border: 2px solid var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Orbitron', sans-serif; font-size: 13px; color: var(--accent);
+  }
+
+  .pilot-info { line-height: 1.4; }
+  .pilot-name { font-size: 13px; font-weight: 700; color: var(--text); }
+  .pilot-rank { font-size: 10px; color: var(--gold); letter-spacing: 0.1em; }
+
+  /* ── NAV TABS ── */
+  nav { display: flex; gap: 0; margin-top: 4px; }
+
+  .tab {
+    padding: 10px 20px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    background: none;
+    border-top: none; border-left: none; border-right: none;
+    text-transform: uppercase;
+  }
+
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* ── MAIN GRID ── */
+  .main-grid {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 20px;
+    padding: 24px 0;
+    min-height: calc(100vh - 100px);
+  }
+
+  .left-col { display: flex; flex-direction: column; gap: 20px; }
+  .right-col { display: flex; flex-direction: column; gap: 20px; }
+
+  /* ── PANELS ── */
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(0,0,0,0.2);
+  }
+
+  .panel-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--dim);
+    text-transform: uppercase;
+  }
+
+  .panel-badge {
+    font-size: 9px;
+    padding: 3px 8px;
+    border-radius: 20px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .badge-live { background: rgba(0,255,136,0.1); color: var(--green); border: 1px solid rgba(0,255,136,0.3); }
+  .badge-ai { background: rgba(0,200,255,0.1); color: var(--accent); border: 1px solid rgba(0,200,255,0.3); }
+  .badge-gold { background: rgba(240,165,0,0.1); color: var(--gold); border: 1px solid rgba(240,165,0,0.3); }
+
+  /* ── METRICS ROW ── */
+  .metrics-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+
+  .metric-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+
+  .metric-card:hover { border-color: var(--accent); }
+
+  .metric-card::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+  }
+
+  .metric-card.green::before { background: linear-gradient(90deg, transparent, var(--green), transparent); }
+  .metric-card.gold::before { background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+  .metric-card.blue::before { background: linear-gradient(90deg, transparent, var(--accent), transparent); }
+  .metric-card.red::before { background: linear-gradient(90deg, transparent, var(--red), transparent); }
+
+  .metric-label { font-size: 9px; color: var(--dim); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 8px; }
+  .metric-value { font-family: 'Orbitron', sans-serif; font-size: 22px; font-weight: 600; color: var(--text); line-height: 1; margin-bottom: 6px; }
+  .metric-value.green { color: var(--green); }
+  .metric-value.gold { color: var(--gold); }
+  .metric-delta { font-size: 10px; display: flex; align-items: center; gap: 4px; }
+  .delta-up { color: var(--green); }
+  .delta-down { color: var(--red); }
+
+  /* ── MBA TRACKS ── */
+  .track-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .track-card {
+    background: rgba(0,0,0,0.3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .track-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .track-card.active { border-color: var(--gold); background: rgba(240,165,0,0.05); }
+  .track-icon { font-size: 20px; margin-bottom: 8px; display: block; }
+  .track-name { font-family: 'Orbitron', sans-serif; font-size: 9px; letter-spacing: 0.12em; color: var(--text); margin-bottom: 8px; text-transform: uppercase; }
+  .track-progress-bar { height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; margin-bottom: 6px; }
+  .track-progress-fill { height: 100%; border-radius: 2px; transition: width 1s ease; }
+  .fill-gold { background: linear-gradient(90deg, var(--gold), #ffcc44); }
+  .fill-blue { background: linear-gradient(90deg, var(--accent), #44ddff); }
+  .fill-green { background: linear-gradient(90deg, var(--green), #44ffaa); }
+  .track-pct { font-size: 9px; color: var(--dim); }
+
+  /* ── AI COPILOT ── */
+  .copilot-panel { display: flex; flex-direction: column; height: 460px; }
+
+  .key-banner {
+    background: rgba(240,165,0,0.08);
+    border-bottom: 1px solid rgba(240,165,0,0.2);
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 10px;
+    color: var(--gold);
+  }
+
+  .key-banner input {
+    flex: 1;
+    background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(240,165,0,0.3);
+    border-radius: 4px;
+    padding: 5px 10px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--text);
+    outline: none;
+  }
+
+  .key-banner button {
+    background: rgba(240,165,0,0.2);
+    border: 1px solid var(--gold);
+    border-radius: 4px;
+    padding: 5px 12px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 9px;
+    color: var(--gold);
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .key-banner button:hover { background: rgba(240,165,0,0.35); }
+
+  .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+
+  .msg { display: flex; gap: 10px; align-items: flex-start; }
+  .msg.user { flex-direction: row-reverse; }
+
+  .msg-avatar {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+
+  .msg-avatar.ai { background: rgba(0,200,255,0.1); border: 1px solid rgba(0,200,255,0.3); }
+  .msg-avatar.user { background: rgba(240,165,0,0.1); border: 1px solid rgba(240,165,0,0.3); }
+
+  .msg-bubble {
+    max-width: 85%;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+  .msg-bubble.ai { background: rgba(0,200,255,0.06); border: 1px solid rgba(0,200,255,0.15); }
+  .msg-bubble.user { background: rgba(240,165,0,0.06); border: 1px solid rgba(240,165,0,0.15); text-align: right; }
+
+  .msg-concept {
+    display: inline-block;
+    background: rgba(0,200,255,0.1);
+    border: 1px solid rgba(0,200,255,0.2);
+    border-radius: 4px;
+    padding: 2px 7px;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    margin: 3px 2px 0;
+  }
+
+  .typing { display: flex; gap: 4px; padding: 4px 0; align-items: center; }
+  .typing span {
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: typingDot 1.2s ease-in-out infinite;
+    opacity: 0.4;
+  }
+  .typing span:nth-child(2) { animation-delay: 0.2s; }
+  .typing span:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes typingDot {
+    0%, 80%, 100% { transform: scale(1); opacity: 0.4; }
+    40% { transform: scale(1.3); opacity: 1; }
+  }
+
+  .concept-row {
+    padding: 10px 16px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    border-top: 1px solid var(--border);
+  }
+
+  .concept-pill {
+    background: rgba(0,200,255,0.05);
+    border: 1px solid rgba(0,200,255,0.2);
+    border-radius: 20px;
+    padding: 5px 12px;
+    font-size: 10px;
+    color: var(--dim);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .concept-pill:hover { background: rgba(0,200,255,0.15); color: var(--accent); box-shadow: 0 0 10px rgba(0,200,255,0.15); }
+
+  .chat-input-area {
+    padding: 12px 16px;
+    display: flex;
+    gap: 8px;
+    border-top: 1px solid var(--border);
+  }
+
+  .chat-input {
+    flex: 1;
+    background: rgba(0,0,0,0.4);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 9px 14px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .chat-input:focus { border-color: var(--accent); }
+  .chat-input::placeholder { color: var(--muted); }
+
+  .send-btn {
+    background: rgba(0,200,255,0.1);
+    border: 1px solid rgba(0,200,255,0.4);
+    border-radius: 6px;
+    padding: 9px 18px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 10px;
+    color: var(--accent);
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.1em;
+  }
+
+  .send-btn:hover { background: rgba(0,200,255,0.2); box-shadow: 0 0 15px rgba(0,200,255,0.2); }
+  .send-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  /* ── CHART ── */
+  .chart-area { padding: 0; overflow: hidden; }
+  .chart-label { font-size: 10px; color: var(--dim); padding: 10px 20px 4px; letter-spacing: 0.1em; }
+  .sparkline { width: 100%; height: 120px; display: block; }
+
+  /* ── CERTS ── */
+  .cert-list { padding: 8px 0; }
+  .cert-item { display: flex; align-items: center; gap: 12px; padding: 12px 20px; border-bottom: 1px solid rgba(26,42,74,0.5); transition: background 0.2s; }
+  .cert-item:hover { background: rgba(0,200,255,0.03); }
+  .cert-icon { font-size: 20px; flex-shrink: 0; }
+  .cert-info { flex: 1; }
+  .cert-name { font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+  .cert-desc { font-size: 10px; color: var(--dim); }
+  .cert-status { font-family: 'Orbitron', sans-serif; font-size: 9px; letter-spacing: 0.1em; white-space: nowrap; }
+  .status-earned { color: var(--green); }
+  .status-progress { color: var(--gold); }
+  .status-locked { color: var(--muted); }
+
+  /* ── FEED ── */
+  .feed-list { padding: 8px 0; }
+  .feed-item { display: flex; align-items: center; gap: 12px; padding: 10px 20px; border-bottom: 1px solid rgba(26,42,74,0.5); }
+  .feed-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+  .dot-green { background: var(--green); box-shadow: 0 0 6px var(--green); }
+  .dot-blue { background: var(--accent); box-shadow: 0 0 6px var(--accent); }
+  .dot-gold { background: var(--gold); box-shadow: 0 0 6px var(--gold); }
+  .dot-red { background: var(--red); box-shadow: 0 0 6px var(--red); }
+  .feed-text { flex: 1; font-size: 11px; color: var(--text); }
+  .feed-time { font-size: 10px; color: var(--dim); white-space: nowrap; }
+
+  /* ── CORNER DECO ── */
+  .corner-deco { position: absolute; width: 16px; height: 16px; border-color: var(--accent); border-style: solid; opacity: 0.5; }
+  .corner-tl { top: 0; left: 0; border-width: 2px 0 0 2px; }
+  .corner-tr { top: 0; right: 0; border-width: 2px 2px 0 0; }
+  .corner-bl { bottom: 0; left: 0; border-width: 0 0 2px 2px; }
+  .corner-br { bottom: 0; right: 0; border-width: 0 2px 2px 0; }
+
+  /* ── TOAST NOTIFICATIONS ── */
+  #toastContainer {
+    position: fixed; bottom: 28px; right: 28px;
+    display: flex; flex-direction: column; gap: 10px;
+    z-index: 9999; pointer-events: none;
+  }
+  .toast {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 8px;
+    padding: 12px 18px;
+    font-size: 11px;
+    color: var(--text);
+    max-width: 320px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    opacity: 0;
+    transform: translateX(20px);
+    transition: opacity 0.3s, transform 0.3s;
+    pointer-events: auto;
+  }
+  .toast.show { opacity: 1; transform: translateX(0); }
+  .toast.gold { border-left-color: var(--gold); }
+  .toast.green { border-left-color: var(--green); }
+  .toast.red { border-left-color: var(--red); }
+  .toast-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 9px; letter-spacing: 0.15em;
+    color: var(--accent); margin-bottom: 4px;
+  }
+  .toast.gold .toast-title { color: var(--gold); }
+  .toast.green .toast-title { color: var(--green); }
+
+  /* ── SCANLINES ── */
+  .scanlines {
+    position: fixed; inset: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+    pointer-events: none; z-index: 200;
+  }
+
+  /* ── TAB PAGES ── */
+  .tab-page { display: none; }
+  .tab-page.active { display: block; }
+
+  /* ── CURRICULUM TAB ── */
+  .curriculum-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    padding: 24px 0;
+  }
+
+  .course-list { display: flex; flex-direction: column; gap: 12px; }
+
+  .course-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .course-card:hover { border-color: var(--accent); }
+  .course-card.active-course { border-color: var(--gold); background: rgba(240,165,0,0.04); }
+
+  .course-icon { font-size: 24px; flex-shrink: 0; }
+  .course-info { flex: 1; }
+  .course-name { font-family: 'Orbitron', sans-serif; font-size: 11px; letter-spacing: 0.1em; color: var(--text); margin-bottom: 4px; }
+  .course-desc { font-size: 10px; color: var(--dim); margin-bottom: 8px; line-height: 1.5; }
+  .course-bar { height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; }
+  .course-bar-fill { height: 100%; border-radius: 2px; }
+  .course-meta { font-size: 9px; color: var(--muted); margin-top: 5px; }
+
+  .lesson-panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    position: sticky;
+    top: 90px;
+  }
+
+  .lesson-body { padding: 20px; }
+  .lesson-title { font-family: 'Orbitron', sans-serif; font-size: 13px; color: var(--accent); margin-bottom: 12px; letter-spacing: 0.08em; }
+  .lesson-text { font-size: 11px; color: var(--text); line-height: 1.8; margin-bottom: 16px; }
+  .lesson-tag { display: inline-block; background: rgba(0,200,255,0.1); border: 1px solid rgba(0,200,255,0.2); border-radius: 4px; padding: 3px 10px; font-size: 9px; color: var(--accent); letter-spacing: 0.1em; margin: 3px 3px 0 0; }
+  .lesson-divider { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
+  .lesson-eve { font-size: 11px; color: var(--gold); line-height: 1.7; }
+  .start-btn {
+    display: block; width: 100%;
+    background: rgba(0,200,255,0.1); border: 1px solid rgba(0,200,255,0.4);
+    border-radius: 6px; padding: 12px;
+    font-family: 'Orbitron', sans-serif; font-size: 10px; letter-spacing: 0.15em;
+    color: var(--accent); cursor: pointer; transition: all 0.2s; margin-top: 16px;
+    text-align: center;
+  }
+  .start-btn:hover { background: rgba(0,200,255,0.2); box-shadow: 0 0 20px rgba(0,200,255,0.15); }
+
+  /* ── MARKETS TAB ── */
+  .markets-grid {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 20px;
+    padding: 24px 0;
+  }
+
+  .market-left { display: flex; flex-direction: column; gap: 20px; }
+  .market-right { display: flex; flex-direction: column; gap: 20px; }
+
+  .price-table { width: 100%; border-collapse: collapse; }
+  .price-table th {
+    font-family: 'Orbitron', sans-serif; font-size: 8px; letter-spacing: 0.15em;
+    color: var(--dim); text-align: left; padding: 8px 20px; border-bottom: 1px solid var(--border);
+    text-transform: uppercase;
+  }
+  .price-table td { padding: 10px 20px; font-size: 11px; border-bottom: 1px solid rgba(26,42,74,0.4); }
+  .price-table tr:hover td { background: rgba(0,200,255,0.03); }
+  .price-up { color: var(--green); }
+  .price-down { color: var(--red); }
+  .price-flat { color: var(--muted); }
+
+  .arb-card {
+    background: rgba(0,255,136,0.04);
+    border: 1px solid rgba(0,255,136,0.2);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin: 4px 0;
+  }
+
+  .arb-title { font-family: 'Orbitron', sans-serif; font-size: 9px; color: var(--green); letter-spacing: 0.1em; margin-bottom: 6px; }
+  .arb-detail { font-size: 10px; color: var(--text); line-height: 1.6; }
+  .arb-return { font-family: 'Orbitron', sans-serif; font-size: 16px; color: var(--green); margin-top: 6px; }
+
+  .volume-bar-wrap { padding: 12px 20px; }
+  .vol-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .vol-label { font-size: 10px; color: var(--dim); width: 90px; flex-shrink: 0; }
+  .vol-bar { flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .vol-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--accent), #44ddff); }
+  .vol-val { font-size: 10px; color: var(--text); width: 60px; text-align: right; }
+
+  /* ── ORG & CORP TAB ── */
+  .org-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    padding: 24px 0;
+  }
+
+  .org-col { display: flex; flex-direction: column; gap: 20px; }
+
+  .member-list { padding: 8px 0; }
+  .member-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 20px; border-bottom: 1px solid rgba(26,42,74,0.4);
+    transition: background 0.2s;
+  }
+  .member-row:hover { background: rgba(0,200,255,0.03); }
+  .member-avatar {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: linear-gradient(135deg, #0a2040, #1a4080);
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Orbitron', sans-serif; font-size: 10px; color: var(--accent);
+  }
+  .member-info { flex: 1; }
+  .member-name { font-size: 12px; font-weight: 700; color: var(--text); }
+  .member-role { font-size: 10px; color: var(--dim); }
+  .member-status { font-size: 9px; padding: 2px 8px; border-radius: 20px; }
+  .status-online { background: rgba(0,255,136,0.1); color: var(--green); border: 1px solid rgba(0,255,136,0.3); }
+  .status-away { background: rgba(240,165,0,0.1); color: var(--gold); border: 1px solid rgba(240,165,0,0.3); }
+  .status-offline { background: rgba(96,112,144,0.1); color: var(--muted); border: 1px solid rgba(96,112,144,0.3); }
+
+  .treasury-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; border-bottom: 1px solid rgba(26,42,74,0.4); }
+  .treasury-label { font-size: 11px; color: var(--dim); }
+  .treasury-val { font-family: 'Orbitron', sans-serif; font-size: 13px; color: var(--text); }
+
+  .alliance-card {
+    background: rgba(240,165,0,0.04);
+    border: 1px solid rgba(240,165,0,0.2);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin: 12px 16px;
+  }
+
+  .alliance-name { font-family: 'Orbitron', sans-serif; font-size: 11px; color: var(--gold); margin-bottom: 6px; }
+  .alliance-detail { font-size: 10px; color: var(--dim); line-height: 1.6; }
+
+  .contract-item { padding: 12px 20px; border-bottom: 1px solid rgba(26,42,74,0.4); }
+  .contract-title { font-size: 12px; color: var(--text); margin-bottom: 4px; }
+  .contract-meta { font-size: 10px; color: var(--dim); }
+  .contract-badge { font-family: 'Orbitron', sans-serif; font-size: 8px; padding: 2px 6px; border-radius: 3px; float: right; }
+  .badge-active { background: rgba(0,200,255,0.1); color: var(--accent); border: 1px solid rgba(0,200,255,0.3); }
+  .badge-pending { background: rgba(240,165,0,0.1); color: var(--gold); border: 1px solid rgba(240,165,0,0.3); }
+
+  /* ── CREDENTIALS TAB ── */
+  .creds-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 24px 0;
+  }
+
+  .cred-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
+    text-align: center;
+  }
+
+  .cred-card:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+
+  .cred-card.earned { border-color: var(--gold); background: rgba(240,165,0,0.04); }
+  .cred-card.earned::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 0%, rgba(240,165,0,0.06) 0%, transparent 70%); }
+  .cred-card.locked { opacity: 0.5; }
+
+  .cred-nft { font-size: 48px; margin-bottom: 12px; display: block; }
+  .cred-title { font-family: 'Orbitron', sans-serif; font-size: 11px; letter-spacing: 0.1em; color: var(--text); margin-bottom: 8px; }
+  .cred-desc { font-size: 10px; color: var(--dim); line-height: 1.6; margin-bottom: 12px; }
+  .cred-bar { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; margin-bottom: 6px; }
+  .cred-bar-fill { height: 100%; border-radius: 2px; }
+  .cred-pct { font-size: 9px; color: var(--dim); }
+  .cred-earned-label { font-family: 'Orbitron', sans-serif; font-size: 9px; color: var(--gold); letter-spacing: 0.15em; margin-top: 8px; }
+  .cred-locked-label { font-family: 'Orbitron', sans-serif; font-size: 9px; color: var(--muted); letter-spacing: 0.1em; margin-top: 8px; }
+
+  /* ── FULL WIDTH PAGES ── */
+  .full-page { max-width: 1400px; margin: 0 auto; }
+
+  /* ── WALLET CONNECT OVERLAY ── */
+  .connect-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--void);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .connect-overlay::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 8% 12%, rgba(200,216,240,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 22% 55%, rgba(200,216,240,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 60% 18%, rgba(200,216,240,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 80% 72%, rgba(200,216,240,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 35% 88%, rgba(200,216,240,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 91% 30%, rgba(200,216,240,0.3) 0%, transparent 100%),
+      radial-gradient(2px 2px at 50% 50%, rgba(0,200,255,0.15) 0%, transparent 100%),
+      radial-gradient(600px 600px at 50% 50%, rgba(0,40,100,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .connect-box {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    max-width: 480px;
+    padding: 0 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  .connect-logo-wrap {
+    margin-bottom: 12px;
+  }
+
+  .connect-logo {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: 52px;
+    color: var(--accent);
+    letter-spacing: 0.06em;
+    text-shadow: 0 0 60px rgba(0,200,255,0.5), 0 0 120px rgba(0,200,255,0.2);
+    animation: pulseGlow 3s ease-in-out infinite;
+  }
+
+  @keyframes pulseGlow {
+    0%, 100% { text-shadow: 0 0 60px rgba(0,200,255,0.5), 0 0 120px rgba(0,200,255,0.2); }
+    50% { text-shadow: 0 0 80px rgba(0,200,255,0.7), 0 0 160px rgba(0,200,255,0.3); }
+  }
+
+  .connect-tagline {
+    font-size: 11px;
+    color: var(--gold);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+
+  .connect-desc {
+    font-size: 12px;
+    color: var(--dim);
+    line-height: 1.8;
+    margin-bottom: 36px;
+    max-width: 380px;
+  }
+
+  .wallet-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 320px;
+    margin-bottom: 14px;
+  }
+
+  .connect-wallet-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 14px 28px;
+    background: linear-gradient(135deg, rgba(0,200,255,0.12), rgba(0,200,255,0.04));
+    border: 1px solid rgba(0,200,255,0.4);
+    border-radius: 10px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 0 20px rgba(0,200,255,0.08);
+  }
+
+  .connect-wallet-btn:hover {
+    background: linear-gradient(135deg, rgba(0,200,255,0.22), rgba(0,200,255,0.08));
+    box-shadow: 0 0 35px rgba(0,200,255,0.2);
+    transform: translateY(-1px);
+  }
+
+  .connect-wallet-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  .connect-wallet-btn.metamask {
+    background: linear-gradient(135deg, rgba(240,165,0,0.1), rgba(240,165,0,0.03));
+    border-color: rgba(240,165,0,0.35);
+    color: var(--gold);
+    box-shadow: 0 0 20px rgba(240,165,0,0.06);
+  }
+
+  .connect-wallet-btn.metamask:hover {
+    background: linear-gradient(135deg, rgba(240,165,0,0.2), rgba(240,165,0,0.08));
+    box-shadow: 0 0 35px rgba(240,165,0,0.15);
+  }
+
+  .connect-wallet-icon {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+
+  .connect-demo-btn {
+    background: none;
+    border: 1px solid rgba(96,112,144,0.4);
+    border-radius: 8px;
+    padding: 11px 28px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .connect-demo-btn:hover { color: var(--text); border-color: var(--muted); }
+
+  .connect-note {
+    font-size: 10px;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-top: 28px;
+    max-width: 340px;
+    border-top: 1px solid var(--border);
+    padding-top: 20px;
+  }
+
+  .connect-error {
+    font-size: 11px;
+    color: var(--red);
+    margin-top: 12px;
+    min-height: 18px;
+  }
+
+  .connect-nowallet {
+    background: rgba(255,64,96,0.08);
+    border: 1px solid rgba(255,64,96,0.2);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 11px;
+    color: var(--text);
+    line-height: 1.7;
+    margin-top: 14px;
+    max-width: 320px;
+    display: none;
+  }
+
+  .connect-nowallet a { color: var(--accent); }
+
+  /* ── WALLET CONNECTED BADGE ── */
+  .wallet-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 6px var(--green);
+    flex-shrink: 0;
+  }
+
+  .disconnect-btn {
+    font-size: 9px;
+    color: var(--muted);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Space Mono', monospace;
+    transition: color 0.2s;
+  }
+
+  .disconnect-btn:hover { color: var(--red); }
+</style>
+</head>
+<body>
+<div class="scanlines"></div>
+<div id="toastContainer"></div>
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<!-- WALLET CONNECT OVERLAY -->
+<!-- ══════════════════════════════════════════════════════════════ -->
+<div id="connectOverlay" class="connect-overlay">
+  <div class="connect-box">
+    <div class="connect-logo-wrap">
+      <div class="connect-logo">EveMBA</div>
+    </div>
+    <div class="connect-tagline">// Interstellar Business Academy</div>
+    <p class="connect-desc">
+      Connect your EVE Vault to access your personalized MBA dashboard, track credentials on-chain, and activate your AI business advisor.
+    </p>
+    <div class="wallet-options">
+      <button class="connect-wallet-btn" id="connectEveBtn" onclick="connectEveVault()">
+        <span class="connect-wallet-icon">🌌</span>
+        Connect EVE Vault
+      </button>
+      <button class="connect-wallet-btn metamask" id="connectMetaBtn" onclick="connectMetaMask()">
+        <span class="connect-wallet-icon">🦊</span>
+        Connect MetaMask
+      </button>
+    </div>
+    <button class="connect-demo-btn" onclick="startDemo()">
+      ▷ Try Demo Mode (no wallet needed)
+    </button>
+    <div class="connect-error" id="connectError"></div>
+    <div class="connect-nowallet" id="noWalletMsg">
+      Wallet not detected. <a href="https://github.com/evefrontier/evevault" target="_blank">Install EVE Vault</a> (Chrome extension — download from GitHub) or <a href="https://metamask.io" target="_blank">MetaMask</a> to connect — or use Demo Mode above.
+    </div>
+    <p class="connect-note">
+      Your wallet address becomes your pilot identity. Credentials earned through gameplay are issued to your address on the Sui network via EVE Vault and are fully portable.
+    </p>
+  </div>
+</div>
+
+<header>
+  <div class="container">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-main">EveMBA</span>
+        <span class="logo-tag">// Interstellar Business Academy</span>
+      </div>
+      <div class="pilot-badge">
+        <div class="wallet-dot" id="walletDot" style="display:none"></div>
+        <div class="pilot-avatar" id="pilotAvatar">??</div>
+        <div class="pilot-info">
+          <div class="pilot-name" id="pilotName">Not Connected</div>
+          <div class="pilot-rank" id="pilotRank" style="display:flex;align-items:center;gap:8px;">
+            <span id="pilotRankText">Connect wallet to begin</span>
+            <button class="disconnect-btn" id="disconnectBtn" style="display:none" onclick="disconnect()">✕ disconnect</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <nav>
+      <button class="tab active" data-tab="dashboard" onclick="setTab(this)">Dashboard</button>
+      <button class="tab" data-tab="curriculum" onclick="setTab(this)">Curriculum</button>
+      <button class="tab" data-tab="markets" onclick="setTab(this)">Markets</button>
+      <button class="tab" data-tab="org" onclick="setTab(this)">Org &amp; Corp</button>
+      <button class="tab" data-tab="credentials" onclick="setTab(this)">Credentials</button>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- DASHBOARD TAB -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <div id="tab-dashboard" class="tab-page active">
+    <div class="main-grid">
+
+      <div class="left-col">
+
+        <!-- METRICS -->
+        <div class="metrics-row">
+          <div class="metric-card green">
+            <div class="metric-label">ISK Balance</div>
+            <div class="metric-value green" id="isk-value">4.72M</div>
+            <div class="metric-delta delta-up" id="isk-delta">▲ +18.4% this week</div>
+          </div>
+          <div class="metric-card gold">
+            <div class="metric-label">Corp Net Worth</div>
+            <div class="metric-value gold" id="corp-value">31.8M</div>
+            <div class="metric-delta delta-up">▲ +6.1% this week</div>
+          </div>
+          <div class="metric-card blue">
+            <div class="metric-label">Trade Volume</div>
+            <div class="metric-value" id="vol-value">142</div>
+            <div class="metric-delta delta-up" id="vol-delta">▲ 23 orders active</div>
+          </div>
+          <div class="metric-card red">
+            <div class="metric-label">Risk Exposure</div>
+            <div class="metric-value" style="color:var(--red)">HIGH</div>
+            <div class="metric-delta delta-down">▼ 3 assets vulnerable</div>
+          </div>
+        </div>
+
+        <!-- AI COPILOT -->
+        <div class="panel copilot-panel" style="position:relative">
+          <div class="corner-deco corner-tl"></div>
+          <div class="corner-deco corner-tr"></div>
+          <div class="corner-deco corner-bl"></div>
+          <div class="corner-deco corner-br"></div>
+          <div class="panel-header">
+            <span class="panel-title">AI Copilot — EveMBA Advisor</span>
+            <span class="panel-badge badge-ai" id="ai-status-badge">● OFFLINE</span>
+          </div>
+
+          <div class="chat-messages" id="chatMessages">
+            <div class="msg">
+              <div class="msg-avatar ai">🎓</div>
+              <div class="msg-bubble ai" id="welcomeMsg">
+                Welcome to EveMBA. Your AI advisor is standing by — ask me anything about your operations or studies.
+              </div>
+            </div>
+            <div id="typingIndicator" class="msg" style="display:none">
+              <div class="msg-avatar ai">🎓</div>
+              <div class="msg-bubble ai">
+                <div class="typing"><span></span><span></span><span></span></div>
+              </div>
+            </div>
+          </div>
+          <div class="concept-row">
+            <span class="concept-pill" onclick="quickAsk(this)">Explain Supply Chain</span>
+            <span class="concept-pill" onclick="quickAsk(this)">My Risk Profile</span>
+            <span class="concept-pill" onclick="quickAsk(this)">Corp Leadership Tips</span>
+            <span class="concept-pill" onclick="quickAsk(this)">Market Opportunity</span>
+          </div>
+          <div class="chat-input-area">
+            <input class="chat-input" id="chatInput" type="text" placeholder="Ask your MBA advisor anything about your game or studies..." onkeydown="if(event.key==='Enter') sendMsg()">
+            <button class="send-btn" id="sendBtn" onclick="sendMsg()">SEND</button>
+          </div>
+        </div>
+
+        <!-- MARKET SPARK -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Market Intelligence — Tritanium Index</span>
+            <span class="panel-badge badge-live">● LIVE</span>
+          </div>
+          <div class="chart-label">Last 30 sessions · Current: <span id="trit-price" style="color:var(--accent)">4.87 ISK</span> · <span id="trit-delta" class="delta-up">▲ +2.1%</span></div>
+          <div class="chart-area">
+            <svg class="sparkline" id="sparklineSvg" viewBox="0 0 600 120" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="rgba(0,200,255,0.3)"/>
+                  <stop offset="100%" stop-color="rgba(0,200,255,0)"/>
+                </linearGradient>
+              </defs>
+              <line x1="0" y1="30" x2="600" y2="30" stroke="rgba(26,42,74,0.6)" stroke-width="1"/>
+              <line x1="0" y1="60" x2="600" y2="60" stroke="rgba(26,42,74,0.6)" stroke-width="1"/>
+              <line x1="0" y1="90" x2="600" y2="90" stroke="rgba(26,42,74,0.6)" stroke-width="1"/>
+              <path id="chartArea" d="" fill="url(#areaGrad)"/>
+              <path id="chartLine" d="" fill="none" stroke="#00c8ff" stroke-width="2"/>
+              <circle id="chartDot" cx="600" cy="15" r="4" fill="#00c8ff"/>
+              <circle id="chartPulse" cx="600" cy="15" r="8" fill="none" stroke="rgba(0,200,255,0.4)" stroke-width="1">
+                <animate attributeName="r" from="4" to="14" dur="1.5s" repeatCount="indefinite"/>
+                <animate attributeName="opacity" from="1" to="0" dur="1.5s" repeatCount="indefinite"/>
+              </circle>
+            </svg>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="right-col">
+
+        <!-- MBA TRACKS -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">MBA Specializations</span>
+            <span class="panel-badge badge-gold">7 TRACKS</span>
+          </div>
+          <div class="track-grid">
+            <div class="track-card active" onclick="selectTrack('Market Analysis')">
+              <span class="track-icon">📈</span>
+              <div class="track-name">Market Analysis</div>
+              <div class="track-progress-bar"><div class="track-progress-fill fill-gold" style="width:68%"></div></div>
+              <div class="track-pct">68%</div>
+            </div>
+            <div class="track-card" onclick="selectTrack('Corp Finance')">
+              <span class="track-icon">💼</span>
+              <div class="track-name">Corp Finance</div>
+              <div class="track-progress-bar"><div class="track-progress-fill fill-blue" style="width:41%"></div></div>
+              <div class="track-pct">41%</div>
+            </div>
+            <div class="track-card" onclick="selectTrack('Strategy')">
+              <span class="track-icon">🚀</span>
+              <div class="track-name">Strategy</div>
+              <div class="track-progress-bar"><div class="track-progress-fill fill-green" style="width:25%"></div></div>
+              <div class="track-pct">25%</div>
+            </div>
+            <div class="track-card" onclick="selectTrack('Supply Chain')">
+              <span class="track-icon">⛓️</span>
+              <div class="track-name">Supply Chain</div>
+              <div class="track-progress-bar"><div class="track-progress-fill fill-blue" style="width:12%"></div></div>
+              <div class="track-pct">12%</div>
+            </div>
+            <div class="track-card" onclick="selectTrack('Diplomacy')">
+              <span class="track-icon">🌐</span>
+              <div class="track-name">Diplomacy</div>
+              <div class="track-progress-bar"><div class="track-progress-fill fill-gold" style="width:5%"></div></div>
+              <div class="track-pct">5%</div>
+            </div>
+            <div class="track-card" onclick="selectTrack('Risk Management')">
+              <span class="track-icon">⚠️</span>
+              <div class="track-name">Risk Mgmt</div>
+              <div class="track-progress-bar"><div class="track-progress-fill fill-green" style="width:33%"></div></div>
+              <div class="track-pct">33%</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CERTIFICATIONS -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Certifications</span>
+            <span class="panel-badge badge-gold">2 / 7 EARNED</span>
+          </div>
+          <div class="cert-list">
+            <div class="cert-item">
+              <div class="cert-icon">🏅</div>
+              <div class="cert-info">
+                <div class="cert-name">Market Analyst I</div>
+                <div class="cert-desc">50 successful trades · Price forecasting · Arbitrage</div>
+              </div>
+              <div class="cert-status status-earned">EARNED</div>
+            </div>
+            <div class="cert-item">
+              <div class="cert-icon">🏅</div>
+              <div class="cert-info">
+                <div class="cert-name">Founder's License</div>
+                <div class="cert-desc">Corp established · 3+ members · First contract</div>
+              </div>
+              <div class="cert-status status-earned">EARNED</div>
+            </div>
+            <div class="cert-item">
+              <div class="cert-icon">🎖️</div>
+              <div class="cert-info">
+                <div class="cert-name">Supply Chain Operator</div>
+                <div class="cert-desc">3 active trade routes · 500K ISK throughput</div>
+              </div>
+              <div class="cert-status status-progress">68% →</div>
+            </div>
+            <div class="cert-item" style="opacity:0.5">
+              <div class="cert-icon">🔒</div>
+              <div class="cert-info">
+                <div class="cert-name">Risk Officer</div>
+                <div class="cert-desc">Complete Risk Management track · Survive a market crash</div>
+              </div>
+              <div class="cert-status status-locked">LOCKED</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LIVE ACTIVITY -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Live Activity Feed</span>
+            <span class="panel-badge badge-live">● LIVE</span>
+          </div>
+          <div class="feed-list" id="activityFeed">
+            <div class="feed-item">
+              <div class="feed-dot dot-green"></div>
+              <div class="feed-text">Trade completed: 200x Tritanium → <strong>+12,400 ISK</strong></div>
+              <div class="feed-time">2m ago</div>
+            </div>
+            <div class="feed-item">
+              <div class="feed-dot dot-blue"></div>
+              <div class="feed-text">Concept unlocked: <strong>Market Equilibrium</strong> applied to price shift</div>
+              <div class="feed-time">14m ago</div>
+            </div>
+            <div class="feed-item">
+              <div class="feed-dot dot-gold"></div>
+              <div class="feed-text">Corp member joined: <strong>Rixa Dorn</strong> — assigned Supply role</div>
+              <div class="feed-time">1h ago</div>
+            </div>
+            <div class="feed-item">
+              <div class="feed-dot dot-red"></div>
+              <div class="feed-text">Risk alert: Gate asset undefended in hostile territory</div>
+              <div class="feed-time">2h ago</div>
+            </div>
+            <div class="feed-item">
+              <div class="feed-dot dot-blue"></div>
+              <div class="feed-text">MBA lesson triggered: <strong>Porter's Five Forces</strong> — competitive sector</div>
+              <div class="feed-time">3h ago</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div><!-- /dashboard -->
+
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- CURRICULUM TAB -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <div id="tab-curriculum" class="tab-page">
+    <div class="curriculum-grid">
+
+      <div class="course-list">
+        <div class="panel" style="padding:16px 20px;margin-bottom:4px;">
+          <div style="font-family:'Orbitron',sans-serif;font-size:10px;letter-spacing:0.2em;color:var(--dim);margin-bottom:4px;">CURRENT TRACK</div>
+          <div style="font-family:'Orbitron',sans-serif;font-size:16px;color:var(--gold);">📈 Market Analysis</div>
+          <div style="font-size:10px;color:var(--dim);margin-top:4px;">7 modules · 68% complete · Est. 4h remaining</div>
+          <div class="track-progress-bar" style="margin-top:10px;height:5px;"><div class="track-progress-fill fill-gold" style="width:68%"></div></div>
+        </div>
+
+        <div class="course-card active-course" onclick="showLesson('porter')">
+          <div class="course-icon">⚔️</div>
+          <div class="course-info">
+            <div class="course-name">Porter's Five Forces</div>
+            <div class="course-desc">Analyze your sector's competitive dynamics — rivals, new entrants, substitutes, supplier power, buyer power.</div>
+            <div class="course-bar"><div class="course-bar-fill fill-gold" style="width:100%"></div></div>
+            <div class="course-meta">✓ COMPLETE · 45 min · Core module</div>
+          </div>
+        </div>
+
+        <div class="course-card" onclick="showLesson('bcg')">
+          <div class="course-icon">📊</div>
+          <div class="course-info">
+            <div class="course-name">BCG Matrix</div>
+            <div class="course-desc">Classify your trade routes and assets into Stars, Cash Cows, Question Marks, and Dogs.</div>
+            <div class="course-bar"><div class="course-bar-fill fill-gold" style="width:100%"></div></div>
+            <div class="course-meta">✓ COMPLETE · 30 min · Core module</div>
+          </div>
+        </div>
+
+        <div class="course-card" onclick="showLesson('arbitrage')">
+          <div class="course-icon">💰</div>
+          <div class="course-info">
+            <div class="course-name">Arbitrage &amp; Price Discovery</div>
+            <div class="course-desc">Exploit price differences across sectors. Risk-free spread trades, market microstructure, and information asymmetry.</div>
+            <div class="course-bar"><div class="course-bar-fill fill-blue" style="width:75%"></div></div>
+            <div class="course-meta">IN PROGRESS · 75% · 20 min remaining</div>
+          </div>
+        </div>
+
+        <div class="course-card" onclick="showLesson('supplychain')">
+          <div class="course-icon">⛓️</div>
+          <div class="course-info">
+            <div class="course-name">Supply Chain Theory</div>
+            <div class="course-desc">Node optimization, just-in-time logistics, bullwhip effect, and network resilience for your gate infrastructure.</div>
+            <div class="course-bar"><div class="course-bar-fill fill-blue" style="width:30%"></div></div>
+            <div class="course-meta">IN PROGRESS · 30% · 1h remaining</div>
+          </div>
+        </div>
+
+        <div class="course-card" style="opacity:0.6" onclick="showLesson('riskmanagement')">
+          <div class="course-icon">⚠️</div>
+          <div class="course-info">
+            <div class="course-name">Risk Management</div>
+            <div class="course-desc">VaR models, portfolio diversification, hedging strategies, and tail-risk planning for hostile space.</div>
+            <div class="course-bar"><div class="course-bar-fill fill-green" style="width:0%"></div></div>
+            <div class="course-meta">LOCKED · Requires 80% Market Analysis · 1.5h</div>
+          </div>
+        </div>
+
+        <div class="course-card" style="opacity:0.6">
+          <div class="course-icon">🏛️</div>
+          <div class="course-info">
+            <div class="course-name">Macroeconomics &amp; Frontier</div>
+            <div class="course-desc">How inflation, scarcity, and velocity of money manifest in EVE Frontier's closed-loop economy.</div>
+            <div class="course-bar"><div class="course-bar-fill fill-green" style="width:0%"></div></div>
+            <div class="course-meta">LOCKED · Advanced track · 2h</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LESSON PANEL -->
+      <div class="lesson-panel" id="lessonPanel">
+        <div class="panel-header">
+          <span class="panel-title">Active Lesson</span>
+          <span class="panel-badge badge-gold" id="lessonBadge">MODULE 3 / 7</span>
+        </div>
+        <div class="lesson-body" id="lessonBody">
+          <div class="lesson-title" id="lessonTitle">Arbitrage &amp; Price Discovery</div>
+          <div class="lesson-text" id="lessonText">
+            <strong>Arbitrage</strong> is the simultaneous purchase and sale of an asset to profit from price differences in different markets. In finance, true arbitrage is "risk-free" — but in practice, execution risk, transport cost, and information lag all introduce risk.<br><br>
+            In EVE Frontier, when Tritanium prices diverge between Sector 7 and Sector 12, you have an arbitrage window. Your gate infrastructure is your execution mechanism — lower transit time = lower execution risk.
+          </div>
+          <div>
+            <span class="lesson-tag">ARBITRAGE</span>
+            <span class="lesson-tag">PRICE DISCOVERY</span>
+            <span class="lesson-tag">MARKET MICROSTRUCTURE</span>
+          </div>
+          <hr class="lesson-divider">
+          <div class="lesson-eve" id="lessonEve">
+            🚀 <strong>Your EVE Frontier application:</strong> Current spread between Sector 7 and 12 is ~18% on mineral transit. With 3 gate hops and ~12 min travel, your net arbitrage yield is approximately <strong>11–14%</strong> after fuel costs. That's a strong risk-adjusted return if you can lock the route.
+          </div>
+          <button class="start-btn" onclick="continueModule()">▶ CONTINUE MODULE</button>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /curriculum -->
+
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- MARKETS TAB -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <div id="tab-markets" class="tab-page">
+    <div class="markets-grid">
+
+      <div class="market-left">
+
+        <!-- PRICE TABLE -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Frontier Commodities — Live Feed</span>
+            <span class="panel-badge badge-live">● LIVE</span>
+          </div>
+          <table class="price-table" id="priceTable">
+            <thead>
+              <tr>
+                <th>Commodity</th>
+                <th>Price (ISK)</th>
+                <th>24h Change</th>
+                <th>Volume</th>
+                <th>Sector</th>
+              </tr>
+            </thead>
+            <tbody id="priceTableBody">
+              <tr>
+                <td><strong>Tritanium</strong></td>
+                <td id="trit-td">4.87</td>
+                <td class="price-up" id="trit-ch">▲ +2.1%</td>
+                <td>2.4M units</td>
+                <td>Sector 7</td>
+              </tr>
+              <tr>
+                <td><strong>Pyerite</strong></td>
+                <td id="pyer-td">12.34</td>
+                <td class="price-down" id="pyer-ch">▼ −1.8%</td>
+                <td>840K units</td>
+                <td>Sector 4</td>
+              </tr>
+              <tr>
+                <td><strong>Mexallon</strong></td>
+                <td id="mex-td">37.60</td>
+                <td class="price-up" id="mex-ch">▲ +5.3%</td>
+                <td>310K units</td>
+                <td>Sector 12</td>
+              </tr>
+              <tr>
+                <td><strong>Nocxium</strong></td>
+                <td id="noc-td">186.00</td>
+                <td class="price-flat" id="noc-ch">— 0.0%</td>
+                <td>92K units</td>
+                <td>Sector 2</td>
+              </tr>
+              <tr>
+                <td><strong>Zydrine</strong></td>
+                <td id="zyd-td">890.00</td>
+                <td class="price-down" id="zyd-ch">▼ −3.2%</td>
+                <td>18K units</td>
+                <td>Sector 9</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- MULTI-CHART -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Tritanium Price — Extended Chart</span>
+            <span class="panel-badge badge-live">30-DAY</span>
+          </div>
+          <div class="chart-label">30-session history · <span style="color:var(--accent)" id="chart2-price">4.87 ISK</span></div>
+          <div class="chart-area">
+            <svg class="sparkline" id="sparkline2" viewBox="0 0 600 120" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="areaGrad2" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="rgba(0,200,255,0.25)"/>
+                  <stop offset="100%" stop-color="rgba(0,200,255,0)"/>
+                </linearGradient>
+              </defs>
+              <line x1="0" y1="30" x2="600" y2="30" stroke="rgba(26,42,74,0.6)" stroke-width="1"/>
+              <line x1="0" y1="60" x2="600" y2="60" stroke="rgba(26,42,74,0.6)" stroke-width="1"/>
+              <line x1="0" y1="90" x2="600" y2="90" stroke="rgba(26,42,74,0.6)" stroke-width="1"/>
+              <path id="chartArea2" fill="url(#areaGrad2)"/>
+              <path id="chartLine2" fill="none" stroke="#00c8ff" stroke-width="2"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- VOLUME BARS -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Trading Volume by Sector</span>
+            <span class="panel-badge badge-gold">RELATIVE</span>
+          </div>
+          <div class="volume-bar-wrap">
+            <div class="vol-row"><span class="vol-label">Sector 7</span><div class="vol-bar"><div class="vol-fill" style="width:94%"></div></div><span class="vol-val">2.4M</span></div>
+            <div class="vol-row"><span class="vol-label">Sector 4</span><div class="vol-bar"><div class="vol-fill" style="width:33%"></div></div><span class="vol-val">840K</span></div>
+            <div class="vol-row"><span class="vol-label">Sector 12</span><div class="vol-bar"><div class="vol-fill" style="width:12%"></div></div><span class="vol-val">310K</span></div>
+            <div class="vol-row"><span class="vol-label">Sector 2</span><div class="vol-bar"><div class="vol-fill" style="width:3.6%"></div></div><span class="vol-val">92K</span></div>
+            <div class="vol-row"><span class="vol-label">Sector 9</span><div class="vol-bar"><div class="vol-fill" style="width:0.7%"></div></div><span class="vol-val">18K</span></div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="market-right">
+
+        <!-- ARBITRAGE -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Arbitrage Scanner</span>
+            <span class="panel-badge badge-live">● LIVE</span>
+          </div>
+          <div style="padding:12px 16px;display:flex;flex-direction:column;gap:10px;">
+            <div class="arb-card">
+              <div class="arb-title">🟢 HIGH YIELD · TRITANIUM</div>
+              <div class="arb-detail">Sector 7 → Sector 12<br>Buy: 4.87 ISK · Sell: 5.76 ISK</div>
+              <div class="arb-return">+18.3% spread</div>
+            </div>
+            <div class="arb-card">
+              <div class="arb-title">🟡 MODERATE · MEXALLON</div>
+              <div class="arb-detail">Sector 12 → Sector 4<br>Buy: 37.60 ISK · Sell: 43.20 ISK</div>
+              <div class="arb-return">+14.9% spread</div>
+            </div>
+            <div class="arb-card" style="border-color:rgba(255,64,96,0.2);background:rgba(255,64,96,0.04);">
+              <div class="arb-title" style="color:var(--red)">🔴 LOW MARGIN · PYERITE</div>
+              <div class="arb-detail">Sector 4 → Sector 9<br>Buy: 12.34 ISK · Sell: 13.10 ISK</div>
+              <div class="arb-return" style="color:var(--red)">+6.2% spread</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MARKET INTEL SUMMARY -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Market Intelligence Brief</span>
+            <span class="panel-badge badge-ai">● AI</span>
+          </div>
+          <div style="padding:16px;font-size:11px;color:var(--text);line-height:1.8;">
+            <strong style="color:var(--accent);">Market Conditions — Today</strong><br><br>
+            Tritanium is in an <em>uptrend</em> driven by construction demand in Sectors 7–9. Classic <strong>demand-pull pricing</strong>.<br><br>
+            Mexallon spike (+5.3%) suggests a supply shock — possibly a gate disruption cutting off Sector 12 production. Watch for mean-reversion within 48h.<br><br>
+            Zydrine decline (−3.2%) is secular — substitutes are gaining share. <strong>Porter's competitive threat</strong> in action.<br><br>
+            <strong style="color:var(--gold);">MBA Concept:</strong> These price movements map to the <em>Efficient Market Hypothesis</em> (weak form) — historical prices are already priced in, but your gate access gives you an <em>information advantage</em> (semi-strong inefficiency).
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div><!-- /markets -->
+
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- ORG & CORP TAB -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <div id="tab-org" class="tab-page">
+    <div class="org-grid">
+
+      <div class="org-col">
+
+        <!-- ROSTER -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Corp Roster — Voss Industries</span>
+            <span class="panel-badge badge-gold">6 MEMBERS</span>
+          </div>
+          <div class="member-list">
+            <div class="member-row">
+              <div class="member-avatar">VK</div>
+              <div class="member-info">
+                <div class="member-name">Voss Kaine</div>
+                <div class="member-role">CEO · Market Analyst · Risk Officer</div>
+              </div>
+              <div class="member-status status-online">ONLINE</div>
+            </div>
+            <div class="member-row">
+              <div class="member-avatar">RD</div>
+              <div class="member-info">
+                <div class="member-name">Rixa Dorn</div>
+                <div class="member-role">Supply Chain Director</div>
+              </div>
+              <div class="member-status status-online">ONLINE</div>
+            </div>
+            <div class="member-row">
+              <div class="member-avatar">TK</div>
+              <div class="member-info">
+                <div class="member-name">Tyra Kell</div>
+                <div class="member-role">Fleet Commander · Operations</div>
+              </div>
+              <div class="member-status status-away">AFK</div>
+            </div>
+            <div class="member-row">
+              <div class="member-avatar">NV</div>
+              <div class="member-info">
+                <div class="member-name">Nox Veylan</div>
+                <div class="member-role">Trader · Arbitrage Specialist</div>
+              </div>
+              <div class="member-status status-online">ONLINE</div>
+            </div>
+            <div class="member-row">
+              <div class="member-avatar">AE</div>
+              <div class="member-info">
+                <div class="member-name">Ava Ember</div>
+                <div class="member-role">Diplomat · External Relations</div>
+              </div>
+              <div class="member-status status-offline">OFFLINE</div>
+            </div>
+            <div class="member-row">
+              <div class="member-avatar">SR</div>
+              <div class="member-info">
+                <div class="member-name">Sov Rayne</div>
+                <div class="member-role">Infrastructure · Gate Operator</div>
+              </div>
+              <div class="member-status status-away">AFK</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CONTRACTS -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Active Contracts</span>
+            <span class="panel-badge badge-live">4 OPEN</span>
+          </div>
+          <div>
+            <div class="contract-item">
+              <div class="contract-title"><span class="contract-badge badge-active">ACTIVE</span>Transit Rights — Gate Alpha-7</div>
+              <div class="contract-meta">Counterparty: House Solara · 50K ISK/week · Expires 14d</div>
+            </div>
+            <div class="contract-item">
+              <div class="contract-title"><span class="contract-badge badge-active">ACTIVE</span>Mineral Supply Agreement — Tritanium</div>
+              <div class="contract-meta">Counterparty: Fenris Mining Co. · 200K ISK/delivery · 3 remaining</div>
+            </div>
+            <div class="contract-item">
+              <div class="contract-title"><span class="contract-badge badge-pending">PENDING</span>Joint Venture — Sector 12 Gate</div>
+              <div class="contract-meta">Counterparty: Kiras Corp · Awaiting signature · Value: 2.1M ISK</div>
+            </div>
+            <div class="contract-item">
+              <div class="contract-title"><span class="contract-badge badge-pending">PENDING</span>Diplomatic Access — Neutral Zone</div>
+              <div class="contract-meta">Counterparty: The Concordat · Under negotiation</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="org-col">
+
+        <!-- TREASURY -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Corp Treasury</span>
+            <span class="panel-badge badge-gold">FISCAL Q1</span>
+          </div>
+          <div>
+            <div class="treasury-row">
+              <span class="treasury-label">Corp Wallet</span>
+              <span class="treasury-val" style="color:var(--green)">22.4M ISK</span>
+            </div>
+            <div class="treasury-row">
+              <span class="treasury-label">Infrastructure Book</span>
+              <span class="treasury-val">9.4M ISK</span>
+            </div>
+            <div class="treasury-row">
+              <span class="treasury-label">Reserve Fund</span>
+              <span class="treasury-val" style="color:var(--gold)">4.0M ISK</span>
+            </div>
+            <div class="treasury-row">
+              <span class="treasury-label">Outstanding Payables</span>
+              <span class="treasury-val" style="color:var(--red)">−3.8M ISK</span>
+            </div>
+            <div class="treasury-row" style="border-bottom:none;">
+              <span class="treasury-label" style="color:var(--text);font-weight:bold;">Net Corp Worth</span>
+              <span class="treasury-val" style="color:var(--gold);font-size:18px;">31.8M ISK</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- DIPLOMACY -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Alliance &amp; Diplomacy</span>
+            <span class="panel-badge badge-gold">3 ALLIANCES</span>
+          </div>
+          <div>
+            <div class="alliance-card">
+              <div class="alliance-name">🤝 House Solara — FRIENDLY</div>
+              <div class="alliance-detail">Transit agreement active · Gate access granted · +42 standing</div>
+            </div>
+            <div class="alliance-card" style="border-color:rgba(0,200,255,0.2);background:rgba(0,200,255,0.04);">
+              <div class="alliance-name" style="color:var(--accent);">🌐 The Concordat — NEUTRAL</div>
+              <div class="alliance-detail">Diplomatic channel open · Sector 12 access under negotiation · Standing: 0</div>
+            </div>
+            <div class="alliance-card" style="border-color:rgba(255,64,96,0.2);background:rgba(255,64,96,0.04);">
+              <div class="alliance-name" style="color:var(--red);">⚔️ Void Cartel — HOSTILE</div>
+              <div class="alliance-detail">3 gate incidents · Avoid Sectors 3, 5 · Active threat assessment</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MBA ORG THEORY -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">MBA Insight — Org Design</span>
+            <span class="panel-badge badge-ai">● AI</span>
+          </div>
+          <div style="padding:16px;font-size:11px;color:var(--text);line-height:1.8;">
+            Your corp structure maps to a <strong>flat hierarchy</strong> — 6 members with functional specialization. This is optimal below 15 members (<em>Dunbar's number threshold</em>).<br><br>
+            Key risk: single-point-of-failure in Supply Chain (only Rixa Dorn). MBA principle: <strong>bus factor</strong> — how many people need to leave before operations collapse?<br><br>
+            <span style="color:var(--gold)">Recommendation:</span> Cross-train Nox Veylan in basic supply chain operations. Reduce key-person dependency before scaling.
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div><!-- /org -->
+
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- CREDENTIALS TAB -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <div id="tab-credentials" class="tab-page">
+    <div style="padding:24px 0 16px;">
+      <div class="panel" style="padding:16px 24px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;">
+        <div>
+          <div style="font-family:'Orbitron',sans-serif;font-size:10px;letter-spacing:0.2em;color:var(--dim);margin-bottom:6px;">CREDENTIAL PROGRESS</div>
+          <div style="font-size:12px;color:var(--text);">2 of 7 credentials earned · MBA Rank: <strong style="color:var(--gold);">Associate</strong></div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-family:'Orbitron',sans-serif;font-size:28px;color:var(--gold);">28%</div>
+          <div style="font-size:10px;color:var(--dim);">completion</div>
+        </div>
+      </div>
+    </div>
+    <div class="creds-grid">
+
+      <div class="cred-card earned">
+        <span class="cred-nft">🏅</span>
+        <div class="cred-title">Market Analyst I</div>
+        <div class="cred-desc">Completed 50+ trades, demonstrated price forecasting accuracy, and executed first arbitrage strategy.</div>
+        <div class="cred-bar"><div class="cred-bar-fill fill-gold" style="width:100%"></div></div>
+        <div class="cred-earned-label">✓ EARNED · Verifiable On-Chain</div>
+      </div>
+
+      <div class="cred-card earned">
+        <span class="cred-nft">🏛️</span>
+        <div class="cred-title">Founder's License</div>
+        <div class="cred-desc">Established a corporation with 3+ members, executed the first formal contract, and set corp charter.</div>
+        <div class="cred-bar"><div class="cred-bar-fill fill-gold" style="width:100%"></div></div>
+        <div class="cred-earned-label">✓ EARNED · Verifiable On-Chain</div>
+      </div>
+
+      <div class="cred-card">
+        <span class="cred-nft">🔗</span>
+        <div class="cred-title">Supply Chain Operator</div>
+        <div class="cred-desc">Establish 3 active trade routes and process 500K ISK in total throughput via your logistics network.</div>
+        <div class="cred-bar"><div class="cred-bar-fill fill-blue" style="width:68%"></div></div>
+        <div class="cred-pct" style="margin-bottom:8px;">68% — 160K ISK throughput remaining</div>
+        <div class="cred-locked-label">IN PROGRESS</div>
+      </div>
+
+      <div class="cred-card locked">
+        <span class="cred-nft">🛡️</span>
+        <div class="cred-title">Risk Officer</div>
+        <div class="cred-desc">Complete the Risk Management track and demonstrate portfolio survival through a simulated market crash scenario.</div>
+        <div class="cred-bar"><div class="cred-bar-fill fill-green" style="width:33%"></div></div>
+        <div class="cred-pct" style="margin-bottom:8px;">33% — Complete Risk Mgmt track first</div>
+        <div class="cred-locked-label">🔒 LOCKED</div>
+      </div>
+
+      <div class="cred-card locked">
+        <span class="cred-nft">🌐</span>
+        <div class="cred-title">Diplomat's Seal</div>
+        <div class="cred-desc">Negotiate and finalize 3 inter-corp alliances, maintaining at least 2 active standings above +30.</div>
+        <div class="cred-bar"><div class="cred-bar-fill fill-gold" style="width:5%"></div></div>
+        <div class="cred-pct" style="margin-bottom:8px;">5% — Requires Diplomacy track progress</div>
+        <div class="cred-locked-label">🔒 LOCKED</div>
+      </div>
+
+      <div class="cred-card locked">
+        <span class="cred-nft">📐</span>
+        <div class="cred-title">Strategist's Warrant</div>
+        <div class="cred-desc">Apply all 5 core strategy frameworks (Porter, BCG, SWOT, PESTLE, Blue Ocean) to active in-game decisions.</div>
+        <div class="cred-bar"><div class="cred-bar-fill fill-green" style="width:25%"></div></div>
+        <div class="cred-pct" style="margin-bottom:8px;">25% — 3 of 5 frameworks applied</div>
+        <div class="cred-locked-label">🔒 LOCKED</div>
+      </div>
+
+      <div class="cred-card locked">
+        <span class="cred-nft">💎</span>
+        <div class="cred-title">EveMBA Graduate</div>
+        <div class="cred-desc">The pinnacle credential. Earn all 6 prerequisite badges and demonstrate mastery across every specialization track.</div>
+        <div class="cred-bar"><div class="cred-bar-fill fill-gold" style="width:28%"></div></div>
+        <div class="cred-pct" style="margin-bottom:8px;">28% — Complete all other credentials first</div>
+        <div class="cred-locked-label">🔒 MASTER CREDENTIAL</div>
+      </div>
+
+    </div>
+  </div><!-- /credentials -->
+
+</div><!-- /container -->
+
+<script>
+// ── CONFIG — set this after deploying your Cloudflare Worker ──────
+// Leave empty to use fallback demo responses
+const WORKER_URL = 'https://eve-mba.moors.workers.dev';
+
+// ── WALLET & SESSION STATE ────────────────────────────────────────
+let pilotAddress = null;
+let pilotInitials = '??';
+let conversationHistory = [];
+let isLoading = false;
+
+// ── WALLET CONNECTION (EVE Vault via Sui Wallet Standard + MetaMask fallback) ──
+// EVE Frontier uses the Sui Wallet Standard for wallet discoverability.
+// EVE Vault is the official Sui wallet for EVE Frontier dApps.
+// Docs: https://github.com/evefrontier/evevault
+
+// ── Sui Wallet Standard registry ──────────────────────────────────
+// Wallets register themselves via Symbol.for('wallet-standard').
+// We create the registry early so wallets that load after this script
+// can still register before the user clicks Connect.
+const WALLET_STANDARD_KEY = Symbol.for('wallet-standard');
+
+function getSuiWalletRegistry() {
+  if (window[WALLET_STANDARD_KEY]) return window[WALLET_STANDARD_KEY];
+  const _wallets = [];
+  const _listeners = [];
+  const registry = {
+    register(...ws) {
+      _wallets.push(...ws);
+      _listeners.forEach(fn => ws.forEach(w => fn('register', w)));
+    },
+    get() { return [..._wallets]; },
+    on(event, listener) {
+      _listeners.push(listener);
+      return () => { const i = _listeners.indexOf(listener); if (i >= 0) _listeners.splice(i, 1); };
+    }
+  };
+  window[WALLET_STANDARD_KEY] = registry;
+  // Ask any already-loaded wallets to register themselves
+  window.dispatchEvent(new CustomEvent('wallet-standard:app-ready', {
+    bubbles: false, cancelable: false, composed: false,
+    detail: { register: registry.register.bind(registry) }
+  }));
+  return registry;
+}
+
+const suiWalletRegistry = getSuiWalletRegistry();
+
+function findSuiWallet(nameHint) {
+  const wallets = suiWalletRegistry.get();
+  return wallets.find(w =>
+    w.name.toLowerCase().includes(nameHint.toLowerCase())
+  ) || null;
+}
+
+async function connectEveVault() {
+  const errEl = document.getElementById('connectError');
+  const noWalletEl = document.getElementById('noWalletMsg');
+  const btn = document.getElementById('connectEveBtn');
+  errEl.textContent = '';
+  noWalletEl.style.display = 'none';
+
+  // Re-trigger wallet announcement in case EVE Vault loaded after page init
+  window.dispatchEvent(new CustomEvent('wallet-standard:app-ready', {
+    bubbles: false, cancelable: false, composed: false,
+    detail: { register: suiWalletRegistry.register.bind(suiWalletRegistry) }
+  }));
+
+  const wallet = findSuiWallet('eve') || findSuiWallet('vault');
+
+  if (!wallet) {
+    noWalletEl.style.display = 'block';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Connecting...';
+
+  try {
+    const connectFeature = wallet.features['sui:connect'] || wallet.features['standard:connect'];
+    if (!connectFeature) throw new Error('Wallet does not support sui:connect');
+    const result = await connectFeature.connect({ silent: false });
+    const accounts = result?.accounts || [];
+    if (!accounts.length) throw new Error('No accounts returned from wallet');
+    initDashboard(accounts[0].address, false);
+  } catch (err) {
+    const msg = err?.message || String(err);
+    if (msg.toLowerCase().includes('reject') || msg.toLowerCase().includes('denied') || err?.code === 4001) {
+      errEl.textContent = 'Connection rejected — please approve in EVE Vault.';
+    } else {
+      errEl.textContent = msg || 'Could not connect to EVE Vault.';
+    }
+    btn.disabled = false;
+    btn.textContent = '🌌 Connect EVE Vault';
+  }
+}
+
+async function connectMetaMask() {
+  const errEl = document.getElementById('connectError');
+  const noWalletEl = document.getElementById('noWalletMsg');
+  const btn = document.getElementById('connectMetaBtn');
+  errEl.textContent = '';
+  noWalletEl.style.display = 'none';
+
+  // MetaMask uses window.ethereum / EIP-6963
+  const provider = window.ethereum?.isMetaMask ? window.ethereum : null;
+  if (!provider) {
+    noWalletEl.style.display = 'block';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Connecting...';
+
+  try {
+    const accounts = await provider.request({ method: 'eth_requestAccounts' });
+    if (!accounts || accounts.length === 0) throw new Error('No accounts returned');
+    initDashboard(accounts[0], false);
+  } catch (err) {
+    if (err.code === 4001) {
+      errEl.textContent = 'Connection rejected — please approve in MetaMask.';
+    } else {
+      noWalletEl.style.display = 'block';
+    }
+    btn.disabled = false;
+    btn.textContent = '🦊 Connect MetaMask';
+  }
+}
+
+function startDemo() {
+  initDashboard(null, true);
+}
+
+function initDashboard(address, isDemo) {
+  pilotAddress = address;
+
+  if (address) {
+    // Real wallet — show truncated address
+    const short = address.slice(0, 6) + '...' + address.slice(-4);
+    pilotInitials = (address.slice(2, 3) + address.slice(-1)).toUpperCase();
+    document.getElementById('pilotName').textContent = short;
+    document.getElementById('pilotRankText').textContent = '⭐ Associate — Track 2 of 7';
+    document.getElementById('walletDot').style.display = 'block';
+    document.getElementById('disconnectBtn').style.display = 'inline';
+    document.getElementById('ai-status-badge').textContent = WORKER_URL ? '● AI LIVE' : '● AI DEMO';
+  } else {
+    // Demo mode
+    pilotInitials = 'DM';
+    document.getElementById('pilotName').textContent = 'Demo Pilot';
+    document.getElementById('pilotRankText').textContent = '⭐ Demo Mode — connect wallet to save progress';
+    document.getElementById('ai-status-badge').textContent = '● AI DEMO';
+  }
+
+  document.getElementById('pilotAvatar').textContent = pilotInitials;
+
+  // Update welcome message
+  const name = address ? address.slice(0, 6) + '...' : 'Pilot';
+  document.getElementById('welcomeMsg').innerHTML = `
+    Good to see you, ${name}. I've been watching your operations. You're growing your ISK balance well, but you're concentrated in a single trade route — that's a <strong>portfolio concentration risk</strong>.
+    <br><br>
+    In MBA terms, this is the same as holding 80% of your equity in one stock. Want me to walk you through how <em>diversification theory</em> applies to your current position?
+    <br><br>
+    <span class="msg-concept">📚 PORTFOLIO THEORY</span>
+    <span class="msg-concept">📊 RISK MANAGEMENT</span>`;
+
+  // Hide overlay with fade
+  const overlay = document.getElementById('connectOverlay');
+  overlay.style.transition = 'opacity 0.5s';
+  overlay.style.opacity = '0';
+  setTimeout(() => overlay.style.display = 'none', 500);
+
+  conversationHistory = [];
+
+  // If real wallet connected, try to pull character data + start event polling
+  if (address) {
+    fetchCharacterData(address).then(charData => {
+      if (charData) {
+        const charId = charData.character_id || charData.id;
+        showToast('PILOT DATA LOADED', `On-chain character ID: <strong>${String(charId).slice(0,12)}…</strong> — live data active.`, 'green', 5000);
+      }
+    });
+    startEvePoll();
+  }
+}
+
+function disconnect() {
+  pilotAddress = null;
+  stopEvePoll();
+  document.getElementById('pilotName').textContent = 'Not Connected';
+  document.getElementById('pilotRankText').textContent = 'Connect wallet to begin';
+  document.getElementById('pilotAvatar').textContent = '??';
+  document.getElementById('walletDot').style.display = 'none';
+  document.getElementById('disconnectBtn').style.display = 'none';
+  // Show overlay again
+  const overlay = document.getElementById('connectOverlay');
+  overlay.style.display = 'flex';
+  overlay.style.opacity = '0';
+  setTimeout(() => { overlay.style.transition = 'opacity 0.4s'; overlay.style.opacity = '1'; }, 10);
+  document.getElementById('connectEveBtn').disabled = false;
+  document.getElementById('connectEveBtn').textContent = '🌌 Connect EVE Vault';
+  document.getElementById('connectMetaBtn').disabled = false;
+  document.getElementById('connectMetaBtn').textContent = '🦊 Connect MetaMask';
+  document.getElementById('connectError').textContent = '';
+  document.getElementById('noWalletMsg').style.display = 'none';
+}
+
+// ── SYSTEM PROMPT ─────────────────────────────────────────────────
+function buildSystemPrompt() {
+  const name = pilotAddress ? pilotAddress.slice(0, 6) + '...' : 'Demo Pilot';
+  return `You are the EveMBA Advisor — an AI business mentor embedded in a dashboard for EVE Frontier, a sci-fi blockchain sandbox game built on SUI. Your role is to teach real MBA concepts by connecting them directly to the player's in-game situation.
+
+Player: ${name}
+- ISK Balance: ~4.72M (+18.4% this week)
+- Corp Net Worth: 31.8M ISK
+- Active trades: 142 orders, 23 active
+- Risk Exposure: HIGH (3 vulnerable gate assets)
+- MBA tracks: Market Analysis 68%, Corp Finance 41%, Strategy 25%, Supply Chain 12%, Diplomacy 5%, Risk Management 33%
+- Corp: 6 members, flat hierarchy
+- Alliances: Friendly with House Solara, Neutral with The Concordat, Hostile with Void Cartel
+
+Rules:
+- Always connect your answer to a real MBA concept with its name in bold
+- Reference the player's actual numbers when relevant
+- Be concise — max 120 words unless asked for deep analysis
+- End responses with 1–2 concept tags like: 📚 CONCEPT NAME
+
+EVE Frontier context: space sandbox with Smart Assemblies (programmable on-chain structures), player-driven economy, gates for inter-system travel, corps, and SUI blockchain credentials.`;
+}
+
+// ── CHAT ──────────────────────────────────────────────────────────
+async function sendMsg() {
+  if (isLoading) return;
+  const input = document.getElementById('chatInput');
+  const val = input.value.trim();
+  if (!val) return;
+
+  const messages = document.getElementById('chatMessages');
+  const typing = document.getElementById('typingIndicator');
+  const sendBtn = document.getElementById('sendBtn');
+
+  const avatarInitials = pilotInitials || 'VK';
+  const userMsg = document.createElement('div');
+  userMsg.className = 'msg user';
+  userMsg.innerHTML = `<div class="msg-avatar user">${avatarInitials}</div><div class="msg-bubble user">${escapeHtml(val)}</div>`;
+  messages.insertBefore(userMsg, typing);
+  input.value = '';
+
+  typing.style.display = 'flex';
+  messages.scrollTop = messages.scrollHeight;
+
+  if (!WORKER_URL) {
+    // Demo fallback
+    setTimeout(() => {
+      typing.style.display = 'none';
+      const r = fallbackResponses[fallbackIdx % fallbackResponses.length];
+      fallbackIdx++;
+      appendAiMsg(r.text, r.concepts, messages, typing);
+      messages.scrollTop = messages.scrollHeight;
+    }, 1600);
+    return;
+  }
+
+  isLoading = true;
+  sendBtn.disabled = true;
+  conversationHistory.push({ role: 'user', content: val });
+
+  try {
+    const res = await fetch(WORKER_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 350,
+        system: buildSystemPrompt(),
+        messages: conversationHistory
+      })
+    });
+
+    if (!res.ok) throw new Error((await res.json()).error?.message || `HTTP ${res.status}`);
+
+    const data = await res.json();
+    const text = data.content[0].text;
+    conversationHistory.push({ role: 'assistant', content: text });
+
+    typing.style.display = 'none';
+    const tagRegex = /📚\s*[A-Z&, ]{3,}/g;
+    const tags = text.match(tagRegex) || [];
+    const cleanText = text.replace(tagRegex, '').trim();
+    appendAiMsg(cleanText, tags, messages, typing);
+
+  } catch (err) {
+    typing.style.display = 'none';
+    const errMsg = document.createElement('div');
+    errMsg.className = 'msg';
+    errMsg.innerHTML = `<div class="msg-avatar ai">🎓</div><div class="msg-bubble ai" style="color:var(--red)">Advisor offline: ${escapeHtml(err.message)}</div>`;
+    messages.insertBefore(errMsg, typing);
+    conversationHistory.pop();
+  } finally {
+    isLoading = false;
+    sendBtn.disabled = false;
+    messages.scrollTop = messages.scrollHeight;
+  }
+}
+
+function appendAiMsg(text, concepts, container, before) {
+  const el = document.createElement('div');
+  el.className = 'msg';
+  const html = concepts.map(c => `<span class="msg-concept">${c.trim()}</span>`).join('');
+  el.innerHTML = `<div class="msg-avatar ai">🎓</div><div class="msg-bubble ai">${text}${html ? '<br><br>' + html : ''}</div>`;
+  container.insertBefore(el, before);
+}
+
+function quickAsk(el) {
+  document.getElementById('chatInput').value = el.textContent;
+  sendMsg();
+}
+
+function escapeHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+const fallbackResponses = [
+  { text: "In supply chain terms, your gate network acts as your <em>logistics infrastructure</em>. Each gate is a distribution node — more nodes means more leverage over transit pricing. That's a <strong>natural monopoly</strong> dynamic, and it's your core competitive moat.", concepts: ["📚 SUPPLY CHAIN", "🏗️ NATURAL MONOPOLY"] },
+  { text: "Your risk profile is <strong>HIGH</strong> — three exposed assets, a concentrated trade route, minimal liquidity reserves. In MBA terms: 70% capacity utilization with no slack. Build a <em>risk buffer</em> before scaling — even 10% of net worth held liquid would shift you from HIGH to MODERATE.", concepts: ["⚠️ RISK ASSESSMENT", "📊 CAPACITY PLANNING"] },
+  { text: "The biggest corp leadership lever is <strong>incentive design</strong>. What makes your best members stay? In org theory this is <em>retention architecture</em> — revenue sharing on contracts, clear rank progression, and specialized roles matched to member strengths.", concepts: ["👥 ORG DESIGN", "📚 INCENTIVE THEORY"] },
+  { text: "There's an emerging <strong>arbitrage opportunity</strong> in mineral transport between Sectors 7 and 12 — ~18% price delta. In finance, this is a <em>risk-free spread trade</em> if you secure the transit route. With 3 gate hops at ~12 min travel, net yield after fuel is 11–14%.", concepts: ["💰 ARBITRAGE", "📊 MARKET INEFFICIENCY"] }
+];
+let fallbackIdx = 0;
+
+// ── TOAST SYSTEM ──────────────────────────────────────────────────
+function showToast(title, message, type = '', duration = 4000) {
+  const container = document.getElementById('toastContainer');
+  const toast = document.createElement('div');
+  toast.className = 'toast' + (type ? ' ' + type : '');
+  toast.innerHTML = `<div class="toast-title">${title}</div>${message}`;
+  container.appendChild(toast);
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => toast.classList.add('show'));
+  });
+  setTimeout(() => {
+    toast.classList.remove('show');
+    setTimeout(() => toast.remove(), 350);
+  }, duration);
+}
+
+// ── CURRICULUM BUTTONS ────────────────────────────────────────────
+function continueModule() {
+  const title = document.getElementById('lessonTitle')?.textContent || 'Module';
+  showToast('MODULE PROGRESS', `Advancing through <strong>${title}</strong> — quiz checkpoint coming next.`, 'gold');
+}
+
+// ── TRACK CARD INTERACTION ────────────────────────────────────────
+function selectTrack(name) {
+  showToast('TRACK SELECTED', `Switched focus to <strong>${name}</strong>. Lessons and AI advisor context updated.`, 'blue');
+}
+
+// ── TAB SWITCHING ─────────────────────────────────────────────────
+function setTab(el) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-page').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('tab-' + el.dataset.tab).classList.add('active');
+}
+
+// ── CURRICULUM LESSONS ────────────────────────────────────────────
+const lessons = {
+  porter: {
+    title: "Porter's Five Forces",
+    badge: "MODULE 1 / 7",
+    text: `<strong>Porter's Five Forces</strong> is a framework for analyzing the competitive forces that shape an industry. The five forces are: <em>rivalry among competitors</em>, <em>threat of new entrants</em>, <em>bargaining power of suppliers</em>, <em>bargaining power of buyers</em>, and <em>threat of substitutes</em>.<br><br>Together, these determine how profitable a market can be over the long run.`,
+    tags: ["PORTER'S FRAMEWORK", "COMPETITIVE ANALYSIS", "INDUSTRY STRUCTURE"],
+    eve: `🚀 <strong>Your EVE Frontier application:</strong> In Sector 7, you face moderate rivalry (3 competing traders), low threat of new entrants (gate access is a barrier), and high supplier power from Fenris Mining Co. — they're your only Tritanium source. This is a <strong>concentrated supplier risk</strong>. Diversify your supply base.`
+  },
+  bcg: {
+    title: "BCG Growth-Share Matrix",
+    badge: "MODULE 2 / 7",
+    text: `The <strong>BCG Matrix</strong> classifies a portfolio's business units by market growth rate and relative market share into four quadrants:<br><br>
+    <strong>Stars</strong> — high growth, high share (invest heavily)<br>
+    <strong>Cash Cows</strong> — low growth, high share (harvest profits)<br>
+    <strong>Question Marks</strong> — high growth, low share (decide: invest or divest)<br>
+    <strong>Dogs</strong> — low growth, low share (divest)`,
+    tags: ["BCG MATRIX", "PORTFOLIO MANAGEMENT", "CAPITAL ALLOCATION"],
+    eve: `🚀 <strong>Your EVE Frontier application:</strong> Your Sector 7 Tritanium route = <strong>Cash Cow</strong>. Your Sector 12 mineral expansion = <strong>Star</strong> (high growth, invest!). Gate Alpha-3 with low traffic = <strong>Dog</strong> — consider decommissioning. Sector 9 Zydrine experiment = <strong>Question Mark</strong>.`
+  },
+  arbitrage: {
+    title: "Arbitrage & Price Discovery",
+    badge: "MODULE 3 / 7",
+    text: `<strong>Arbitrage</strong> is the simultaneous purchase and sale of an asset to profit from a difference in price across markets. In theory, arbitrage is "risk-free" — but execution risk, transport costs, and information lag introduce real risk.<br><br>
+    <em>Price discovery</em> is the process by which markets determine the equilibrium price of an asset through buyer/seller interactions.`,
+    tags: ["ARBITRAGE", "PRICE DISCOVERY", "MARKET MICROSTRUCTURE"],
+    eve: `🚀 <strong>Your EVE Frontier application:</strong> Current spread between Sector 7 and 12 is ~18% on mineral transit. With 3 gate hops and ~12 min travel, your net arbitrage yield is approximately <strong>11–14%</strong> after fuel costs. That's a strong risk-adjusted return if you can lock the route.`
+  },
+  supplychain: {
+    title: "Supply Chain Theory",
+    badge: "MODULE 4 / 7",
+    text: `<strong>Supply chain management</strong> covers the full network of entities involved in producing and delivering a product — from raw material suppliers to end consumers.<br><br>
+    Key concepts: <em>just-in-time delivery</em> (minimize inventory cost), <em>bullwhip effect</em> (demand variability amplifies upstream), <em>node resilience</em> (single points of failure), and <em>network optimization</em> (minimize cost while maximizing throughput).`,
+    tags: ["SUPPLY CHAIN", "JIT LOGISTICS", "NETWORK RESILIENCE"],
+    eve: `🚀 <strong>Your EVE Frontier application:</strong> Your gate network is your supply chain. Gate Alpha-7 is a critical single-point-of-failure — Void Cartel could disrupt your entire Sector 12 supply line. Apply <strong>redundancy planning</strong>: establish a backup route via Sector 4 before scaling mineral transport.`
+  },
+  riskmanagement: {
+    title: "Risk Management",
+    badge: "MODULE 5 / 7",
+    text: `<strong>Risk management</strong> is the process of identifying, assessing, and controlling threats to an organization's capital and earnings.<br><br>
+    Key tools: <em>Value at Risk (VaR)</em> — maximum expected loss at a given confidence level; <em>hedging</em> — taking offsetting positions; <em>diversification</em> — spreading risk across uncorrelated assets; <em>scenario analysis</em> — stress-testing against extreme outcomes.`,
+    tags: ["RISK MANAGEMENT", "VALUE AT RISK", "PORTFOLIO HEDGING"],
+    eve: `🚀 <strong>Your EVE Frontier application:</strong> Your 3 undefended gate assets represent concentrated operational risk. Apply <strong>VaR thinking</strong>: if Void Cartel destroys Gate Alpha-7, you lose ~4M ISK (your worst-case 1-day loss). Your current reserve fund (4M ISK) is exactly at risk threshold — dangerously under-hedged.`
+  }
+};
+
+function showLesson(id) {
+  document.querySelectorAll('.course-card').forEach(c => c.classList.remove('active-course'));
+  event.currentTarget.classList.add('active-course');
+  const l = lessons[id];
+  if (!l) return;
+  document.getElementById('lessonTitle').innerHTML = l.title;
+  document.getElementById('lessonBadge').textContent = l.badge;
+  document.getElementById('lessonText').innerHTML = l.text;
+  document.getElementById('lessonEve').innerHTML = l.eve;
+  const tagsEl = document.getElementById('lessonPanel').querySelector('.lesson-body > div:nth-child(3)');
+  if (tagsEl) tagsEl.innerHTML = l.tags.map(t => `<span class="lesson-tag">${t}</span>`).join('');
+}
+
+// ══════════════════════════════════════════════════════════════════
+// DAY 3 — MBA CONCEPT-TAGGING SYSTEM
+// Maps in-game event types → MBA frameworks + lesson triggers.
+// When the EVE API emits an event, tag it and fire the right lesson.
+// ══════════════════════════════════════════════════════════════════
+const MBA_CONCEPT_MAP = {
+  // ── Trade & Market Events ──────────────────────────────────────
+  TradeCompleted: {
+    framework:  'Supply & Demand',
+    lessonId:   'arbitrage',
+    concepts:   ['SUPPLY & DEMAND', 'PRICE DISCOVERY'],
+    feedColor:  'dot-green',
+    message:    (d) => `Trade completed${d.item ? ': ' + d.item : ''} → <strong>${d.isk || '+ISK'}</strong> · <em>Supply & Demand</em> lesson active`,
+    toast:      (d) => ({ title: 'MBA TRIGGER — SUPPLY & DEMAND', body: `Your trade maps directly to <strong>price equilibrium theory</strong>. When demand exceeds supply, prices rise — you're capturing that spread.`, type: 'green' }),
+  },
+  ArbitrageOpportunity: {
+    framework:  'Arbitrage & Market Efficiency',
+    lessonId:   'arbitrage',
+    concepts:   ['ARBITRAGE', 'MARKET INEFFICIENCY'],
+    feedColor:  'dot-green',
+    message:    (d) => `Arbitrage window: ${d.from || 'Sector A'} → ${d.to || 'Sector B'} · <strong>${d.spread || '~18%'} spread</strong>`,
+    toast:      (d) => ({ title: 'MBA TRIGGER — ARBITRAGE', body: `Classic <strong>risk-adjusted arbitrage</strong>: price differences across markets create profit opportunities before equilibrium restores.`, type: 'green' }),
+  },
+
+  // ── Corp & Org Events ─────────────────────────────────────────
+  CorpMemberJoined: {
+    framework:  'Organizational Theory',
+    lessonId:   null,
+    concepts:   ['ORG DESIGN', 'TEAM DYNAMICS'],
+    feedColor:  'dot-gold',
+    message:    (d) => `Corp member joined: <strong>${d.name || 'New Pilot'}</strong> — org theory lesson triggered`,
+    toast:      (d) => ({ title: 'MBA TRIGGER — ORG THEORY', body: `New member = scaling inflection point. <strong>Dunbar's number</strong> (~150) defines the cognitive limit for cohesive org structure. Plan your hierarchy now.`, type: 'gold' }),
+    certProgress: { track: 'corp', delta: 5 },
+  },
+  CorpMemberLeft: {
+    framework:  'Retention & Incentive Design',
+    lessonId:   null,
+    concepts:   ['RETENTION ARCHITECTURE', 'INCENTIVE THEORY'],
+    feedColor:  'dot-red',
+    message:    (d) => `Corp member departed: <strong>${d.name || 'Pilot'}</strong> — retention risk flag`,
+    toast:      (d) => ({ title: 'MBA TRIGGER — RETENTION', body: `Member attrition signals a gap in <strong>incentive design</strong>. Review role-fit and revenue-sharing structure to reduce churn.`, type: '' }),
+  },
+  ContractSigned: {
+    framework:  'Contract Theory & Principal-Agent',
+    lessonId:   null,
+    concepts:   ['CONTRACT THEORY', 'PRINCIPAL-AGENT'],
+    feedColor:  'dot-blue',
+    message:    (d) => `Contract signed: <strong>${d.counterparty || 'Counterparty'}</strong> · ${d.value || 'ISK value TBD'}`,
+    toast:      (d) => ({ title: 'MBA TRIGGER — CONTRACT THEORY', body: `Contracts reduce <strong>information asymmetry</strong>. Each signed agreement is a formal alignment of incentives — the foundation of scalable commerce.`, type: 'blue' }),
+  },
+
+  // ── Risk & Security Events ────────────────────────────────────
+  RiskAlert: {
+    framework:  'Risk Management',
+    lessonId:   'riskmanagement',
+    concepts:   ['VALUE AT RISK', 'OPERATIONAL RISK'],
+    feedColor:  'dot-red',
+    message:    (d) => `Risk alert: <strong>${d.asset || 'Asset'}</strong> exposed · VaR model triggered`,
+    toast:      (d) => ({ title: 'MBA TRIGGER — RISK MANAGEMENT', body: `Undefended assets = concentrated <strong>operational risk</strong>. VaR models quantify your maximum expected loss — currently at reserve threshold.`, type: 'red' }),
+    certProgress: { track: 'risk', delta: 10 },
+  },
+  GateAttacked: {
+    framework:  'Scenario Analysis & Hedging',
+    lessonId:   'riskmanagement',
+    concepts:   ['SCENARIO ANALYSIS', 'HEDGING STRATEGIES'],
+    feedColor:  'dot-red',
+    message:    (d) => `Gate attacked: <strong>${d.gate || 'Gate'}</strong> — scenario analysis module active`,
+    toast:      (d) => ({ title: 'MBA TRIGGER — SCENARIO ANALYSIS', body: `This is your <strong>stress test</strong> in action. Resilient orgs pre-model downside scenarios — do you have a backup transit route?`, type: 'red' }),
+  },
+
+  // ── Logistics & Supply Chain Events ──────────────────────────
+  ShipmentDelivered: {
+    framework:  'Supply Chain Management',
+    lessonId:   'supplychain',
+    concepts:   ['JIT LOGISTICS', 'NETWORK THROUGHPUT'],
+    feedColor:  'dot-green',
+    message:    (d) => `Shipment delivered via <strong>${d.route || 'route'}</strong> · supply chain efficiency +`,
+    toast:      (d) => ({ title: 'MBA TRIGGER — SUPPLY CHAIN', body: `On-time delivery is your <strong>just-in-time</strong> execution. Consistent delivery reduces inventory holding cost and strengthens counterparty trust.`, type: 'green' }),
+    certProgress: { track: 'supply', delta: 8 },
+  },
+  RouteEstablished: {
+    framework:  'Network Design & Logistics',
+    lessonId:   'supplychain',
+    concepts:   ['NETWORK DESIGN', 'SUPPLY CHAIN RESILIENCE'],
+    feedColor:  'dot-blue',
+    message:    (d) => `Trade route established: ${d.from || 'Origin'} → ${d.to || 'Destination'}`,
+    toast:      (d) => ({ title: 'MBA TRIGGER — NETWORK DESIGN', body: `Each new route expands your logistics footprint. <strong>Network effects</strong> compound — more nodes = exponentially more route combinations.`, type: 'blue' }),
+    certProgress: { track: 'supply', delta: 15 },
+  },
+
+  // ── Market Intelligence Events ─────────────────────────────────
+  PriceSpike: {
+    framework:  'Market Microstructure',
+    lessonId:   'arbitrage',
+    concepts:   ['MARKET MICROSTRUCTURE', 'DEMAND-PULL PRICING'],
+    feedColor:  'dot-blue',
+    message:    (d) => `Price spike: <strong>${d.commodity || 'Commodity'}</strong> +${d.pct || '5'}% — demand-pull pricing detected`,
+    toast:      (d) => ({ title: 'MBA TRIGGER — MARKET MICROSTRUCTURE', body: `Sudden price spikes often signal <strong>demand-pull inflation</strong> or supply shocks. The efficient market will correct within 1–3 cycles.`, type: 'blue' }),
+  },
+  PorterForce: {
+    framework:  "Porter's Five Forces",
+    lessonId:   'porter',
+    concepts:   ["PORTER'S FIVE FORCES", 'COMPETITIVE INTENSITY'],
+    feedColor:  'dot-blue',
+    message:    (d) => `Competitive pressure: <strong>${d.force || 'New entrant'}</strong> — Porter's Five Forces active`,
+    toast:      (d) => ({ title: "MBA TRIGGER — PORTER'S FIVE FORCES", body: `A new competitive force has emerged in your sector. Analyze all five forces to determine how your profit margins will shift.`, type: '' }),
+  },
+};
+
+// Tag an incoming game event and fire MBA lesson + toast
+function processMBAEvent(eventType, data = {}) {
+  const rule = MBA_CONCEPT_MAP[eventType];
+  if (!rule) return;
+
+  // Fire toast
+  const t = rule.toast(data);
+  showToast(t.title, t.body, t.type, 6000);
+
+  // Add to activity feed
+  const feedMsg = rule.message(data);
+  injectFeedItem(rule.feedColor, feedMsg);
+
+  // Optionally highlight relevant lesson
+  if (rule.lessonId && document.querySelector(`[onclick="showLesson('${rule.lessonId}')"]`)) {
+    showToast('LESSON AVAILABLE', `Click <em>${rule.lessonId}</em> in the Curriculum tab to explore this concept.`, 'gold', 5000);
+  }
+
+  // Update cert progress if applicable
+  if (rule.certProgress) {
+    updateCertProgress(rule.certProgress.track, rule.certProgress.delta);
+  }
+}
+
+function injectFeedItem(dotClass, text) {
+  const feed = document.getElementById('activityFeed');
+  if (!feed) return;
+  const item = document.createElement('div');
+  item.className = 'feed-item';
+  item.style.opacity = '0';
+  item.style.transition = 'opacity 0.5s';
+  item.innerHTML = `<div class="feed-dot ${dotClass}"></div><div class="feed-text">${text}</div><div class="feed-time">just now</div>`;
+  feed.insertBefore(item, feed.firstChild);
+  setTimeout(() => item.style.opacity = '1', 50);
+  while (feed.children.length > 8) feed.removeChild(feed.lastChild);
+}
+
+// ── CERTIFICATION MILESTONES ───────────────────────────────────────
+// Thresholds that unlock certifications based on game activity.
+const CERT_MILESTONES = {
+  supply: {
+    name: 'Supply Chain Operator',
+    target: 100,         // cumulative delta points needed
+    current: 68,         // starting from demo state
+    certId: 'cred-supply',
+    certMessage: '🔗 Supply Chain Operator certification unlocked!',
+  },
+  risk: {
+    name: 'Risk Officer',
+    target: 80,
+    current: 33,
+    certId: 'cred-risk',
+    certMessage: '🛡️ Risk Officer certification is now in progress!',
+  },
+  corp: {
+    name: 'Corporate Director',
+    target: 60,
+    current: 28,
+    certId: 'cred-corp',
+    certMessage: '🏛️ Corporate Director track milestone reached!',
+  },
+};
+
+function updateCertProgress(track, delta) {
+  const cert = CERT_MILESTONES[track];
+  if (!cert) return;
+  cert.current = Math.min(cert.target, cert.current + delta);
+  const pct = Math.round((cert.current / cert.target) * 100);
+  // Update any matching progress bars on the credential cards
+  const fills = document.querySelectorAll(`.cred-card .cred-bar-fill`);
+  // Just notify via toast when milestones crossed
+  if (pct >= 100 && cert.current >= cert.target) {
+    showToast('🎓 CERTIFICATION UNLOCKED', cert.certMessage, 'gold', 8000);
+    cert.current = cert.target + 1; // prevent re-trigger
+  } else if (pct >= 75 && delta > 0) {
+    showToast('CERT PROGRESS', `<strong>${cert.name}</strong>: ${pct}% complete — almost there!`, 'gold', 4000);
+  }
+}
+
+// ══════════════════════════════════════════════════════════════════
+// DAY 4 — EVE FRONTIER API LAYER
+// Connects to Sui testnet via GraphQL + JSON-RPC to pull live data.
+// Endpoint: https://graphql.testnet.sui.io/graphql
+// Events:   https://fullnode.testnet.sui.io:443  (suix_queryEvents)
+// ══════════════════════════════════════════════════════════════════
+const EVE_FRONTIER_CONFIG = {
+  // Sui testnet GraphQL endpoint
+  graphqlEndpoint: 'https://graphql.testnet.sui.io/graphql',
+  // Sui testnet JSON-RPC endpoint for event polling
+  rpcEndpoint: 'https://fullnode.testnet.sui.io:443',
+  // World package ID — update this once you have the deployed package address
+  // Find it at: https://github.com/evefrontier/world-contracts (check testnet deployment)
+  worldPackageId: '0x<WORLD_PACKAGE_ID>',
+  // How often to poll for new events (ms)
+  pollIntervalMs: 15000,
+};
+
+let evePollCursor = null;
+let evePollTimer = null;
+
+// Fetch character data by wallet address via GraphQL
+async function fetchCharacterData(walletAddress) {
+  if (!walletAddress || EVE_FRONTIER_CONFIG.worldPackageId.includes('<')) {
+    return null; // Not configured yet
+  }
+  const query = `
+    query GetCharacterDetails($address: SuiAddress!, $profileType: String!) {
+      address(address: $address) {
+        objects(last: 10, filter: { type: $profileType }) {
+          nodes {
+            ... on MoveObject {
+              contents { json }
+            }
+          }
+        }
+      }
+    }
+  `;
+  const profileType = `${EVE_FRONTIER_CONFIG.worldPackageId}::character::PlayerProfile`;
+  try {
+    const res = await fetch(EVE_FRONTIER_CONFIG.graphqlEndpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query, variables: { address: walletAddress, profileType } }),
+    });
+    if (!res.ok) return null;
+    const data = await res.json();
+    const nodes = data?.data?.address?.objects?.nodes || [];
+    if (!nodes.length) return null;
+    return nodes[0]?.contents?.json || null;
+  } catch (e) {
+    console.warn('[EveMBA] GraphQL fetch failed:', e.message);
+    return null;
+  }
+}
+
+// Poll for on-chain events and map them to MBA concepts
+async function pollEveEvents() {
+  if (EVE_FRONTIER_CONFIG.worldPackageId.includes('<')) return;
+  const body = {
+    jsonrpc: '2.0', id: 1,
+    method: 'suix_queryEvents',
+    params: [
+      // Filter: all events from world package
+      { MoveModule: { package: EVE_FRONTIER_CONFIG.worldPackageId, module: 'trade' } },
+      evePollCursor,  // pagination cursor
+      5,              // limit per poll
+      false           // descending
+    ]
+  };
+  try {
+    const res = await fetch(EVE_FRONTIER_CONFIG.rpcEndpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    if (!res.ok) return;
+    const data = await res.json();
+    const events = data?.result?.data || [];
+    if (data?.result?.nextCursor) evePollCursor = data.result.nextCursor;
+
+    events.forEach(evt => {
+      const evtType = evt?.type?.split('::').pop() || '';
+      // Map raw Sui event types to MBA_CONCEPT_MAP keys
+      const typeMapping = {
+        'TradeExecuted':      'TradeCompleted',
+        'OrderFilled':        'TradeCompleted',
+        'MemberAdded':        'CorpMemberJoined',
+        'MemberRemoved':      'CorpMemberLeft',
+        'GateJump':           'ShipmentDelivered',
+        'AssemblyOnline':     'RouteEstablished',
+        'RiskThreshold':      'RiskAlert',
+        'PriceUpdate':        'PriceSpike',
+      };
+      const mbaKey = typeMapping[evtType] || evtType;
+      const parsedData = evt?.parsedJson || {};
+      processMBAEvent(mbaKey, parsedData);
+    });
+  } catch (e) {
+    console.warn('[EveMBA] Event poll failed:', e.message);
+  }
+}
+
+// Start polling — called when a real wallet connects
+function startEvePoll() {
+  if (evePollTimer) clearInterval(evePollTimer);
+  pollEveEvents(); // immediate first call
+  evePollTimer = setInterval(pollEveEvents, EVE_FRONTIER_CONFIG.pollIntervalMs);
+}
+
+// Stop polling on disconnect
+function stopEvePoll() {
+  if (evePollTimer) { clearInterval(evePollTimer); evePollTimer = null; }
+  evePollCursor = null;
+}
+
+// ── MARKET ANIMATION ──────────────────────────────────────────────
+const priceData = [90, 85, 88, 75, 72, 78, 65, 60, 68, 55, 50, 58, 45, 40, 48, 35, 42, 30, 25, 32, 20, 28, 22, 18, 25, 15, 20, 12, 18, 10];
+let baseTritPrice = 4.87;
+
+function buildSparklinePath(pts, w, h) {
+  const min = Math.min(...pts), max = Math.max(...pts);
+  const range = max - min || 1;
+  const pad = 10;
+  const coords = pts.map((v, i) => {
+    const x = (i / (pts.length - 1)) * w;
+    const y = pad + (1 - (v - min) / range) * (h - pad * 2);
+    return [x, y];
+  });
+  const line = 'M' + coords.map(c => c[0].toFixed(1) + ',' + c[1].toFixed(1)).join(' L');
+  const area = line + ` L${w},${h} L0,${h} Z`;
+  return { line, area, last: coords[coords.length - 1] };
+}
+
+function updateChart() {
+  const w = 600, h = 120;
+  const { line, area, last } = buildSparklinePath(priceData, w, h);
+
+  ['chartLine', 'chartLine2'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.setAttribute('d', line);
+  });
+  ['chartArea', 'chartArea2'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.setAttribute('d', area);
+  });
+
+  const dot = document.getElementById('chartDot');
+  const pulse = document.getElementById('chartPulse');
+  if (dot) { dot.setAttribute('cx', last[0]); dot.setAttribute('cy', last[1]); }
+  if (pulse) { pulse.setAttribute('cx', last[0]); pulse.setAttribute('cy', last[1]); }
+}
+
+function tickMarket() {
+  // Drift price
+  const change = (Math.random() - 0.48) * 0.08;
+  baseTritPrice = Math.max(3.5, baseTritPrice + change);
+  const pct = change / (baseTritPrice - change) * 100;
+
+  // Update sparkline data
+  priceData.shift();
+  const last = priceData[priceData.length - 1];
+  priceData.push(last + (Math.random() - 0.48) * 8);
+  updateChart();
+
+  // Update price displays
+  const priceStr = baseTritPrice.toFixed(2);
+  ['trit-price', 'chart2-price', 'trit-td'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = priceStr;
+  });
+
+  const pctStr = (pct >= 0 ? '▲ +' : '▼ ') + Math.abs(pct).toFixed(1) + '%';
+  const pctClass = pct >= 0 ? 'delta-up' : 'delta-down';
+  ['trit-delta', 'trit-ch'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { el.textContent = pctStr; el.className = pctClass; }
+  });
+
+  // Tick ISK balance slightly
+  const currentISK = parseFloat((document.getElementById('isk-value').textContent).replace('M',''));
+  const newISK = (currentISK + (Math.random() - 0.46) * 0.02).toFixed(2);
+  document.getElementById('isk-value').textContent = newISK + 'M';
+}
+
+// Demo feed messages mapped to MBA concept events for concept-tagging demo
+const feedEventQueue = [
+  { type: 'TradeCompleted',        data: { item: 'Tritanium x200', isk: '+12,400 ISK' } },
+  { type: 'ArbitrageOpportunity',  data: { from: 'Sector 7', to: 'Sector 12', spread: '18.3%' } },
+  { type: 'CorpMemberJoined',      data: { name: 'Rixa Dorn' } },
+  { type: 'RiskAlert',             data: { asset: 'Gate Alpha-7 undefended' } },
+  { type: 'PriceSpike',            data: { commodity: 'Mexallon', pct: '5.3' } },
+  { type: 'ShipmentDelivered',     data: { route: 'Gate Alpha-7' } },
+  { type: 'ContractSigned',        data: { counterparty: 'House Solara', value: '50K ISK/week' } },
+  { type: 'PorterForce',           data: { force: 'New entrant — Void Cartel expanding' } },
+];
+let feedIdx = 0;
+
+function tickFeed() {
+  const feed = document.getElementById('activityFeed');
+  if (!feed) return;
+
+  // If EVE polling is active (real wallet), don't run demo feed
+  if (evePollTimer) return;
+
+  const evt = feedEventQueue[feedIdx % feedEventQueue.length];
+  feedIdx++;
+
+  // Route through concept-tagging system for demo — shows toast occasionally (every 3rd event)
+  const rule = MBA_CONCEPT_MAP[evt.type];
+  if (rule) {
+    injectFeedItem(rule.feedColor, rule.message(evt.data));
+    if (feedIdx % 3 === 0) {
+      const t = rule.toast(evt.data);
+      showToast(t.title, t.body, t.type, 5000);
+    }
+  }
+}
+
+// ── INIT ──────────────────────────────────────────────────────────
+updateChart();
+setInterval(tickMarket, 3000);
+setInterval(tickFeed, 12000);
+</script>
+</body>
+</html>
