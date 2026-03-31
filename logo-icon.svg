@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#e8c060" />
+      <stop offset="100%" style="stop-color:#a06818" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2.5" result="b" />
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Hexagon -->
+  <polygon
+    points="50,6 88,28 88,72 50,94 12,72 12,28"
+    fill="#0d0c09"
+    stroke="url(#g)"
+    stroke-width="2.5"
+    filter="url(#glow)"
+  />
+  <!-- Inner hex ring -->
+  <polygon
+    points="50,16 78,32 78,68 50,84 22,68 22,32"
+    fill="none"
+    stroke="#c8922a"
+    stroke-width="0.7"
+    opacity="0.4"
+  />
+  <!-- Orbit ring -->
+  <ellipse cx="50" cy="50" rx="38" ry="12" fill="none" stroke="#c8922a" stroke-width="1" stroke-dasharray="3.5 3" opacity="0.45" />
+  <!-- Orbit dot -->
+  <circle cx="88" cy="50" r="3" fill="#e8c060" opacity="0.9" />
+
+  <!-- Mortar board cap -->
+  <polygon points="50,26 72,37 50,48 28,37" fill="url(#g)" filter="url(#glow)" />
+  <!-- Tassel -->
+  <line x1="72" y1="37" x2="72" y2="54" stroke="#c8922a" stroke-width="1.8" />
+  <circle cx="72" cy="57" r="3.5" fill="#c8922a" />
+  <!-- Cap crown -->
+  <rect x="40" y="48" width="20" height="9" rx="1.5" fill="#c8922a" opacity="0.75" />
+
+  <!-- "MBA" text at base -->
+  <text
+    x="50" y="80"
+    font-family="'Orbitron','Share Tech Mono','Courier New',monospace"
+    font-size="13"
+    font-weight="900"
+    letter-spacing="2"
+    fill="#ffffff"
+    opacity="0.9"
+    text-anchor="middle"
+  >MBA</text>
+</svg>
