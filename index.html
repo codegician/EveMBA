@@ -900,6 +900,48 @@
   }
 
   .disconnect-btn:hover { color: var(--red); }
+
+  /* ── PILOT BADGE WRAP & PROFILE CARD ── */
+  .pilot-badge-wrap { position: relative; }
+  .pilot-badge { cursor: pointer; user-select: none; }
+  .profile-card {
+    position: absolute; top: calc(100% + 10px); right: 0; z-index: 300;
+    background: #0a1628; border: 1px solid rgba(26,98,181,0.45);
+    border-radius: 8px; padding: 16px; min-width: 295px;
+    box-shadow: 0 10px 36px rgba(0,0,0,0.75);
+    animation: fadeIn 0.15s ease;
+  }
+  .profile-card::before {
+    content: ''; position: absolute; top: -6px; right: 20px;
+    width: 10px; height: 10px; background: #0a1628;
+    border-left: 1px solid rgba(26,98,181,0.45);
+    border-top: 1px solid rgba(26,98,181,0.45);
+    transform: rotate(45deg);
+  }
+  .profile-row {
+    display: flex; align-items: center; padding: 6px 0;
+    border-bottom: 1px solid rgba(26,42,74,0.5); gap: 6px;
+  }
+  .profile-row:last-of-type { border-bottom: none; }
+  .profile-label {
+    font-size: 10px; color: var(--dim); letter-spacing: 0.06em;
+    text-transform: uppercase; width: 88px; flex-shrink: 0;
+  }
+  .profile-value { font-size: 11px; color: var(--text); font-family: monospace; flex: 1; word-break: break-all; }
+  .profile-copy-btn {
+    background: none; border: 1px solid rgba(26,98,181,0.4); color: var(--dim);
+    cursor: pointer; padding: 2px 7px; border-radius: 3px; font-size: 9px; flex-shrink: 0;
+    letter-spacing: 0.05em;
+  }
+  .profile-copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+  .profile-divider { border: none; border-top: 1px solid rgba(26,42,74,0.6); margin: 10px 0; }
+  .profile-disconnect-btn {
+    width: 100%; background: rgba(255,64,96,0.08); border: 1px solid rgba(255,64,96,0.3);
+    color: var(--red); cursor: pointer; padding: 9px; border-radius: 4px;
+    font-size: 10px; font-family: 'Orbitron', sans-serif; letter-spacing: 0.1em; transition: background 0.2s;
+  }
+  .profile-disconnect-btn:hover { background: rgba(255,64,96,0.2); }
+  .profile-demo-note { text-align: center; font-size: 10px; color: var(--dim); padding: 4px 0; }
 </style>
 </head>
 <body>
@@ -948,15 +990,44 @@
         <span class="logo-main">EveMBA</span>
         <span class="logo-tag">// The Frontier School of Empire</span>
       </div>
-      <div class="pilot-badge">
-        <div class="wallet-dot" id="walletDot" style="display:none"></div>
-        <div class="pilot-avatar" id="pilotAvatar">??</div>
-        <div class="pilot-info">
-          <div class="pilot-name" id="pilotName">Not Connected</div>
-          <div class="pilot-rank" id="pilotRank" style="display:flex;align-items:center;gap:8px;">
-            <span id="pilotRankText">Connect wallet to begin</span>
-            <button class="disconnect-btn" id="disconnectBtn" style="display:none" onclick="disconnect()">✕ disconnect</button>
+      <div class="pilot-badge-wrap" id="pilotBadgeWrap">
+        <div class="pilot-badge" id="pilotBadge" onclick="toggleProfileCard(event)">
+          <div class="wallet-dot" id="walletDot" style="display:none"></div>
+          <div class="pilot-avatar" id="pilotAvatar">??</div>
+          <div class="pilot-info">
+            <div class="pilot-name" id="pilotName">Not Connected</div>
+            <div class="pilot-rank" id="pilotRank" style="display:flex;align-items:center;gap:8px;">
+              <span id="pilotRankText">Connect wallet to begin</span>
+              <button class="disconnect-btn" id="disconnectBtn" style="display:none" onclick="event.stopPropagation(); disconnect()">✕ disconnect</button>
+            </div>
           </div>
+        </div>
+        <!-- Profile card dropdown -->
+        <div class="profile-card" id="profileCard" style="display:none" onclick="event.stopPropagation()">
+          <div class="profile-row">
+            <span class="profile-label">Address</span>
+            <span class="profile-value" id="pc-address">—</span>
+            <button class="profile-copy-btn" id="pc-copy" onclick="copyWalletAddress(event)" style="display:none">⎘ copy</button>
+          </div>
+          <div class="profile-row">
+            <span class="profile-label">Connection</span>
+            <span class="profile-value" id="pc-conn">Not connected</span>
+          </div>
+          <div class="profile-row">
+            <span class="profile-label">Character ID</span>
+            <span class="profile-value" id="pc-charid">—</span>
+          </div>
+          <div class="profile-row">
+            <span class="profile-label">Tribe</span>
+            <span class="profile-value" id="pc-tribe">—</span>
+          </div>
+          <div class="profile-row">
+            <span class="profile-label">Network</span>
+            <span class="profile-value" id="pc-network">—</span>
+          </div>
+          <hr class="profile-divider">
+          <button class="profile-disconnect-btn" id="pc-disconnect-btn" onclick="disconnect(); closeProfileCard();" style="display:none">✕ DISCONNECT</button>
+          <div class="profile-demo-note" id="pc-demo-note" style="display:none">Demo mode — connect a wallet to unlock live data</div>
         </div>
       </div>
     </div>
@@ -1713,11 +1784,30 @@
 // Leave empty to use fallback demo responses
 const WORKER_URL = 'https://eve-mba.moors.workers.dev';
 
-// ── WALLET & SESSION STATE ────────────────────────────────────────
-let pilotAddress = null;
-let pilotInitials = '??';
+// ── APP STATE ─────────────────────────────────────────────────────
+// Single source of truth. All UI updates go through applyState().
+// Never patch individual fields — swap the whole state object.
+const DEMO_STATE = {
+  mode:           'demo',
+  connectionType: 'demo',
+  walletAddress:  null,
+  characterId:    null,
+  pilotName:      'Demo Pilot',
+  pilotInitials:  'DM',
+  tribeName:      'Voss Industries',
+  luxBalance:     '4.72',   // numeric string; 'M' appended by applyState
+  luxDelta:       '▲ +18.4% this week',
+  tribeNetWorth:  '31.8M',
+  network:        'Demo',
+  rank:           '⭐ Demo Mode — connect wallet to save progress',
+};
+
+let appState = { ...DEMO_STATE };
 let conversationHistory = [];
 let isLoading = false;
+
+// Snapshot original activity feed HTML for reset on disconnect
+const DEMO_FEED_HTML = document.getElementById('activityFeed')?.innerHTML || '';
 
 // ── WALLET CONNECTION (EVE Vault via Sui Wallet Standard + MetaMask fallback) ──
 // EVE Frontier uses the Sui Wallet Standard for wallet discoverability.
@@ -1792,7 +1882,7 @@ async function connectEveVault() {
     const result = await connectFeature.connect({ silent: false });
     const accounts = result?.accounts || [];
     if (!accounts.length) throw new Error('No accounts returned from wallet');
-    initDashboard(accounts[0].address, false);
+    initDashboard(accounts[0].address, false, 'evevault');
   } catch (err) {
     const msg = err?.message || String(err);
     if (msg.toLowerCase().includes('reject') || msg.toLowerCase().includes('denied') || err?.code === 4001) {
@@ -1825,7 +1915,7 @@ async function connectMetaMask() {
   try {
     const accounts = await provider.request({ method: 'eth_requestAccounts' });
     if (!accounts || accounts.length === 0) throw new Error('No accounts returned');
-    initDashboard(accounts[0], false);
+    initDashboard(accounts[0], false, 'metamask');
   } catch (err) {
     if (err.code === 4001) {
       errEl.textContent = 'Connection rejected — please approve in MetaMask.';
@@ -1841,37 +1931,23 @@ function startDemo() {
   initDashboard(null, true);
 }
 
-function initDashboard(address, isDemo) {
-  pilotAddress = address;
+function initDashboard(address, isDemo, connectionType) {
+  const state = address ? {
+    mode:           'live',
+    connectionType: connectionType || 'evevault',
+    walletAddress:  address,
+    characterId:    null,   // updated after GraphQL resolves
+    pilotName:      address.slice(0, 6) + '...' + address.slice(-4),
+    pilotInitials:  (address.slice(2, 3) + address.slice(-1)).toUpperCase(),
+    tribeName:      '—',
+    luxBalance:     '—',
+    luxDelta:       '—',
+    tribeNetWorth:  '—',
+    network:        'Stillness (testnet)',
+    rank:           '⭐ Associate — Track 1 of 7',
+  } : { ...DEMO_STATE };
 
-  if (address) {
-    // Real wallet — show truncated address
-    const short = address.slice(0, 6) + '...' + address.slice(-4);
-    pilotInitials = (address.slice(2, 3) + address.slice(-1)).toUpperCase();
-    document.getElementById('pilotName').textContent = short;
-    document.getElementById('pilotRankText').textContent = '⭐ Associate — Track 2 of 7';
-    document.getElementById('walletDot').style.display = 'block';
-    document.getElementById('disconnectBtn').style.display = 'inline';
-    document.getElementById('ai-status-badge').textContent = WORKER_URL ? '● AI LIVE' : '● AI DEMO';
-  } else {
-    // Demo mode
-    pilotInitials = 'DM';
-    document.getElementById('pilotName').textContent = 'Demo Pilot';
-    document.getElementById('pilotRankText').textContent = '⭐ Demo Mode — connect wallet to save progress';
-    document.getElementById('ai-status-badge').textContent = '● AI DEMO';
-  }
-
-  document.getElementById('pilotAvatar').textContent = pilotInitials;
-
-  // Update welcome message
-  const name = address ? address.slice(0, 6) + '...' : 'Pilot';
-  document.getElementById('welcomeMsg').innerHTML = `
-    Good to see you, ${name}. I've been watching your operations. You're growing your LUX balance well, but you're concentrated in a single trade route — that's a <strong>portfolio concentration risk</strong>.
-    <br><br>
-    In MBA terms, this is the same as holding 80% of your equity in one stock. Want me to walk you through how <em>diversification theory</em> applies to your current position?
-    <br><br>
-    <span class="msg-concept">📚 PORTFOLIO THEORY</span>
-    <span class="msg-concept">📊 RLUX MANAGEMENT</span>`;
+  applyState(state);
 
   // Hide overlay with fade
   const overlay = document.getElementById('connectOverlay');
@@ -1881,27 +1957,79 @@ function initDashboard(address, isDemo) {
 
   conversationHistory = [];
 
-  // If real wallet connected, try to pull character data + start event polling
+  // If real wallet connected, fetch character data and update state with results
   if (address) {
     fetchCharacterData(address).then(charData => {
       if (charData) {
-        const charId = charData.character_id || charData.id;
-        showToast('PILOT DATA LOADED', `On-chain character ID: <strong>${String(charId).slice(0,12)}…</strong> — live data active.`, 'green', 5000);
+        applyState({
+          ...appState,
+          characterId: charData.character_id || charData.id || null,
+          tribeName:   charData.tribe_name   || '—',
+        });
+        showToast('PILOT DATA LOADED',
+          `On-chain character ID: <strong>${String(appState.characterId || '—').slice(0,12)}…</strong> — live data active.`,
+          'green', 5000);
       }
     });
     startEvePoll();
   }
 }
 
+// ── applyState — the only function that should touch dashboard UI ─
+function applyState(state) {
+  appState = { ...state };
+  const live = state.mode === 'live';
+
+  // Pilot badge
+  document.getElementById('pilotAvatar').textContent     = state.pilotInitials;
+  document.getElementById('pilotName').textContent       = state.pilotName;
+  document.getElementById('pilotRankText').textContent   = state.rank;
+  document.getElementById('walletDot').style.display     = live ? 'block' : 'none';
+  document.getElementById('disconnectBtn').style.display = live ? 'inline' : 'none';
+  document.getElementById('ai-status-badge').textContent = live && WORKER_URL ? '● AI LIVE' : '● AI DEMO';
+
+  // Metrics
+  const balDisplay = (state.luxBalance === '—' || state.luxBalance === null) ? '—' : state.luxBalance + 'M';
+  document.getElementById('lux-value').textContent    = balDisplay;
+  document.getElementById('lux-delta').textContent    = state.luxDelta || '—';
+  document.getElementById('corp-value').textContent   = state.tribeNetWorth || '—';
+
+  // Welcome message
+  const name = state.walletAddress ? state.walletAddress.slice(0, 6) + '...' : state.pilotName;
+  const welcomeEl = document.getElementById('welcomeMsg');
+  if (welcomeEl) {
+    welcomeEl.innerHTML = live
+      ? `Good to see you, ${name}. Your on-chain activity is now feeding your MBA lessons in real time. What would you like to work on today?<br><br><span class="msg-concept">📡 LIVE DATA</span>`
+      : `Good to see you, Pilot. I've been watching your operations. You're growing your LUX balance well, but you're concentrated in a single trade route — that's a <strong>portfolio concentration risk</strong>.<br><br>In MBA terms, this is the same as holding 80% of your equity in one stock. Want me to walk you through how <em>diversification theory</em> applies to your current position?<br><br><span class="msg-concept">📚 PORTFOLIO THEORY</span> <span class="msg-concept">📊 LUX MANAGEMENT</span>`;
+  }
+
+  // Activity feed — restore demo snapshot on disconnect
+  if (!live) {
+    const feed = document.getElementById('activityFeed');
+    if (feed && DEMO_FEED_HTML) feed.innerHTML = DEMO_FEED_HTML;
+    feedIdx = 0;
+  }
+
+  // Profile card (update if open)
+  updateProfileCardUI();
+}
+
 function disconnect() {
-  pilotAddress = null;
   stopEvePoll();
-  document.getElementById('pilotName').textContent = 'Not Connected';
-  document.getElementById('pilotRankText').textContent = 'Connect wallet to begin';
-  document.getElementById('pilotAvatar').textContent = '??';
-  document.getElementById('walletDot').style.display = 'none';
-  document.getElementById('disconnectBtn').style.display = 'none';
-  // Show overlay again
+
+  // Reset all dashboard state to demo defaults via applyState
+  applyState({ ...DEMO_STATE });
+
+  // Clear chat messages — remove all user/AI turns, restore welcome
+  const messages = document.getElementById('chatMessages');
+  if (messages) {
+    [...messages.querySelectorAll('.msg')].forEach(m => {
+      if (m.id !== 'typingIndicator' && !m.querySelector('#welcomeMsg')) m.remove();
+    });
+  }
+  conversationHistory = [];
+
+  // Show connect overlay
   const overlay = document.getElementById('connectOverlay');
   overlay.style.display = 'flex';
   overlay.style.opacity = '0';
@@ -1914,23 +2042,86 @@ function disconnect() {
   document.getElementById('noWalletMsg').style.display = 'none';
 }
 
+// ── PROFILE CARD ─────────────────────────────────────────────────
+function toggleProfileCard(e) {
+  e.stopPropagation();
+  const card = document.getElementById('profileCard');
+  if (card.style.display === 'none' || card.style.display === '') {
+    updateProfileCardUI();
+    card.style.display = 'block';
+  } else {
+    card.style.display = 'none';
+  }
+}
+
+function closeProfileCard() {
+  const card = document.getElementById('profileCard');
+  if (card) card.style.display = 'none';
+}
+
+function updateProfileCardUI() {
+  const s = appState;
+  const live = s.mode === 'live';
+
+  // Address row
+  const fullAddr = s.walletAddress || null;
+  document.getElementById('pc-address').textContent =
+    fullAddr ? fullAddr.slice(0, 10) + '...' + fullAddr.slice(-6) : '—';
+  document.getElementById('pc-copy').style.display = fullAddr ? 'inline' : 'none';
+
+  // Connection type label
+  const connLabels = { evevault: '🌌 EVE Vault', metamask: '🦊 MetaMask', demo: 'Demo Mode' };
+  document.getElementById('pc-conn').textContent = connLabels[s.connectionType] || 'Not connected';
+
+  // Character / tribe / network
+  document.getElementById('pc-charid').textContent  = s.characterId || '—';
+  document.getElementById('pc-tribe').textContent   = s.tribeName   || '—';
+  document.getElementById('pc-network').textContent = s.network     || '—';
+
+  // Disconnect button vs demo note
+  document.getElementById('pc-disconnect-btn').style.display = live ? 'block' : 'none';
+  document.getElementById('pc-demo-note').style.display      = live ? 'none'  : 'block';
+}
+
+function copyWalletAddress(e) {
+  e.stopPropagation();
+  if (appState.walletAddress) {
+    navigator.clipboard.writeText(appState.walletAddress).then(() => {
+      showToast('COPIED', 'Wallet address copied to clipboard.', 'green', 2000);
+    }).catch(() => {
+      showToast('COPY FAILED', 'Could not access clipboard — copy manually.', 'red', 3000);
+    });
+  }
+}
+
+// Close profile card on any outside click
+document.addEventListener('click', () => closeProfileCard());
+
 // ── SYSTEM PROMPT ─────────────────────────────────────────────────
 function buildSystemPrompt() {
-  const name = pilotAddress ? pilotAddress.slice(0, 6) + '...' : 'Demo Pilot';
+  const s = appState;
+  const name     = s.walletAddress ? s.walletAddress.slice(0, 6) + '...' : s.pilotName;
+  const balance  = (s.luxBalance  && s.luxBalance  !== '—') ? `~${s.luxBalance}M (${s.luxDelta})`  : 'N/A';
+  const netWorth = (s.tribeNetWorth && s.tribeNetWorth !== '—') ? `${s.tribeNetWorth} LUX` : 'N/A';
+  const charId   = s.characterId || 'N/A';
+  const tribe    = s.tribeName   || 'N/A';
+  const mode     = s.mode === 'live' ? 'LIVE wallet connected' : 'Demo mode';
+
   return `You are the EveMBA Advisor — an AI business mentor embedded in a dashboard for EVE Frontier, a sci-fi blockchain sandbox game built on SUI. Your role is to teach real MBA concepts by connecting them directly to the player's in-game situation.
 
-Player: ${name}
-- LUX Balance: ~4.72M (+18.4% this week)
-- Tribe Net Worth: 31.8M LUX
+Player: ${name} [${mode}]
+- Character ID: ${charId}
+- Tribe: ${tribe}
+- LUX Balance: ${balance}
+- Tribe Net Worth: ${netWorth}
 - Active trades: 142 orders, 23 active
 - Risk Exposure: HIGH (3 vulnerable gate assets)
 - MBA tracks: Market Analysis 68%, Tribe Finance 41%, Strategy 25%, Supply Chain 12%, Diplomacy 5%, Risk Management 33%
-- Tribe: 6 members, flat hierarchy
 - Alliances: Friendly with House Solara, Neutral with The Concordat, Hostile with Void Cartel
 
 Rules:
 - Always connect your answer to a real MBA concept with its name in bold
-- Reference the player's actual numbers when relevant
+- Reference the player's actual numbers when relevant; use N/A fields honestly
 - Be concise — max 120 words unless asked for deep analysis
 - End responses with 1–2 concept tags like: 📚 CONCEPT NAME
 
@@ -1948,7 +2139,7 @@ async function sendMsg() {
   const typing = document.getElementById('typingIndicator');
   const sendBtn = document.getElementById('sendBtn');
 
-  const avatarInitials = pilotInitials || 'VK';
+  const avatarInitials = appState.pilotInitials || 'VK';
   const userMsg = document.createElement('div');
   userMsg.className = 'msg user';
   userMsg.innerHTML = `<div class="msg-avatar user">${avatarInitials}</div><div class="msg-bubble user">${escapeHtml(val)}</div>`;
@@ -2499,10 +2690,14 @@ function tickMarket() {
     if (el) { el.textContent = pctStr; el.className = pctClass; }
   });
 
-  // Tick LUX balance slightly
-  const currentLUX = parseFloat((document.getElementById('lux-value').textContent).replace('M',''));
-  const newLUX = (currentLUX + (Math.random() - 0.46) * 0.02).toFixed(2);
-  document.getElementById('lux-value').textContent = newLUX + 'M';
+  // Tick LUX balance slightly — demo mode only; skip if live wallet showing real/pending data
+  if (appState.mode === 'demo') {
+    const currentLUX = parseFloat((document.getElementById('lux-value').textContent).replace('M', ''));
+    if (!isNaN(currentLUX)) {
+      const newLUX = (currentLUX + (Math.random() - 0.46) * 0.02).toFixed(2);
+      document.getElementById('lux-value').textContent = newLUX + 'M';
+    }
+  }
 }
 
 // Demo feed messages mapped to MBA concept events for concept-tagging demo
