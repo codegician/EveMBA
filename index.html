@@ -605,7 +605,7 @@
   .vol-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--accent), #44ddff); }
   .vol-val { font-size: 10px; color: var(--text); width: 60px; text-align: right; }
 
-  /* ── ORG & CORP TAB ── */
+  /* ── ORG & TRIBE TAB ── */
   .org-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -964,7 +964,7 @@
       <button class="tab active" data-tab="dashboard" onclick="setTab(this)">Dashboard</button>
       <button class="tab" data-tab="curriculum" onclick="setTab(this)">Curriculum</button>
       <button class="tab" data-tab="markets" onclick="setTab(this)">Markets</button>
-      <button class="tab" data-tab="org" onclick="setTab(this)">Org &amp; Corp</button>
+      <button class="tab" data-tab="org" onclick="setTab(this)">Org &amp; Tribe</button>
       <button class="tab" data-tab="credentials" onclick="setTab(this)">Credentials</button>
     </nav>
   </div>
@@ -983,12 +983,12 @@
         <!-- METRICS -->
         <div class="metrics-row">
           <div class="metric-card green">
-            <div class="metric-label">ISK Balance</div>
-            <div class="metric-value green" id="isk-value">4.72M</div>
-            <div class="metric-delta delta-up" id="isk-delta">▲ +18.4% this week</div>
+            <div class="metric-label">LUX Balance</div>
+            <div class="metric-value green" id="lux-value">4.72M</div>
+            <div class="metric-delta delta-up" id="lux-delta">▲ +18.4% this week</div>
           </div>
           <div class="metric-card gold">
-            <div class="metric-label">Corp Net Worth</div>
+            <div class="metric-label">Tribe Net Worth</div>
             <div class="metric-value gold" id="corp-value">31.8M</div>
             <div class="metric-delta delta-up">▲ +6.1% this week</div>
           </div>
@@ -1032,7 +1032,7 @@
           <div class="concept-row">
             <span class="concept-pill" onclick="quickAsk(this)">Explain Supply Chain</span>
             <span class="concept-pill" onclick="quickAsk(this)">My Risk Profile</span>
-            <span class="concept-pill" onclick="quickAsk(this)">Corp Leadership Tips</span>
+            <span class="concept-pill" onclick="quickAsk(this)">Tribe Leadership Tips</span>
             <span class="concept-pill" onclick="quickAsk(this)">Market Opportunity</span>
           </div>
           <div class="chat-input-area">
@@ -1044,10 +1044,10 @@
         <!-- MARKET SPARK -->
         <div class="panel">
           <div class="panel-header">
-            <span class="panel-title">Market Intelligence — Tritanium Index</span>
+            <span class="panel-title">Market Intelligence — Carbon Weave Index</span>
             <span class="panel-badge badge-live">● LIVE</span>
           </div>
-          <div class="chart-label">Last 30 sessions · Current: <span id="trit-price" style="color:var(--accent)">4.87 ISK</span> · <span id="trit-delta" class="delta-up">▲ +2.1%</span></div>
+          <div class="chart-label">Last 30 sessions · Current: <span id="trit-price" style="color:var(--accent)">4.87 LUX</span> · <span id="trit-delta" class="delta-up">▲ +2.1%</span></div>
           <div class="chart-area">
             <svg class="sparkline" id="sparklineSvg" viewBox="0 0 600 120" preserveAspectRatio="none">
               <defs>
@@ -1087,9 +1087,9 @@
               <div class="track-progress-bar"><div class="track-progress-fill fill-gold" style="width:68%"></div></div>
               <div class="track-pct">68%</div>
             </div>
-            <div class="track-card" onclick="selectTrack('Corp Finance')">
+            <div class="track-card" onclick="selectTrack('Tribe Finance')">
               <span class="track-icon">💼</span>
-              <div class="track-name">Corp Finance</div>
+              <div class="track-name">Tribe Finance</div>
               <div class="track-progress-bar"><div class="track-progress-fill fill-blue" style="width:41%"></div></div>
               <div class="track-pct">41%</div>
             </div>
@@ -1139,7 +1139,7 @@
               <div class="cert-icon">🏅</div>
               <div class="cert-info">
                 <div class="cert-name">Founder's License</div>
-                <div class="cert-desc">Corp established · 3+ members · First contract</div>
+                <div class="cert-desc">Tribe established · 3+ members · First contract</div>
               </div>
               <div class="cert-status status-earned">EARNED</div>
             </div>
@@ -1147,7 +1147,7 @@
               <div class="cert-icon">🎖️</div>
               <div class="cert-info">
                 <div class="cert-name">Supply Chain Operator</div>
-                <div class="cert-desc">3 active trade routes · 500K ISK throughput</div>
+                <div class="cert-desc">3 active trade routes · 500K LUX throughput</div>
               </div>
               <div class="cert-status status-progress">68% →</div>
             </div>
@@ -1171,7 +1171,7 @@
           <div class="feed-list" id="activityFeed">
             <div class="feed-item">
               <div class="feed-dot dot-green"></div>
-              <div class="feed-text">Trade completed: 200x Tritanium → <strong>+12,400 ISK</strong></div>
+              <div class="feed-text">Trade completed: 200x Carbon Weave → <strong>+12,400 LUX</strong></div>
               <div class="feed-time">2m ago</div>
             </div>
             <div class="feed-item">
@@ -1181,7 +1181,7 @@
             </div>
             <div class="feed-item">
               <div class="feed-dot dot-gold"></div>
-              <div class="feed-text">Corp member joined: <strong>Rixa Dorn</strong> — assigned Supply role</div>
+              <div class="feed-text">Tribe member joined: <strong>Rixa Dorn</strong> — assigned Supply role</div>
               <div class="feed-time">1h ago</div>
             </div>
             <div class="feed-item">
@@ -1287,7 +1287,7 @@
           <div class="lesson-title" id="lessonTitle">Arbitrage &amp; Price Discovery</div>
           <div class="lesson-text" id="lessonText">
             <strong>Arbitrage</strong> is the simultaneous purchase and sale of an asset to profit from price differences in different markets. In finance, true arbitrage is "risk-free" — but in practice, execution risk, transport cost, and information lag all introduce risk.<br><br>
-            In EVE Frontier, when Tritanium prices diverge between Sector 7 and Sector 12, you have an arbitrage window. Your gate infrastructure is your execution mechanism — lower transit time = lower execution risk.
+            In EVE Frontier, when Carbon Weave prices diverge between Sector 7 and Sector 12, you have an arbitrage window. Your gate infrastructure is your execution mechanism — lower transit time = lower execution risk.
           </div>
           <div>
             <span class="lesson-tag">ARBITRAGE</span>
@@ -1324,7 +1324,7 @@
             <thead>
               <tr>
                 <th>Commodity</th>
-                <th>Price (ISK)</th>
+                <th>Price (LUX)</th>
                 <th>24h Change</th>
                 <th>Volume</th>
                 <th>Sector</th>
@@ -1332,35 +1332,35 @@
             </thead>
             <tbody id="priceTableBody">
               <tr>
-                <td><strong>Tritanium</strong></td>
+                <td><strong>Carbon Weave</strong></td>
                 <td id="trit-td">4.87</td>
                 <td class="price-up" id="trit-ch">▲ +2.1%</td>
                 <td>2.4M units</td>
                 <td>Sector 7</td>
               </tr>
               <tr>
-                <td><strong>Pyerite</strong></td>
+                <td><strong>Feldspar Crystals</strong></td>
                 <td id="pyer-td">12.34</td>
                 <td class="price-down" id="pyer-ch">▼ −1.8%</td>
                 <td>840K units</td>
                 <td>Sector 4</td>
               </tr>
               <tr>
-                <td><strong>Mexallon</strong></td>
+                <td><strong>Thermal Composites</strong></td>
                 <td id="mex-td">37.60</td>
                 <td class="price-up" id="mex-ch">▲ +5.3%</td>
                 <td>310K units</td>
                 <td>Sector 12</td>
               </tr>
               <tr>
-                <td><strong>Nocxium</strong></td>
+                <td><strong>Printed Circuits</strong></td>
                 <td id="noc-td">186.00</td>
                 <td class="price-flat" id="noc-ch">— 0.0%</td>
                 <td>92K units</td>
                 <td>Sector 2</td>
               </tr>
               <tr>
-                <td><strong>Zydrine</strong></td>
+                <td><strong>Building Foam</strong></td>
                 <td id="zyd-td">890.00</td>
                 <td class="price-down" id="zyd-ch">▼ −3.2%</td>
                 <td>18K units</td>
@@ -1373,10 +1373,10 @@
         <!-- MULTI-CHART -->
         <div class="panel">
           <div class="panel-header">
-            <span class="panel-title">Tritanium Price — Extended Chart</span>
+            <span class="panel-title">Carbon Weave Price — Extended Chart</span>
             <span class="panel-badge badge-live">30-DAY</span>
           </div>
-          <div class="chart-label">30-session history · <span style="color:var(--accent)" id="chart2-price">4.87 ISK</span></div>
+          <div class="chart-label">30-session history · <span style="color:var(--accent)" id="chart2-price">4.87 LUX</span></div>
           <div class="chart-area">
             <svg class="sparkline" id="sparkline2" viewBox="0 0 600 120" preserveAspectRatio="none">
               <defs>
@@ -1421,18 +1421,18 @@
           </div>
           <div style="padding:12px 16px;display:flex;flex-direction:column;gap:10px;">
             <div class="arb-card">
-              <div class="arb-title">🟢 HIGH YIELD · TRITANIUM</div>
-              <div class="arb-detail">Sector 7 → Sector 12<br>Buy: 4.87 ISK · Sell: 5.76 ISK</div>
+              <div class="arb-title">🟢 HIGH YIELD · CARBON WEAVE</div>
+              <div class="arb-detail">Sector 7 → Sector 12<br>Buy: 4.87 LUX · Sell: 5.76 LUX</div>
               <div class="arb-return">+18.3% spread</div>
             </div>
             <div class="arb-card">
-              <div class="arb-title">🟡 MODERATE · MEXALLON</div>
-              <div class="arb-detail">Sector 12 → Sector 4<br>Buy: 37.60 ISK · Sell: 43.20 ISK</div>
+              <div class="arb-title">🟡 MODERATE · THERMAL COMPOSITES</div>
+              <div class="arb-detail">Sector 12 → Sector 4<br>Buy: 37.60 LUX · Sell: 43.20 LUX</div>
               <div class="arb-return">+14.9% spread</div>
             </div>
             <div class="arb-card" style="border-color:rgba(255,64,96,0.2);background:rgba(255,64,96,0.04);">
-              <div class="arb-title" style="color:var(--red)">🔴 LOW MARGIN · PYERITE</div>
-              <div class="arb-detail">Sector 4 → Sector 9<br>Buy: 12.34 ISK · Sell: 13.10 ISK</div>
+              <div class="arb-title" style="color:var(--red)">🔴 LOW MARGIN · FELDSPAR CRYSTALS</div>
+              <div class="arb-detail">Sector 4 → Sector 9<br>Buy: 12.34 LUX · Sell: 13.10 LUX</div>
               <div class="arb-return" style="color:var(--red)">+6.2% spread</div>
             </div>
           </div>
@@ -1446,9 +1446,9 @@
           </div>
           <div style="padding:16px;font-size:11px;color:var(--text);line-height:1.8;">
             <strong style="color:var(--accent);">Market Conditions — Today</strong><br><br>
-            Tritanium is in an <em>uptrend</em> driven by construction demand in Sectors 7–9. Classic <strong>demand-pull pricing</strong>.<br><br>
-            Mexallon spike (+5.3%) suggests a supply shock — possibly a gate disruption cutting off Sector 12 production. Watch for mean-reversion within 48h.<br><br>
-            Zydrine decline (−3.2%) is secular — substitutes are gaining share. <strong>Porter's competitive threat</strong> in action.<br><br>
+            Carbon Weave is in an <em>uptrend</em> driven by construction demand in Sectors 7–9. Classic <strong>demand-pull pricing</strong>.<br><br>
+            Thermal Composites spike (+5.3%) suggests a supply shock — possibly a gate disruption cutting off Sector 12 production. Watch for mean-reversion within 48h.<br><br>
+            Building Foam decline (−3.2%) is secular — substitutes are gaining share. <strong>Porter's competitive threat</strong> in action.<br><br>
             <strong style="color:var(--gold);">MBA Concept:</strong> These price movements map to the <em>Efficient Market Hypothesis</em> (weak form) — historical prices are already priced in, but your gate access gives you an <em>information advantage</em> (semi-strong inefficiency).
           </div>
         </div>
@@ -1459,7 +1459,7 @@
 
 
   <!-- ══════════════════════════════════════════════════════════════ -->
-  <!-- ORG & CORP TAB -->
+  <!-- ORG & TRIBE TAB -->
   <!-- ══════════════════════════════════════════════════════════════ -->
   <div id="tab-org" class="tab-page">
     <div class="org-grid">
@@ -1469,7 +1469,7 @@
         <!-- ROSTER -->
         <div class="panel">
           <div class="panel-header">
-            <span class="panel-title">Corp Roster — Voss Industries</span>
+            <span class="panel-title">Tribe Roster — Voss Industries</span>
             <span class="panel-badge badge-gold">6 MEMBERS</span>
           </div>
           <div class="member-list">
@@ -1477,7 +1477,7 @@
               <div class="member-avatar">VK</div>
               <div class="member-info">
                 <div class="member-name">Voss Kaine</div>
-                <div class="member-role">CEO · Market Analyst · Risk Officer</div>
+                <div class="member-role">Tribe Leader · Market Analyst · Risk Officer</div>
               </div>
               <div class="member-status status-online">ONLINE</div>
             </div>
@@ -1533,15 +1533,15 @@
           <div>
             <div class="contract-item">
               <div class="contract-title"><span class="contract-badge badge-active">ACTIVE</span>Transit Rights — Gate Alpha-7</div>
-              <div class="contract-meta">Counterparty: House Solara · 50K ISK/week · Expires 14d</div>
+              <div class="contract-meta">Counterparty: House Solara · 50K LUX/week · Expires 14d</div>
             </div>
             <div class="contract-item">
-              <div class="contract-title"><span class="contract-badge badge-active">ACTIVE</span>Mineral Supply Agreement — Tritanium</div>
-              <div class="contract-meta">Counterparty: Fenris Mining Co. · 200K ISK/delivery · 3 remaining</div>
+              <div class="contract-title"><span class="contract-badge badge-active">ACTIVE</span>Mineral Supply Agreement — Carbon Weave</div>
+              <div class="contract-meta">Counterparty: Fenris Mining Co. · 200K LUX/delivery · 3 remaining</div>
             </div>
             <div class="contract-item">
               <div class="contract-title"><span class="contract-badge badge-pending">PENDING</span>Joint Venture — Sector 12 Gate</div>
-              <div class="contract-meta">Counterparty: Kiras Corp · Awaiting signature · Value: 2.1M ISK</div>
+              <div class="contract-meta">Counterparty: Kiras Corp · Awaiting signature · Value: 2.1M LUX</div>
             </div>
             <div class="contract-item">
               <div class="contract-title"><span class="contract-badge badge-pending">PENDING</span>Diplomatic Access — Neutral Zone</div>
@@ -1557,29 +1557,29 @@
         <!-- TREASURY -->
         <div class="panel">
           <div class="panel-header">
-            <span class="panel-title">Corp Treasury</span>
+            <span class="panel-title">Tribe Treasury</span>
             <span class="panel-badge badge-gold">FISCAL Q1</span>
           </div>
           <div>
             <div class="treasury-row">
-              <span class="treasury-label">Corp Wallet</span>
-              <span class="treasury-val" style="color:var(--green)">22.4M ISK</span>
+              <span class="treasury-label">Tribe Wallet</span>
+              <span class="treasury-val" style="color:var(--green)">22.4M LUX</span>
             </div>
             <div class="treasury-row">
               <span class="treasury-label">Infrastructure Book</span>
-              <span class="treasury-val">9.4M ISK</span>
+              <span class="treasury-val">9.4M LUX</span>
             </div>
             <div class="treasury-row">
               <span class="treasury-label">Reserve Fund</span>
-              <span class="treasury-val" style="color:var(--gold)">4.0M ISK</span>
+              <span class="treasury-val" style="color:var(--gold)">4.0M LUX</span>
             </div>
             <div class="treasury-row">
               <span class="treasury-label">Outstanding Payables</span>
-              <span class="treasury-val" style="color:var(--red)">−3.8M ISK</span>
+              <span class="treasury-val" style="color:var(--red)">−3.8M LUX</span>
             </div>
             <div class="treasury-row" style="border-bottom:none;">
-              <span class="treasury-label" style="color:var(--text);font-weight:bold;">Net Corp Worth</span>
-              <span class="treasury-val" style="color:var(--gold);font-size:18px;">31.8M ISK</span>
+              <span class="treasury-label" style="color:var(--text);font-weight:bold;">Net Tribe Worth</span>
+              <span class="treasury-val" style="color:var(--gold);font-size:18px;">31.8M LUX</span>
             </div>
           </div>
         </div>
@@ -1613,7 +1613,7 @@
             <span class="panel-badge badge-ai">● AI</span>
           </div>
           <div style="padding:16px;font-size:11px;color:var(--text);line-height:1.8;">
-            Your corp structure maps to a <strong>flat hierarchy</strong> — 6 members with functional specialization. This is optimal below 15 members (<em>Dunbar's number threshold</em>).<br><br>
+            Your tribe structure maps to a <strong>flat hierarchy</strong> — 6 members with functional specialization. This is optimal below 15 members (<em>Dunbar's number threshold</em>).<br><br>
             Key risk: single-point-of-failure in Supply Chain (only Rixa Dorn). MBA principle: <strong>bus factor</strong> — how many people need to leave before operations collapse?<br><br>
             <span style="color:var(--gold)">Recommendation:</span> Cross-train Nox Veylan in basic supply chain operations. Reduce key-person dependency before scaling.
           </div>
@@ -1661,9 +1661,9 @@
       <div class="cred-card">
         <span class="cred-nft">🔗</span>
         <div class="cred-title">Supply Chain Operator</div>
-        <div class="cred-desc">Establish 3 active trade routes and process 500K ISK in total throughput via your logistics network.</div>
+        <div class="cred-desc">Establish 3 active trade routes and process 500K LUX in total throughput via your logistics network.</div>
         <div class="cred-bar"><div class="cred-bar-fill fill-blue" style="width:68%"></div></div>
-        <div class="cred-pct" style="margin-bottom:8px;">68% — 160K ISK throughput remaining</div>
+        <div class="cred-pct" style="margin-bottom:8px;">68% — 160K LUX throughput remaining</div>
         <div class="cred-locked-label">IN PROGRESS</div>
       </div>
 
@@ -1866,12 +1866,12 @@ function initDashboard(address, isDemo) {
   // Update welcome message
   const name = address ? address.slice(0, 6) + '...' : 'Pilot';
   document.getElementById('welcomeMsg').innerHTML = `
-    Good to see you, ${name}. I've been watching your operations. You're growing your ISK balance well, but you're concentrated in a single trade route — that's a <strong>portfolio concentration risk</strong>.
+    Good to see you, ${name}. I've been watching your operations. You're growing your LUX balance well, but you're concentrated in a single trade route — that's a <strong>portfolio concentration risk</strong>.
     <br><br>
     In MBA terms, this is the same as holding 80% of your equity in one stock. Want me to walk you through how <em>diversification theory</em> applies to your current position?
     <br><br>
     <span class="msg-concept">📚 PORTFOLIO THEORY</span>
-    <span class="msg-concept">📊 RISK MANAGEMENT</span>`;
+    <span class="msg-concept">📊 RLUX MANAGEMENT</span>`;
 
   // Hide overlay with fade
   const overlay = document.getElementById('connectOverlay');
@@ -1920,12 +1920,12 @@ function buildSystemPrompt() {
   return `You are the EveMBA Advisor — an AI business mentor embedded in a dashboard for EVE Frontier, a sci-fi blockchain sandbox game built on SUI. Your role is to teach real MBA concepts by connecting them directly to the player's in-game situation.
 
 Player: ${name}
-- ISK Balance: ~4.72M (+18.4% this week)
-- Corp Net Worth: 31.8M ISK
+- LUX Balance: ~4.72M (+18.4% this week)
+- Tribe Net Worth: 31.8M LUX
 - Active trades: 142 orders, 23 active
 - Risk Exposure: HIGH (3 vulnerable gate assets)
-- MBA tracks: Market Analysis 68%, Corp Finance 41%, Strategy 25%, Supply Chain 12%, Diplomacy 5%, Risk Management 33%
-- Corp: 6 members, flat hierarchy
+- MBA tracks: Market Analysis 68%, Tribe Finance 41%, Strategy 25%, Supply Chain 12%, Diplomacy 5%, Risk Management 33%
+- Tribe: 6 members, flat hierarchy
 - Alliances: Friendly with House Solara, Neutral with The Concordat, Hostile with Void Cartel
 
 Rules:
@@ -1934,7 +1934,7 @@ Rules:
 - Be concise — max 120 words unless asked for deep analysis
 - End responses with 1–2 concept tags like: 📚 CONCEPT NAME
 
-EVE Frontier context: space sandbox with Smart Assemblies (programmable on-chain structures), player-driven economy, gates for inter-system travel, corps, and SUI blockchain credentials.`;
+EVE Frontier context: space sandbox with Smart Assemblies (programmable on-chain structures), player-driven economy, gates for inter-system travel, tribes, and SUI blockchain credentials.`;
 }
 
 // ── CHAT ──────────────────────────────────────────────────────────
@@ -2031,8 +2031,8 @@ function escapeHtml(s) {
 
 const fallbackResponses = [
   { text: "In supply chain terms, your gate network acts as your <em>logistics infrastructure</em>. Each gate is a distribution node — more nodes means more leverage over transit pricing. That's a <strong>natural monopoly</strong> dynamic, and it's your core competitive moat.", concepts: ["📚 SUPPLY CHAIN", "🏗️ NATURAL MONOPOLY"] },
-  { text: "Your risk profile is <strong>HIGH</strong> — three exposed assets, a concentrated trade route, minimal liquidity reserves. In MBA terms: 70% capacity utilization with no slack. Build a <em>risk buffer</em> before scaling — even 10% of net worth held liquid would shift you from HIGH to MODERATE.", concepts: ["⚠️ RISK ASSESSMENT", "📊 CAPACITY PLANNING"] },
-  { text: "The biggest corp leadership lever is <strong>incentive design</strong>. What makes your best members stay? In org theory this is <em>retention architecture</em> — revenue sharing on contracts, clear rank progression, and specialized roles matched to member strengths.", concepts: ["👥 ORG DESIGN", "📚 INCENTIVE THEORY"] },
+  { text: "Your risk profile is <strong>HIGH</strong> — three exposed assets, a concentrated trade route, minimal liquidity reserves. In MBA terms: 70% capacity utilization with no slack. Build a <em>risk buffer</em> before scaling — even 10% of net worth held liquid would shift you from HIGH to MODERATE.", concepts: ["⚠️ RLUX ASSESSMENT", "📊 CAPACITY PLANNING"] },
+  { text: "The biggest tribe leadership lever is <strong>incentive design</strong>. What makes your best members stay? In org theory this is <em>retention architecture</em> — revenue sharing on contracts, clear rank progression, and specialized roles matched to member strengths.", concepts: ["👥 ORG DESIGN", "📚 INCENTIVE THEORY"] },
   { text: "There's an emerging <strong>arbitrage opportunity</strong> in mineral transport between Sectors 7 and 12 — ~18% price delta. In finance, this is a <em>risk-free spread trade</em> if you secure the transit route. With 3 gate hops at ~12 min travel, net yield after fuel is 11–14%.", concepts: ["💰 ARBITRAGE", "📊 MARKET INEFFICIENCY"] }
 ];
 let fallbackIdx = 0;
@@ -2079,7 +2079,7 @@ const lessons = {
     badge: "MODULE 1 / 7",
     text: `<strong>Porter's Five Forces</strong> is a framework for analyzing the competitive forces that shape an industry. The five forces are: <em>rivalry among competitors</em>, <em>threat of new entrants</em>, <em>bargaining power of suppliers</em>, <em>bargaining power of buyers</em>, and <em>threat of substitutes</em>.<br><br>Together, these determine how profitable a market can be over the long run.`,
     tags: ["PORTER'S FRAMEWORK", "COMPETITIVE ANALYSIS", "INDUSTRY STRUCTURE"],
-    eve: `🚀 <strong>Your EVE Frontier application:</strong> In Sector 7, you face moderate rivalry (3 competing traders), low threat of new entrants (gate access is a barrier), and high supplier power from Fenris Mining Co. — they're your only Tritanium source. This is a <strong>concentrated supplier risk</strong>. Diversify your supply base.`
+    eve: `🚀 <strong>Your EVE Frontier application:</strong> In Sector 7, you face moderate rivalry (3 competing traders), low threat of new entrants (gate access is a barrier), and high supplier power from Fenris Mining Co. — they're your only Carbon Weave source. This is a <strong>concentrated supplier risk</strong>. Diversify your supply base.`
   },
   bcg: {
     title: "BCG Growth-Share Matrix",
@@ -2090,7 +2090,7 @@ const lessons = {
     <strong>Question Marks</strong> — high growth, low share (decide: invest or divest)<br>
     <strong>Dogs</strong> — low growth, low share (divest)`,
     tags: ["BCG MATRIX", "PORTFOLIO MANAGEMENT", "CAPITAL ALLOCATION"],
-    eve: `🚀 <strong>Your EVE Frontier application:</strong> Your Sector 7 Tritanium route = <strong>Cash Cow</strong>. Your Sector 12 mineral expansion = <strong>Star</strong> (high growth, invest!). Gate Alpha-3 with low traffic = <strong>Dog</strong> — consider decommissioning. Sector 9 Zydrine experiment = <strong>Question Mark</strong>.`
+    eve: `🚀 <strong>Your EVE Frontier application:</strong> Your Sector 7 Carbon Weave route = <strong>Cash Cow</strong>. Your Sector 12 mineral expansion = <strong>Star</strong> (high growth, invest!). Gate Alpha-3 with low traffic = <strong>Dog</strong> — consider decommissioning. Sector 9 Building Foam experiment = <strong>Question Mark</strong>.`
   },
   arbitrage: {
     title: "Arbitrage & Price Discovery",
@@ -2113,8 +2113,8 @@ const lessons = {
     badge: "MODULE 5 / 7",
     text: `<strong>Risk management</strong> is the process of identifying, assessing, and controlling threats to an organization's capital and earnings.<br><br>
     Key tools: <em>Value at Risk (VaR)</em> — maximum expected loss at a given confidence level; <em>hedging</em> — taking offsetting positions; <em>diversification</em> — spreading risk across uncorrelated assets; <em>scenario analysis</em> — stress-testing against extreme outcomes.`,
-    tags: ["RISK MANAGEMENT", "VALUE AT RISK", "PORTFOLIO HEDGING"],
-    eve: `🚀 <strong>Your EVE Frontier application:</strong> Your 3 undefended gate assets represent concentrated operational risk. Apply <strong>VaR thinking</strong>: if Void Cartel destroys Gate Alpha-7, you lose ~4M ISK (your worst-case 1-day loss). Your current reserve fund (4M ISK) is exactly at risk threshold — dangerously under-hedged.`
+    tags: ["RLUX MANAGEMENT", "VALUE AT RLUX", "PORTFOLIO HEDGING"],
+    eve: `🚀 <strong>Your EVE Frontier application:</strong> Your 3 undefended gate assets represent concentrated operational risk. Apply <strong>VaR thinking</strong>: if Void Cartel destroys Gate Alpha-7, you lose ~4M LUX (your worst-case 1-day loss). Your current reserve fund (4M LUX) is exactly at risk threshold — dangerously under-hedged.`
   }
 };
 
@@ -2143,7 +2143,7 @@ const MBA_CONCEPT_MAP = {
     lessonId:   'arbitrage',
     concepts:   ['SUPPLY & DEMAND', 'PRICE DISCOVERY'],
     feedColor:  'dot-green',
-    message:    (d) => `Trade completed${d.item ? ': ' + d.item : ''} → <strong>${d.isk || '+ISK'}</strong> · <em>Supply & Demand</em> lesson active`,
+    message:    (d) => `Trade completed${d.item ? ': ' + d.item : ''} → <strong>${d.lux || '+LUX'}</strong> · <em>Supply & Demand</em> lesson active`,
     toast:      (d) => ({ title: 'MBA TRIGGER — SUPPLY & DEMAND', body: `Your trade maps directly to <strong>price equilibrium theory</strong>. When demand exceeds supply, prices rise — you're capturing that spread.`, type: 'green' }),
   },
   ArbitrageOpportunity: {
@@ -2155,22 +2155,22 @@ const MBA_CONCEPT_MAP = {
     toast:      (d) => ({ title: 'MBA TRIGGER — ARBITRAGE', body: `Classic <strong>risk-adjusted arbitrage</strong>: price differences across markets create profit opportunities before equilibrium restores.`, type: 'green' }),
   },
 
-  // ── Corp & Org Events ─────────────────────────────────────────
-  CorpMemberJoined: {
+  // ── Tribe & Org Events ─────────────────────────────────────────
+  TribeMemberJoined: {
     framework:  'Organizational Theory',
     lessonId:   null,
     concepts:   ['ORG DESIGN', 'TEAM DYNAMICS'],
     feedColor:  'dot-gold',
-    message:    (d) => `Corp member joined: <strong>${d.name || 'New Pilot'}</strong> — org theory lesson triggered`,
+    message:    (d) => `Tribe member joined: <strong>${d.name || 'New Pilot'}</strong> — org theory lesson triggered`,
     toast:      (d) => ({ title: 'MBA TRIGGER — ORG THEORY', body: `New member = scaling inflection point. <strong>Dunbar's number</strong> (~150) defines the cognitive limit for cohesive org structure. Plan your hierarchy now.`, type: 'gold' }),
-    certProgress: { track: 'corp', delta: 5 },
+    certProgress: { track: 'tribe', delta: 5 },
   },
-  CorpMemberLeft: {
+  TribeMemberLeft: {
     framework:  'Retention & Incentive Design',
     lessonId:   null,
     concepts:   ['RETENTION ARCHITECTURE', 'INCENTIVE THEORY'],
     feedColor:  'dot-red',
-    message:    (d) => `Corp member departed: <strong>${d.name || 'Pilot'}</strong> — retention risk flag`,
+    message:    (d) => `Tribe member departed: <strong>${d.name || 'Pilot'}</strong> — retention risk flag`,
     toast:      (d) => ({ title: 'MBA TRIGGER — RETENTION', body: `Member attrition signals a gap in <strong>incentive design</strong>. Review role-fit and revenue-sharing structure to reduce churn.`, type: '' }),
   },
   ContractSigned: {
@@ -2178,7 +2178,7 @@ const MBA_CONCEPT_MAP = {
     lessonId:   null,
     concepts:   ['CONTRACT THEORY', 'PRINCIPAL-AGENT'],
     feedColor:  'dot-blue',
-    message:    (d) => `Contract signed: <strong>${d.counterparty || 'Counterparty'}</strong> · ${d.value || 'ISK value TBD'}`,
+    message:    (d) => `Contract signed: <strong>${d.counterparty || 'Counterparty'}</strong> · ${d.value || 'LUX value TBD'}`,
     toast:      (d) => ({ title: 'MBA TRIGGER — CONTRACT THEORY', body: `Contracts reduce <strong>information asymmetry</strong>. Each signed agreement is a formal alignment of incentives — the foundation of scalable commerce.`, type: 'blue' }),
   },
 
@@ -2186,10 +2186,10 @@ const MBA_CONCEPT_MAP = {
   RiskAlert: {
     framework:  'Risk Management',
     lessonId:   'riskmanagement',
-    concepts:   ['VALUE AT RISK', 'OPERATIONAL RISK'],
+    concepts:   ['VALUE AT RLUX', 'OPERATIONAL RLUX'],
     feedColor:  'dot-red',
     message:    (d) => `Risk alert: <strong>${d.asset || 'Asset'}</strong> exposed · VaR model triggered`,
-    toast:      (d) => ({ title: 'MBA TRIGGER — RISK MANAGEMENT', body: `Undefended assets = concentrated <strong>operational risk</strong>. VaR models quantify your maximum expected loss — currently at reserve threshold.`, type: 'red' }),
+    toast:      (d) => ({ title: 'MBA TRIGGER — RLUX MANAGEMENT', body: `Undefended assets = concentrated <strong>operational risk</strong>. VaR models quantify your maximum expected loss — currently at reserve threshold.`, type: 'red' }),
     certProgress: { track: 'risk', delta: 10 },
   },
   GateAttacked: {
@@ -2294,12 +2294,12 @@ const CERT_MILESTONES = {
     certId: 'cred-risk',
     certMessage: '🛡️ Risk Officer certification is now in progress!',
   },
-  corp: {
-    name: 'Corporate Director',
+  tribe: {
+    name: 'Tribe Director',
     target: 60,
     current: 28,
-    certId: 'cred-corp',
-    certMessage: '🏛️ Corporate Director track milestone reached!',
+    certId: 'cred-tribe',
+    certMessage: '🏛️ Tribe Director track milestone reached!',
   },
 };
 
@@ -2407,8 +2407,8 @@ async function pollEveEvents() {
       const typeMapping = {
         'TradeExecuted':      'TradeCompleted',
         'OrderFilled':        'TradeCompleted',
-        'MemberAdded':        'CorpMemberJoined',
-        'MemberRemoved':      'CorpMemberLeft',
+        'MemberAdded':        'TribeMemberJoined',
+        'MemberRemoved':      'TribeMemberLeft',
         'GateJump':           'ShipmentDelivered',
         'AssemblyOnline':     'RouteEstablished',
         'RiskThreshold':      'RiskAlert',
@@ -2499,21 +2499,21 @@ function tickMarket() {
     if (el) { el.textContent = pctStr; el.className = pctClass; }
   });
 
-  // Tick ISK balance slightly
-  const currentISK = parseFloat((document.getElementById('isk-value').textContent).replace('M',''));
-  const newISK = (currentISK + (Math.random() - 0.46) * 0.02).toFixed(2);
-  document.getElementById('isk-value').textContent = newISK + 'M';
+  // Tick LUX balance slightly
+  const currentLUX = parseFloat((document.getElementById('lux-value').textContent).replace('M',''));
+  const newLUX = (currentLUX + (Math.random() - 0.46) * 0.02).toFixed(2);
+  document.getElementById('lux-value').textContent = newLUX + 'M';
 }
 
 // Demo feed messages mapped to MBA concept events for concept-tagging demo
 const feedEventQueue = [
-  { type: 'TradeCompleted',        data: { item: 'Tritanium x200', isk: '+12,400 ISK' } },
+  { type: 'TradeCompleted',        data: { item: 'Carbon Weave x200', lux: '+12,400 LUX' } },
   { type: 'ArbitrageOpportunity',  data: { from: 'Sector 7', to: 'Sector 12', spread: '18.3%' } },
-  { type: 'CorpMemberJoined',      data: { name: 'Rixa Dorn' } },
+  { type: 'TribeMemberJoined',      data: { name: 'Rixa Dorn' } },
   { type: 'RiskAlert',             data: { asset: 'Gate Alpha-7 undefended' } },
-  { type: 'PriceSpike',            data: { commodity: 'Mexallon', pct: '5.3' } },
+  { type: 'PriceSpike',            data: { commodity: 'Thermal Composites', pct: '5.3' } },
   { type: 'ShipmentDelivered',     data: { route: 'Gate Alpha-7' } },
-  { type: 'ContractSigned',        data: { counterparty: 'House Solara', value: '50K ISK/week' } },
+  { type: 'ContractSigned',        data: { counterparty: 'House Solara', value: '50K LUX/week' } },
   { type: 'PorterForce',           data: { force: 'New entrant — Void Cartel expanding' } },
 ];
 let feedIdx = 0;
