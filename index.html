@@ -197,6 +197,7 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 16px;
+    align-items: start;
   }
 
   .metric-card {
@@ -223,7 +224,13 @@
   .metric-card.blue::before { background: linear-gradient(90deg, transparent, var(--accent), transparent); }
   .metric-card.red::before { background: linear-gradient(90deg, transparent, var(--red), transparent); }
 
-  .metric-label { font-size: 9px; color: var(--dim); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 8px; }
+  .metric-top { min-height: 82px; }
+  .metric-label {
+    font-size: 9px; color: var(--dim); letter-spacing: 0.15em; text-transform: uppercase;
+    margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; gap: 4px;
+  }
+  .metric-label-text { flex: 1; min-width: 0; }
+  .metric-caret { flex-shrink: 0; font-size: 8px; opacity: 0.6; }
   .metric-value { font-family: 'Orbitron', sans-serif; font-size: 22px; font-weight: 600; color: var(--text); line-height: 1; margin-bottom: 6px; }
   .metric-value.green { color: var(--green); }
   .metric-value.gold { color: var(--gold); }
@@ -986,9 +993,9 @@
   .metric-card { cursor: pointer; }
   .metric-expand {
     display: none;
-    padding: 14px 18px 16px;
+    padding: 12px 0 2px;
     border-top: 1px solid var(--border);
-    margin-top: 4px;
+    margin-top: 10px;
     animation: fadeSlideDown 0.2s ease;
   }
   .metric-expand.open { display: block; }
@@ -998,11 +1005,14 @@
   }
   .expand-row {
     display: flex; justify-content: space-between; align-items: center;
-    padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+    gap: 8px; padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
     font-size: 11px; color: var(--dim);
   }
   .expand-row:last-child { border-bottom: none; }
-  .expand-row span:last-child { color: var(--text); font-weight: 600; }
+  .expand-row > span:first-child {
+    flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .expand-row > span:last-child { flex-shrink: 0; color: var(--text); font-weight: 600; text-align: right; }
   .expand-row span.up { color: var(--green); }
   .expand-row span.down { color: var(--red); }
   .expand-row span.gold { color: var(--gold); }
@@ -1010,13 +1020,15 @@
     font-size: 9px; letter-spacing: 0.15em; color: var(--accent);
     text-transform: uppercase; margin: 10px 0 5px;
   }
-  .expand-bar-wrap { display: flex; align-items: center; gap: 8px; flex: 1; }
-  .expand-bar { flex:1; height: 4px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden; }
+  .expand-bar-wrap { display: flex; align-items: center; gap: 6px; flex: 1; min-width: 0; }
+  .expand-bar { flex:1; min-width: 20px; height: 4px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden; }
   .expand-bar-fill { height: 100%; border-radius: 2px; }
   .expand-bar-fill.green { background: var(--green); }
   .expand-bar-fill.gold  { background: var(--gold); }
   .expand-bar-fill.blue  { background: var(--accent); }
   .expand-bar-fill.red   { background: var(--red); }
+  /* Bar rows: label shrinks to leave room for bar + pct */
+  .expand-row > span:first-child + .expand-bar-wrap { max-width: 55%; }
 
   /* ══════════════════════════════════════════════════════
      RESPONSIVE — TABLET (≤ 900px)
@@ -1173,9 +1185,11 @@
         <!-- METRICS -->
         <div class="metrics-row">
           <div class="metric-card green" onclick="toggleMetric('lux')">
-            <div class="metric-label">LUX Balance ▾</div>
-            <div class="metric-value green" id="lux-value">4.72M</div>
-            <div class="metric-delta delta-up" id="lux-delta">▲ +18.4% this week</div>
+            <div class="metric-top">
+              <div class="metric-label"><span class="metric-label-text">LUX Balance</span><span class="metric-caret">▾</span></div>
+              <div class="metric-value green" id="lux-value">4.72M</div>
+              <div class="metric-delta delta-up" id="lux-delta">▲ +18.4% this week</div>
+            </div>
             <div class="metric-expand" id="metric-lux">
               <div class="expand-section-title">Recent Transactions</div>
               <div class="expand-row"><span>Carbon Weave sale</span><span class="up">+12,400</span></div>
@@ -1197,9 +1211,11 @@
             </div>
           </div>
           <div class="metric-card gold" onclick="toggleMetric('corp')">
-            <div class="metric-label">Tribe Net Worth ▾</div>
-            <div class="metric-value gold" id="corp-value">31.8M</div>
-            <div class="metric-delta delta-up">▲ +6.1% this week</div>
+            <div class="metric-top">
+              <div class="metric-label"><span class="metric-label-text">Tribe Net Worth</span><span class="metric-caret">▾</span></div>
+              <div class="metric-value gold" id="corp-value">31.8M</div>
+              <div class="metric-delta delta-up">▲ +6.1% this week</div>
+            </div>
             <div class="metric-expand" id="metric-corp">
               <div class="expand-section-title">Asset Breakdown</div>
               <div class="expand-row">
@@ -1224,9 +1240,11 @@
             </div>
           </div>
           <div class="metric-card blue" onclick="toggleMetric('vol')">
-            <div class="metric-label">Trade Volume ▾</div>
-            <div class="metric-value" id="vol-value">142</div>
-            <div class="metric-delta delta-up" id="vol-delta">▲ 23 orders active</div>
+            <div class="metric-top">
+              <div class="metric-label"><span class="metric-label-text">Trade Volume</span><span class="metric-caret">▾</span></div>
+              <div class="metric-value" id="vol-value">142</div>
+              <div class="metric-delta delta-up" id="vol-delta">▲ 23 orders active</div>
+            </div>
             <div class="metric-expand" id="metric-vol">
               <div class="expand-section-title">Active Routes</div>
               <div class="expand-row"><span>Carbon Weave → Sector 7</span><span class="up">Running</span></div>
@@ -1239,9 +1257,11 @@
             </div>
           </div>
           <div class="metric-card red" onclick="toggleMetric('risk')">
-            <div class="metric-label">Risk Exposure ▾</div>
-            <div class="metric-value" style="color:var(--red)">HIGH</div>
-            <div class="metric-delta delta-down">▼ 3 assets vulnerable</div>
+            <div class="metric-top">
+              <div class="metric-label"><span class="metric-label-text">Risk Exposure</span><span class="metric-caret">▾</span></div>
+              <div class="metric-value" style="color:var(--red)">HIGH</div>
+              <div class="metric-delta delta-down">▼ 3 assets vulnerable</div>
+            </div>
             <div class="metric-expand" id="metric-risk">
               <div class="expand-section-title">Vulnerable Assets</div>
               <div class="expand-row"><span>Smart Gate — Sector 7</span><span class="down">Undefended</span></div>
