@@ -563,6 +563,28 @@
   }
   .start-btn:hover { background: rgba(200,146,42,0.25); box-shadow: 0 0 20px rgba(200,146,42,0.18); }
 
+  /* ── CURRICULUM TRACK NAV ── */
+  .track-nav {
+    display: flex; gap: 8px; overflow-x: auto; padding: 20px 0 12px;
+    scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  }
+  .track-nav::-webkit-scrollbar { display: none; }
+  .track-nav-btn {
+    flex-shrink: 0;
+    display: flex; align-items: center; gap: 6px;
+    padding: 8px 14px;
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: 8px; cursor: pointer;
+    font-family: 'Orbitron', sans-serif; font-size: 9px; letter-spacing: 0.12em;
+    color: var(--muted); transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .track-nav-btn:hover { border-color: var(--accent); color: var(--text); }
+  .track-nav-btn.active { border-color: var(--gold); color: var(--gold); background: rgba(240,165,0,0.06); }
+  .track-nav-icon { font-size: 14px; }
+  .track-nav-pct { font-size: 8px; color: var(--dim); }
+  .track-nav-btn.active .track-nav-pct { color: var(--gold); }
+
   /* ── MARKETS TAB ── */
   .markets-grid {
     display: grid;
@@ -941,7 +963,100 @@
     font-size: 10px; font-family: 'Orbitron', sans-serif; letter-spacing: 0.1em; transition: background 0.2s;
   }
   .profile-disconnect-btn:hover { background: rgba(255,64,96,0.2); }
-  .profile-demo-note { text-align: center; font-size: 10px; color: var(--dim); padding: 4px 0; }
+  /* demo-mode profile card actions */
+  .profile-demo-actions { display: flex; flex-direction: column; gap: 6px; }
+  .profile-demo-hint { font-size: 10px; color: var(--dim); text-align: center; margin: 0 0 4px; letter-spacing: 0.03em; }
+  .profile-connect-wallet-btn {
+    width: 100%; background: rgba(26,98,181,0.15); border: 1px solid rgba(26,98,181,0.5);
+    color: var(--accent); cursor: pointer; padding: 9px; border-radius: 4px;
+    font-size: 10px; font-family: 'Orbitron', sans-serif; letter-spacing: 0.1em;
+    transition: background 0.2s;
+  }
+  .profile-connect-wallet-btn:hover { background: rgba(26,98,181,0.28); }
+  .profile-back-btn {
+    width: 100%; background: none; border: none; color: var(--dim); cursor: pointer;
+    padding: 5px; font-size: 10px; font-family: inherit; letter-spacing: 0.04em;
+    transition: color 0.2s;
+  }
+  .profile-back-btn:hover { color: var(--text); }
+
+  /* ══════════════════════════════════════════════════════
+     METRIC CARD EXPAND
+  ══════════════════════════════════════════════════════ */
+  .metric-card { cursor: pointer; }
+  .metric-expand {
+    display: none;
+    padding: 14px 18px 16px;
+    border-top: 1px solid var(--border);
+    margin-top: 4px;
+    animation: fadeSlideDown 0.2s ease;
+  }
+  .metric-expand.open { display: block; }
+  @keyframes fadeSlideDown {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .expand-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 11px; color: var(--dim);
+  }
+  .expand-row:last-child { border-bottom: none; }
+  .expand-row span:last-child { color: var(--text); font-weight: 600; }
+  .expand-row span.up { color: var(--green); }
+  .expand-row span.down { color: var(--red); }
+  .expand-row span.gold { color: var(--gold); }
+  .expand-section-title {
+    font-size: 9px; letter-spacing: 0.15em; color: var(--accent);
+    text-transform: uppercase; margin: 10px 0 5px;
+  }
+  .expand-bar-wrap { display: flex; align-items: center; gap: 8px; flex: 1; }
+  .expand-bar { flex:1; height: 4px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden; }
+  .expand-bar-fill { height: 100%; border-radius: 2px; }
+  .expand-bar-fill.green { background: var(--green); }
+  .expand-bar-fill.gold  { background: var(--gold); }
+  .expand-bar-fill.blue  { background: var(--accent); }
+  .expand-bar-fill.red   { background: var(--red); }
+
+  /* ══════════════════════════════════════════════════════
+     RESPONSIVE — TABLET (≤ 900px)
+  ══════════════════════════════════════════════════════ */
+  @media (max-width: 900px) {
+    .main-grid {
+      grid-template-columns: 1fr;
+      padding: 16px 0;
+    }
+    .right-col { order: -1; } /* feed/tracks/certs above left-col on tablet */
+    .metrics-row { grid-template-columns: repeat(2, 1fr); }
+    .curriculum-grid { grid-template-columns: 1fr; }
+    .lesson-panel { display: none; }
+    .logo-main { font-size: 20px; }
+    .logo-tag { display: none; }
+    nav { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+    nav::-webkit-scrollbar { display: none; }
+    .tab { white-space: nowrap; padding: 10px 14px; }
+    .pilot-info .pilot-rank { display: none; }
+  }
+
+  /* ══════════════════════════════════════════════════════
+     RESPONSIVE — MOBILE (≤ 640px)
+  ══════════════════════════════════════════════════════ */
+  @media (max-width: 640px) {
+    .container { padding: 0 12px; }
+    .header-inner { flex-wrap: wrap; gap: 10px; }
+    .logo-main { font-size: 17px; }
+    .metrics-row { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .metric-value { font-size: 17px; }
+    .track-grid { grid-template-columns: repeat(2, 1fr); }
+    .main-grid { gap: 14px; }
+    .panel-title { font-size: 9px; }
+    .chat-messages { max-height: 180px; }
+    .concept-row { flex-wrap: wrap; }
+    .pilot-badge { padding: 6px 10px; gap: 8px; }
+    .pilot-avatar { width: 30px; height: 30px; font-size: 11px; }
+    .pilot-name { font-size: 12px; }
+    .pilot-rank { font-size: 9px; }
+  }
 </style>
 </head>
 <body>
@@ -1027,7 +1142,11 @@
           </div>
           <hr class="profile-divider">
           <button class="profile-disconnect-btn" id="pc-disconnect-btn" onclick="disconnect(); closeProfileCard();" style="display:none">✕ DISCONNECT</button>
-          <div class="profile-demo-note" id="pc-demo-note" style="display:none">Demo mode — connect a wallet to unlock live data</div>
+          <div class="profile-demo-actions" id="pc-demo-actions" style="display:none">
+            <p class="profile-demo-hint">Demo mode — progress is not saved</p>
+            <button class="profile-connect-wallet-btn" onclick="showConnectOverlay()">🌌 Connect Wallet</button>
+            <button class="profile-back-btn" onclick="showConnectOverlay()">← Exit Demo</button>
+          </div>
         </div>
       </div>
     </div>
@@ -1053,25 +1172,86 @@
 
         <!-- METRICS -->
         <div class="metrics-row">
-          <div class="metric-card green">
-            <div class="metric-label">LUX Balance</div>
+          <div class="metric-card green" onclick="toggleMetric('lux')">
+            <div class="metric-label">LUX Balance ▾</div>
             <div class="metric-value green" id="lux-value">4.72M</div>
             <div class="metric-delta delta-up" id="lux-delta">▲ +18.4% this week</div>
+            <div class="metric-expand" id="metric-lux">
+              <div class="expand-section-title">Recent Transactions</div>
+              <div class="expand-row"><span>Carbon Weave sale</span><span class="up">+12,400</span></div>
+              <div class="expand-row"><span>Gate maintenance</span><span class="down">−3,200</span></div>
+              <div class="expand-row"><span>Tribe payroll</span><span class="down">−8,000</span></div>
+              <div class="expand-section-title">Income Breakdown</div>
+              <div class="expand-row">
+                <span>Trade revenue</span>
+                <div class="expand-bar-wrap"><div class="expand-bar"><div class="expand-bar-fill green" style="width:72%"></div></div><span class="up">72%</span></div>
+              </div>
+              <div class="expand-row">
+                <span>Gate tolls</span>
+                <div class="expand-bar-wrap"><div class="expand-bar"><div class="expand-bar-fill gold" style="width:19%"></div></div><span class="gold">19%</span></div>
+              </div>
+              <div class="expand-row">
+                <span>Contracts</span>
+                <div class="expand-bar-wrap"><div class="expand-bar"><div class="expand-bar-fill blue" style="width:9%"></div></div><span>9%</span></div>
+              </div>
+            </div>
           </div>
-          <div class="metric-card gold">
-            <div class="metric-label">Tribe Net Worth</div>
+          <div class="metric-card gold" onclick="toggleMetric('corp')">
+            <div class="metric-label">Tribe Net Worth ▾</div>
             <div class="metric-value gold" id="corp-value">31.8M</div>
             <div class="metric-delta delta-up">▲ +6.1% this week</div>
+            <div class="metric-expand" id="metric-corp">
+              <div class="expand-section-title">Asset Breakdown</div>
+              <div class="expand-row">
+                <span>Assemblies</span>
+                <div class="expand-bar-wrap"><div class="expand-bar"><div class="expand-bar-fill gold" style="width:44%"></div></div><span class="gold">14.0M</span></div>
+              </div>
+              <div class="expand-row">
+                <span>Trade reserves</span>
+                <div class="expand-bar-wrap"><div class="expand-bar"><div class="expand-bar-fill green" style="width:31%"></div></div><span class="up">9.9M</span></div>
+              </div>
+              <div class="expand-row">
+                <span>Liquid LUX</span>
+                <div class="expand-bar-wrap"><div class="expand-bar"><div class="expand-bar-fill blue" style="width:18%"></div></div><span>5.7M</span></div>
+              </div>
+              <div class="expand-row">
+                <span>Payables</span>
+                <div class="expand-bar-wrap"><div class="expand-bar"><div class="expand-bar-fill red" style="width:7%"></div></div><span class="down">−2.1M</span></div>
+              </div>
+              <div class="expand-section-title">Per-Member Share</div>
+              <div class="expand-row"><span>Members</span><span>7</span></div>
+              <div class="expand-row"><span>Avg share</span><span class="gold">4.54M LUX</span></div>
+            </div>
           </div>
-          <div class="metric-card blue">
-            <div class="metric-label">Trade Volume</div>
+          <div class="metric-card blue" onclick="toggleMetric('vol')">
+            <div class="metric-label">Trade Volume ▾</div>
             <div class="metric-value" id="vol-value">142</div>
             <div class="metric-delta delta-up" id="vol-delta">▲ 23 orders active</div>
+            <div class="metric-expand" id="metric-vol">
+              <div class="expand-section-title">Active Routes</div>
+              <div class="expand-row"><span>Carbon Weave → Sector 7</span><span class="up">Running</span></div>
+              <div class="expand-row"><span>Feldspar → Outpost Kain</span><span class="up">Running</span></div>
+              <div class="expand-row"><span>Printed Circuits → Hub</span><span class="gold">Partial</span></div>
+              <div class="expand-section-title">Order Stats</div>
+              <div class="expand-row"><span>Fill rate</span><span class="up">84%</span></div>
+              <div class="expand-row"><span>Top commodity</span><span class="gold">Carbon Weave</span></div>
+              <div class="expand-row"><span>Avg order size</span><span>6,200 LUX</span></div>
+            </div>
           </div>
-          <div class="metric-card red">
-            <div class="metric-label">Risk Exposure</div>
+          <div class="metric-card red" onclick="toggleMetric('risk')">
+            <div class="metric-label">Risk Exposure ▾</div>
             <div class="metric-value" style="color:var(--red)">HIGH</div>
             <div class="metric-delta delta-down">▼ 3 assets vulnerable</div>
+            <div class="metric-expand" id="metric-risk">
+              <div class="expand-section-title">Vulnerable Assets</div>
+              <div class="expand-row"><span>Smart Gate — Sector 7</span><span class="down">Undefended</span></div>
+              <div class="expand-row"><span>Storage Unit — Kain</span><span class="gold">Low guard</span></div>
+              <div class="expand-row"><span>Outpost Node — Fringe</span><span class="gold">Isolated</span></div>
+              <div class="expand-section-title">Threat Assessment</div>
+              <div class="expand-row"><span>Active threat actors</span><span class="down">2 hostile tribes</span></div>
+              <div class="expand-row"><span>Value at Risk (VaR)</span><span class="down">~4.1M LUX</span></div>
+              <div class="expand-row"><span>Recommended action</span><span class="gold">Reinforce gate</span></div>
+            </div>
           </div>
         </div>
 
@@ -1114,9 +1294,19 @@
 
         <!-- MARKET SPARK -->
         <div class="panel">
-          <div class="panel-header">
-            <span class="panel-title">Market Intelligence — Carbon Weave Index</span>
-            <span class="panel-badge badge-live">● LIVE</span>
+          <div class="panel-header" style="flex-wrap:wrap;gap:8px;">
+            <span class="panel-title" id="market-title">Market Intelligence — Carbon Weave Index</span>
+            <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
+              <select id="commoditySelect" onchange="switchCommodity(this.value)" style="background:rgba(0,0,0,0.4);border:1px solid var(--border);color:var(--text);font-size:10px;font-family:'Orbitron',sans-serif;letter-spacing:0.08em;padding:4px 8px;border-radius:4px;cursor:pointer;outline:none;">
+                <option value="carbon">Carbon Weave</option>
+                <option value="thermal">Thermal Composites</option>
+                <option value="feldspar">Feldspar Crystals</option>
+                <option value="circuits">Printed Circuits</option>
+                <option value="alloys">Reinforced Alloys</option>
+              </select>
+              <button onclick="switchTab('markets')" style="background:rgba(200,146,42,0.1);border:1px solid rgba(200,146,42,0.35);color:var(--gold);font-size:9px;font-family:'Orbitron',sans-serif;letter-spacing:0.1em;padding:4px 10px;border-radius:4px;cursor:pointer;white-space:nowrap;">→ MARKETS</button>
+              <span class="panel-badge badge-live">● LIVE</span>
+            </div>
           </div>
           <div class="chart-label">Last 30 sessions · Current: <span id="trit-price" style="color:var(--accent)">4.87 LUX</span> · <span id="trit-delta" class="delta-up">▲ +2.1%</span></div>
           <div class="chart-area">
@@ -1145,6 +1335,41 @@
 
       <div class="right-col">
 
+        <!-- LIVE ACTIVITY -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Live Activity Feed</span>
+            <span class="panel-badge badge-live">● LIVE</span>
+          </div>
+          <div class="feed-list" id="activityFeed">
+            <div class="feed-item">
+              <div class="feed-dot dot-green"></div>
+              <div class="feed-text">Trade completed: 200x Carbon Weave → <strong>+12,400 LUX</strong></div>
+              <div class="feed-time">2m ago</div>
+            </div>
+            <div class="feed-item">
+              <div class="feed-dot dot-blue"></div>
+              <div class="feed-text">Concept unlocked: <strong>Market Equilibrium</strong> applied to price shift</div>
+              <div class="feed-time">14m ago</div>
+            </div>
+            <div class="feed-item">
+              <div class="feed-dot dot-gold"></div>
+              <div class="feed-text">Tribe member joined: <strong>Rixa Dorn</strong> — assigned Supply role</div>
+              <div class="feed-time">1h ago</div>
+            </div>
+            <div class="feed-item">
+              <div class="feed-dot dot-red"></div>
+              <div class="feed-text">Risk alert: Gate asset undefended in hostile territory</div>
+              <div class="feed-time">2h ago</div>
+            </div>
+            <div class="feed-item">
+              <div class="feed-dot dot-blue"></div>
+              <div class="feed-text">MBA lesson triggered: <strong>Porter's Five Forces</strong> — competitive sector</div>
+              <div class="feed-time">3h ago</div>
+            </div>
+          </div>
+        </div>
+
         <!-- MBA TRACKS -->
         <div class="panel">
           <div class="panel-header">
@@ -1152,41 +1377,47 @@
             <span class="panel-badge badge-gold">7 TRACKS</span>
           </div>
           <div class="track-grid">
-            <div class="track-card active" onclick="selectTrack('Market Analysis')">
+            <div class="track-card active" onclick="selectTrack('markets')">
               <span class="track-icon">📈</span>
-              <div class="track-name">Market Analysis</div>
+              <div class="track-name">Markets & Trading</div>
               <div class="track-progress-bar"><div class="track-progress-fill fill-gold" style="width:68%"></div></div>
               <div class="track-pct">68%</div>
             </div>
-            <div class="track-card" onclick="selectTrack('Tribe Finance')">
+            <div class="track-card" onclick="selectTrack('finance')">
               <span class="track-icon">💼</span>
-              <div class="track-name">Tribe Finance</div>
+              <div class="track-name">Corp Finance</div>
               <div class="track-progress-bar"><div class="track-progress-fill fill-blue" style="width:41%"></div></div>
               <div class="track-pct">41%</div>
             </div>
-            <div class="track-card" onclick="selectTrack('Strategy')">
+            <div class="track-card" onclick="selectTrack('strategy')">
               <span class="track-icon">🚀</span>
               <div class="track-name">Strategy</div>
               <div class="track-progress-bar"><div class="track-progress-fill fill-green" style="width:25%"></div></div>
               <div class="track-pct">25%</div>
             </div>
-            <div class="track-card" onclick="selectTrack('Supply Chain')">
+            <div class="track-card" onclick="selectTrack('tokenomics')">
+              <span class="track-icon">🪙</span>
+              <div class="track-name">Tokenomics</div>
+              <div class="track-progress-bar"><div class="track-progress-fill fill-gold" style="width:15%"></div></div>
+              <div class="track-pct">15%</div>
+            </div>
+            <div class="track-card" onclick="selectTrack('supplychain')">
               <span class="track-icon">⛓️</span>
               <div class="track-name">Supply Chain</div>
               <div class="track-progress-bar"><div class="track-progress-fill fill-blue" style="width:12%"></div></div>
               <div class="track-pct">12%</div>
             </div>
-            <div class="track-card" onclick="selectTrack('Diplomacy')">
+            <div class="track-card" onclick="selectTrack('diplomacy')">
               <span class="track-icon">🌐</span>
               <div class="track-name">Diplomacy</div>
               <div class="track-progress-bar"><div class="track-progress-fill fill-gold" style="width:5%"></div></div>
               <div class="track-pct">5%</div>
             </div>
-            <div class="track-card" onclick="selectTrack('Risk Management')">
-              <span class="track-icon">⚠️</span>
-              <div class="track-name">Risk Mgmt</div>
-              <div class="track-progress-bar"><div class="track-progress-fill fill-green" style="width:33%"></div></div>
-              <div class="track-pct">33%</div>
+            <div class="track-card" onclick="selectTrack('entrepreneurship')">
+              <span class="track-icon">🛠️</span>
+              <div class="track-name">Builder Econ</div>
+              <div class="track-progress-bar"><div class="track-progress-fill fill-green" style="width:8%"></div></div>
+              <div class="track-pct">8%</div>
             </div>
           </div>
         </div>
@@ -1233,41 +1464,6 @@
           </div>
         </div>
 
-        <!-- LIVE ACTIVITY -->
-        <div class="panel">
-          <div class="panel-header">
-            <span class="panel-title">Live Activity Feed</span>
-            <span class="panel-badge badge-live">● LIVE</span>
-          </div>
-          <div class="feed-list" id="activityFeed">
-            <div class="feed-item">
-              <div class="feed-dot dot-green"></div>
-              <div class="feed-text">Trade completed: 200x Carbon Weave → <strong>+12,400 LUX</strong></div>
-              <div class="feed-time">2m ago</div>
-            </div>
-            <div class="feed-item">
-              <div class="feed-dot dot-blue"></div>
-              <div class="feed-text">Concept unlocked: <strong>Market Equilibrium</strong> applied to price shift</div>
-              <div class="feed-time">14m ago</div>
-            </div>
-            <div class="feed-item">
-              <div class="feed-dot dot-gold"></div>
-              <div class="feed-text">Tribe member joined: <strong>Rixa Dorn</strong> — assigned Supply role</div>
-              <div class="feed-time">1h ago</div>
-            </div>
-            <div class="feed-item">
-              <div class="feed-dot dot-red"></div>
-              <div class="feed-text">Risk alert: Gate asset undefended in hostile territory</div>
-              <div class="feed-time">2h ago</div>
-            </div>
-            <div class="feed-item">
-              <div class="feed-dot dot-blue"></div>
-              <div class="feed-text">MBA lesson triggered: <strong>Porter's Five Forces</strong> — competitive sector</div>
-              <div class="feed-time">3h ago</div>
-            </div>
-          </div>
-        </div>
-
       </div>
     </div>
   </div><!-- /dashboard -->
@@ -1277,99 +1473,25 @@
   <!-- CURRICULUM TAB -->
   <!-- ══════════════════════════════════════════════════════════════ -->
   <div id="tab-curriculum" class="tab-page">
+    <!-- Track navigation pills -->
+    <div class="track-nav" id="curriculumTrackNav"><!-- rendered by initCurriculum() --></div>
     <div class="curriculum-grid">
 
-      <div class="course-list">
-        <div class="panel" style="padding:16px 20px;margin-bottom:4px;">
-          <div style="font-family:'Orbitron',sans-serif;font-size:10px;letter-spacing:0.2em;color:var(--dim);margin-bottom:4px;">CURRENT TRACK</div>
-          <div style="font-family:'Orbitron',sans-serif;font-size:16px;color:var(--gold);">📈 Market Analysis</div>
-          <div style="font-size:10px;color:var(--dim);margin-top:4px;">7 modules · 68% complete · Est. 4h remaining</div>
-          <div class="track-progress-bar" style="margin-top:10px;height:5px;"><div class="track-progress-fill fill-gold" style="width:68%"></div></div>
-        </div>
-
-        <div class="course-card active-course" onclick="showLesson('porter')">
-          <div class="course-icon">⚔️</div>
-          <div class="course-info">
-            <div class="course-name">Porter's Five Forces</div>
-            <div class="course-desc">Analyze your sector's competitive dynamics — rivals, new entrants, substitutes, supplier power, buyer power.</div>
-            <div class="course-bar"><div class="course-bar-fill fill-gold" style="width:100%"></div></div>
-            <div class="course-meta">✓ COMPLETE · 45 min · Core module</div>
-          </div>
-        </div>
-
-        <div class="course-card" onclick="showLesson('bcg')">
-          <div class="course-icon">📊</div>
-          <div class="course-info">
-            <div class="course-name">BCG Matrix</div>
-            <div class="course-desc">Classify your trade routes and assets into Stars, Cash Cows, Question Marks, and Dogs.</div>
-            <div class="course-bar"><div class="course-bar-fill fill-gold" style="width:100%"></div></div>
-            <div class="course-meta">✓ COMPLETE · 30 min · Core module</div>
-          </div>
-        </div>
-
-        <div class="course-card" onclick="showLesson('arbitrage')">
-          <div class="course-icon">💰</div>
-          <div class="course-info">
-            <div class="course-name">Arbitrage &amp; Price Discovery</div>
-            <div class="course-desc">Exploit price differences across sectors. Risk-free spread trades, market microstructure, and information asymmetry.</div>
-            <div class="course-bar"><div class="course-bar-fill fill-blue" style="width:75%"></div></div>
-            <div class="course-meta">IN PROGRESS · 75% · 20 min remaining</div>
-          </div>
-        </div>
-
-        <div class="course-card" onclick="showLesson('supplychain')">
-          <div class="course-icon">⛓️</div>
-          <div class="course-info">
-            <div class="course-name">Supply Chain Theory</div>
-            <div class="course-desc">Node optimization, just-in-time logistics, bullwhip effect, and network resilience for your gate infrastructure.</div>
-            <div class="course-bar"><div class="course-bar-fill fill-blue" style="width:30%"></div></div>
-            <div class="course-meta">IN PROGRESS · 30% · 1h remaining</div>
-          </div>
-        </div>
-
-        <div class="course-card" style="opacity:0.6" onclick="showLesson('riskmanagement')">
-          <div class="course-icon">⚠️</div>
-          <div class="course-info">
-            <div class="course-name">Risk Management</div>
-            <div class="course-desc">VaR models, portfolio diversification, hedging strategies, and tail-risk planning for hostile space.</div>
-            <div class="course-bar"><div class="course-bar-fill fill-green" style="width:0%"></div></div>
-            <div class="course-meta">LOCKED · Requires 80% Market Analysis · 1.5h</div>
-          </div>
-        </div>
-
-        <div class="course-card" style="opacity:0.6">
-          <div class="course-icon">🏛️</div>
-          <div class="course-info">
-            <div class="course-name">Macroeconomics &amp; Frontier</div>
-            <div class="course-desc">How inflation, scarcity, and velocity of money manifest in EVE Frontier's closed-loop economy.</div>
-            <div class="course-bar"><div class="course-bar-fill fill-green" style="width:0%"></div></div>
-            <div class="course-meta">LOCKED · Advanced track · 2h</div>
-          </div>
-        </div>
-      </div>
+      <div class="course-list" id="courseList"><!-- rendered by renderTrack() --></div>
 
       <!-- LESSON PANEL -->
       <div class="lesson-panel" id="lessonPanel">
         <div class="panel-header">
           <span class="panel-title">Active Lesson</span>
-          <span class="panel-badge badge-gold" id="lessonBadge">MODULE 3 / 7</span>
+          <span class="panel-badge badge-gold" id="lessonBadge">SELECT A MODULE</span>
         </div>
         <div class="lesson-body" id="lessonBody">
-          <div class="lesson-title" id="lessonTitle">Arbitrage &amp; Price Discovery</div>
-          <div class="lesson-text" id="lessonText">
-            <strong>Arbitrage</strong> is the simultaneous purchase and sale of an asset to profit from price differences in different markets. In finance, true arbitrage is "risk-free" — but in practice, execution risk, transport cost, and information lag all introduce risk.<br><br>
-            In EVE Frontier, when Carbon Weave prices diverge between Sector 7 and Sector 12, you have an arbitrage window. Your gate infrastructure is your execution mechanism — lower transit time = lower execution risk.
-          </div>
-          <div>
-            <span class="lesson-tag">ARBITRAGE</span>
-            <span class="lesson-tag">PRICE DISCOVERY</span>
-            <span class="lesson-tag">MARKET MICROSTRUCTURE</span>
-          </div>
-          <hr class="lesson-divider">
-          <div class="lesson-eve" id="lessonEve">
-            🚀 <strong>Your EVE Frontier application:</strong> Current spread between Sector 7 and 12 is ~18% on mineral transit. With 3 gate hops and ~12 min travel, your net arbitrage yield is approximately <strong>11–14%</strong> after fuel costs. That's a strong risk-adjusted return if you can lock the route.
-          </div>
-          <button class="start-btn" onclick="continueModule()">▶ CONTINUE MODULE</button>
+          <div class="lesson-title" id="lessonTitle" style="color:var(--dim)">Choose a module to begin</div>
+          <div class="lesson-text" id="lessonText" style="color:var(--dim)">Select a track and click any module on the left to load the lesson content here.</div>
+          <div id="lessonTags"></div>
+          <hr class="lesson-divider" id="lessonDivider" style="display:none">
+          <div class="lesson-eve" id="lessonEve" style="display:none"></div>
+          <button class="start-btn" id="lessonBtn" onclick="continueModule()" style="display:none">▶ CONTINUE MODULE</button>
         </div>
       </div>
 
@@ -2059,6 +2181,21 @@ function closeProfileCard() {
   if (card) card.style.display = 'none';
 }
 
+// Returns to the connect overlay from demo mode (no state reset — user can re-enter demo)
+function showConnectOverlay() {
+  closeProfileCard();
+  const overlay = document.getElementById('connectOverlay');
+  overlay.style.display = 'flex';
+  overlay.style.opacity = '0';
+  setTimeout(() => { overlay.style.transition = 'opacity 0.4s'; overlay.style.opacity = '1'; }, 10);
+  document.getElementById('connectEveBtn').disabled = false;
+  document.getElementById('connectEveBtn').textContent = '🌌 Connect EVE Vault';
+  document.getElementById('connectMetaBtn').disabled = false;
+  document.getElementById('connectMetaBtn').textContent = '🦊 Connect MetaMask';
+  document.getElementById('connectError').textContent = '';
+  document.getElementById('noWalletMsg').style.display = 'none';
+}
+
 function updateProfileCardUI() {
   const s = appState;
   const live = s.mode === 'live';
@@ -2079,8 +2216,8 @@ function updateProfileCardUI() {
   document.getElementById('pc-network').textContent = s.network     || '—';
 
   // Disconnect button vs demo note
-  document.getElementById('pc-disconnect-btn').style.display = live ? 'block' : 'none';
-  document.getElementById('pc-demo-note').style.display      = live ? 'none'  : 'block';
+  document.getElementById('pc-disconnect-btn').style.display  = live ? 'block' : 'none';
+  document.getElementById('pc-demo-actions').style.display    = live ? 'none'  : 'block';
 }
 
 function copyWalletAddress(e) {
@@ -2216,13 +2353,48 @@ function quickAsk(el) {
   sendMsg();
 }
 
+/* ── MARKET INTELLIGENCE COMMODITY SWITCHER ── */
+const COMMODITY_DATA = {
+  carbon:   { name: 'Carbon Weave Index',       price: '4.87', delta: '+2.1%', up: true,  seed: 42 },
+  thermal:  { name: 'Thermal Composites Index', price: '11.20', delta: '+0.8%', up: true, seed: 77 },
+  feldspar: { name: 'Feldspar Crystals Index',  price: '2.31',  delta: '-1.4%', up: false, seed: 19 },
+  circuits: { name: 'Printed Circuits Index',   price: '18.65', delta: '+3.7%', up: true,  seed: 55 },
+  alloys:   { name: 'Reinforced Alloys Index',  price: '7.43',  delta: '-0.3%', up: false, seed: 33 },
+};
+function switchCommodity(key) {
+  const d = COMMODITY_DATA[key];
+  if (!d) return;
+  document.getElementById('market-title').textContent = 'Market Intelligence — ' + d.name;
+  document.getElementById('trit-price').textContent = d.price + ' LUX';
+  const deltaEl = document.getElementById('trit-delta');
+  deltaEl.textContent = (d.up ? '▲ ' : '▼ ') + d.delta;
+  deltaEl.className = d.up ? 'delta-up' : 'delta-down';
+  // Regenerate sparkline with seeded random walk
+  let sv = d.seed;
+  function seededRand() { sv = (sv * 1664525 + 1013904223) & 0xffffffff; return (sv >>> 0) / 0xffffffff; }
+  priceData.length = 0;
+  let v = 50 + seededRand() * 30;
+  for (let i = 0; i < 30; i++) { v = Math.max(5, Math.min(115, v + (seededRand() - 0.48) * 14)); priceData.push(v); }
+  if (typeof updateChart === 'function') updateChart();
+}
+
+/* ── METRIC CARD EXPAND ── */
+function toggleMetric(id) {
+  const panel = document.getElementById('metric-' + id);
+  if (!panel) return;
+  const isOpen = panel.classList.contains('open');
+  // close all first
+  document.querySelectorAll('.metric-expand.open').forEach(p => p.classList.remove('open'));
+  if (!isOpen) panel.classList.add('open');
+}
+
 function escapeHtml(s) {
   return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
 const fallbackResponses = [
   { text: "In supply chain terms, your gate network acts as your <em>logistics infrastructure</em>. Each gate is a distribution node — more nodes means more leverage over transit pricing. That's a <strong>natural monopoly</strong> dynamic, and it's your core competitive moat.", concepts: ["📚 SUPPLY CHAIN", "🏗️ NATURAL MONOPOLY"] },
-  { text: "Your risk profile is <strong>HIGH</strong> — three exposed assets, a concentrated trade route, minimal liquidity reserves. In MBA terms: 70% capacity utilization with no slack. Build a <em>risk buffer</em> before scaling — even 10% of net worth held liquid would shift you from HIGH to MODERATE.", concepts: ["⚠️ RLUX ASSESSMENT", "📊 CAPACITY PLANNING"] },
+  { text: "Your risk profile is <strong>HIGH</strong> — three exposed assets, a concentrated trade route, minimal liquidity reserves. In MBA terms: 70% capacity utilization with no slack. Build a <em>risk buffer</em> before scaling — even 10% of net worth held liquid would shift you from HIGH to MODERATE.", concepts: ["⚠️ RISK ASSESSMENT", "📊 CAPACITY PLANNING"] },
   { text: "The biggest tribe leadership lever is <strong>incentive design</strong>. What makes your best members stay? In org theory this is <em>retention architecture</em> — revenue sharing on contracts, clear rank progression, and specialized roles matched to member strengths.", concepts: ["👥 ORG DESIGN", "📚 INCENTIVE THEORY"] },
   { text: "There's an emerging <strong>arbitrage opportunity</strong> in mineral transport between Sectors 7 and 12 — ~18% price delta. In finance, this is a <em>risk-free spread trade</em> if you secure the transit route. With 3 gate hops at ~12 min travel, net yield after fuel is 11–14%.", concepts: ["💰 ARBITRAGE", "📊 MARKET INEFFICIENCY"] }
 ];
@@ -2251,8 +2423,468 @@ function continueModule() {
 }
 
 // ── TRACK CARD INTERACTION ────────────────────────────────────────
-function selectTrack(name) {
-  showToast('TRACK SELECTED', `Switched focus to <strong>${name}</strong>. Lessons and AI advisor context updated.`, 'blue');
+// ══════════════════════════════════════════════════════════════════
+// CURRICULUM — 7 TRACKS
+// ══════════════════════════════════════════════════════════════════
+const TRACKS = [
+  {
+    id: 'markets', icon: '📈', name: 'Markets & Trading', colorClass: 'fill-gold', progress: 68,
+    subtitle: 'Decentralized markets · Price discovery · Arbitrage theory',
+    est: '3h remaining', cert: '50 profitable trades + arbitrage demonstration',
+    modules: [
+      { id: 'supplydemand', icon: '📊', name: 'Supply & Demand', progress: 100,
+        desc: 'Price formation in player-driven economies, equilibrium mechanics, and what happens when developers impose no price floors.',
+        meta: '✓ COMPLETE · 30 min · Core',
+        lesson: { badge: 'MODULE 1 / 5',
+          text: `<strong>Supply and Demand</strong> is the foundation of every market. When supply exceeds demand, prices fall until equilibrium restores. When demand outpaces supply, prices rise.<br><br>In EVE Frontier, there are no developer-set price floors — prices emerge entirely from player behaviour. This makes the economy a perfect laboratory for observing raw market forces that most simulated markets obscure.`,
+          tags: ['SUPPLY & DEMAND', 'PRICE FORMATION', 'MARKET EQUILIBRIUM'],
+          eve: `🚀 <strong>Your EVE Frontier application:</strong> Carbon Weave prices spiked 31% last week because three major miners went offline simultaneously. This is a textbook supply shock. You captured +12,400 LUX by holding inventory — a classic <strong>inventory hedge</strong> against supply disruption.` }
+      },
+      { id: 'equilibrium', icon: '⚖️', name: 'Market Equilibrium', progress: 100,
+        desc: 'How prices converge toward equilibrium in decentralized markets, and how information asymmetry creates temporary advantages.',
+        meta: '✓ COMPLETE · 25 min · Core',
+        lesson: { badge: 'MODULE 2 / 5',
+          text: `<strong>Market equilibrium</strong> is the price at which quantity supplied equals quantity demanded. In real-world markets it's theoretical — prices constantly overshoot and undershoot as new information arrives.<br><br><em>Information asymmetry</em> — where one party knows more than another — is the source of most trading edge. The party with better information can exploit mispricings before the market corrects.`,
+          tags: ['MARKET EQUILIBRIUM', 'INFORMATION ASYMMETRY', 'PRICE CONVERGENCE'],
+          eve: `🚀 <strong>Your EVE Frontier application:</strong> You knew the Fenris Mining Co. outage before it hit public feeds — your gate network gave you early sight of reduced cargo flows. That's <strong>informational edge</strong>: the same advantage that makes proprietary data worth billions in real financial markets.` }
+      },
+      { id: 'arbitrage', icon: '💰', name: 'Arbitrage Theory', progress: 75,
+        desc: 'Exploit price differences across sectors. Risk-adjusted spreads, execution risk, and market microstructure.',
+        meta: 'IN PROGRESS · 75% · 20 min remaining',
+        lesson: { badge: 'MODULE 3 / 5',
+          text: `<strong>Arbitrage</strong> is the simultaneous purchase and sale of an asset to profit from a price difference across markets. Pure arbitrage is theoretically risk-free — but in practice, execution risk, transport costs, and information lag introduce real exposure.<br><br>The <em>law of one price</em> states that identical assets should trade at the same price in efficient markets. Arbitrage is the mechanism that enforces this law — and arbitrageurs profit in the process.`,
+          tags: ['ARBITRAGE', 'RISK-ADJUSTED RETURN', 'LAW OF ONE PRICE'],
+          eve: `🚀 <strong>Your EVE Frontier application:</strong> The current Sector 7→12 Carbon Weave spread is ~18%. With 3 gate hops and ~12 min transit, your net yield is approximately <strong>11–14%</strong> after fuel costs. That's a strong risk-adjusted return — but gate disruption risk is your execution exposure. Hedge by maintaining a backup route via Sector 4.` }
+      },
+      { id: 'pricediscovery', icon: '🔍', name: 'Price Discovery', progress: 0,
+        desc: 'How decentralized order books set prices, what order flow reveals about future price direction, and how to read market depth.',
+        meta: 'NEXT · 35 min',
+        lesson: { badge: 'MODULE 4 / 5',
+          text: `<strong>Price discovery</strong> is the process by which markets determine the fair value of an asset through the interaction of buyers and sellers. In traditional markets, centralised exchanges aggregate orders. In decentralised markets — like EVE Frontier's — price discovery happens across distributed nodes with latency and fragmentation.<br><br>Reading <em>order flow</em> (who is buying and selling, and at what size) gives insight into future price direction before it becomes visible in the price.`,
+          tags: ['PRICE DISCOVERY', 'ORDER FLOW', 'MARKET DEPTH'],
+          eve: `🚀 <strong>Your EVE Frontier application:</strong> Before your next large trade, check buy wall depth at your target price. If the buy wall is thin, your sell order will push the price down — that's <strong>market impact</strong>, the same concept used by institutional traders to size positions without moving the market against themselves.` }
+      },
+      { id: 'microstructure', icon: '🔬', name: 'Market Microstructure', progress: 0,
+        desc: 'Order types, bid-ask spreads, latency arbitrage, and the mechanics of decentralized exchange infrastructure.',
+        meta: 'LOCKED · Requires 80% completion · 40 min',
+        lesson: { badge: 'MODULE 5 / 5',
+          text: `<strong>Market microstructure</strong> examines how trading mechanisms — order types, matching engines, settlement systems — affect price formation and execution quality.<br><br>Key concepts: <em>bid-ask spread</em> (the transaction cost embedded in every trade), <em>latency</em> (speed advantage in order execution), <em>maker vs. taker</em> dynamics, and <em>fragmented liquidity</em> across multiple venues.`,
+          tags: ['MARKET MICROSTRUCTURE', 'BID-ASK SPREAD', 'EXECUTION QUALITY'],
+          eve: `🚀 <strong>Your EVE Frontier application:</strong> Your gate network creates a structural latency advantage — you receive price signals from Sector 12 faster than traders without gate access. This is the same edge that <strong>high-frequency trading firms</strong> pay billions to achieve through co-location. You built it with Smart Gates.` }
+      },
+    ]
+  },
+  {
+    id: 'finance', icon: '💼', name: 'Corporate Finance & Asset Management', colorClass: 'fill-blue', progress: 41,
+    subtitle: 'On-chain treasury · Capital allocation · Asset valuation',
+    est: '5h remaining', cert: 'Manage 10M+ LUX across 3 asset categories for 30 days',
+    modules: [
+      { id: 'capitalalloc', icon: '🏦', name: 'Capital Allocation', progress: 100,
+        desc: 'How to deploy LUX across competing opportunities — assemblies, trade reserves, liquidity pools — using return on capital frameworks.',
+        meta: '✓ COMPLETE · 40 min · Core',
+        lesson: { badge: 'MODULE 1 / 5',
+          text: `<strong>Capital allocation</strong> is arguably the most important skill in finance: deciding where to deploy scarce resources to maximise risk-adjusted returns. Every LUX you hold idle is an opportunity cost.<br><br>Frameworks: <em>Return on Invested Capital (ROIC)</em>, <em>Internal Rate of Return (IRR)</em>, and the <em>capital budgeting</em> process for evaluating new asset deployments.`,
+          tags: ['CAPITAL ALLOCATION', 'ROIC', 'IRR'],
+          eve: `🚀 <strong>Your EVE Frontier application:</strong> Your Smart Gate (14M LUX) earns toll revenue but is illiquid and exposed to destruction risk. Your trade reserves (9.9M LUX) earn ~18% annualised. That's a <strong>capital allocation decision</strong>: are gates better than liquid trading capital? Run the ROIC calculation before deploying more into infrastructure.` }
+      },
+      { id: 'bcgmatrix', icon: '🗃️', name: 'BCG Matrix', progress: 100,
+        desc: 'Classify your assets and trade routes into Stars, Cash Cows, Question Marks, and Dogs to prioritise capital deployment.',
+        meta: '✓ COMPLETE · 25 min · Core',
+        lesson: { badge: 'MODULE 2 / 5',
+          text: `The <strong>BCG Growth-Share Matrix</strong> classifies a portfolio's business units by market growth rate and relative market share:<br><br>
+          <strong>Stars</strong> — high growth, high share → invest heavily<br>
+          <strong>Cash Cows</strong> — low growth, high share → harvest profits<br>
+          <strong>Question Marks</strong> — high growth, low share → decide: invest or exit<br>
+          <strong>Dogs</strong> — low growth, low share → divest`,
+          tags: ['BCG MATRIX', 'PORTFOLIO MANAGEMENT', 'GROWTH-SHARE'],
+          eve: `🚀 <strong>Your EVE Frontier application:</strong> Sector 7 Carbon Weave route = <strong>Cash Cow</strong>. Sector 12 mineral expansion = <strong>Star</strong> (invest). Gate Alpha-3 with near-zero traffic = <strong>Dog</strong> — decommission and redeploy that capital. Building Foam experiment in Sector 9 = <strong>Question Mark</strong> — need more data before committing.` }
+      },
+      { id: 'portfolio', icon: '📐', name: 'Portfolio Theory', progress: 30,
+        desc: 'Diversification, correlation, and how to construct a multi-asset position that maximises expected return for a given risk level.',
+        meta: 'IN PROGRESS · 30% · 50 min remaining',
+        lesson: { badge: 'MODULE 3 / 5',
+          text: `<strong>Modern Portfolio Theory (MPT)</strong>, developed by Harry Markowitz, shows that diversification reduces risk without proportionally reducing return — if assets are not perfectly correlated.<br><br>The <em>efficient frontier</em> is the set of portfolios that offer the highest expected return for a given level of risk. Every point below it is sub-optimal: you're taking more risk than necessary.`,
+          tags: ['PORTFOLIO THEORY', 'DIVERSIFICATION', 'EFFICIENT FRONTIER'],
+          eve: `🚀 <strong>Your EVE Frontier application:</strong> Your holdings are ~70% correlated — most assets are carbon-weave-linked. A hostile action against your Sector 7 supply chain would crater your entire portfolio simultaneously. Adding Feldspar exposure in Sector 4 would reduce your <strong>asset correlation</strong> and improve your risk-adjusted frontier.` }
+      },
+      { id: 'treasury', icon: '🏛️', name: 'Treasury Management', progress: 0,
+        desc: 'Managing Tribe LUX reserves, liquidity buffers, and cash flow forecasting for operational continuity.',
+        meta: 'NEXT · 45 min',
+        lesson: { badge: 'MODULE 4 / 5',
+          text: `<strong>Treasury management</strong> covers an organisation's management of its liquid assets, cash flow, and short-term financing. The three core functions: <em>liquidity management</em> (always having enough to operate), <em>investment management</em> (earning returns on reserves), and <em>risk management</em> (hedging against adverse moves).<br><br>The golden rule: maintain a <em>liquidity buffer</em> equal to at least 3 months of operating expenses.`,
+          tags: ['TREASURY MANAGEMENT', 'LIQUIDITY BUFFER', 'CASH FLOW'],
+          eve: `🚀 <strong>Your EVE Frontier application:</strong> Your current liquid reserves (5.7M LUX) cover ~18 days of Tribe operations at current burn. That's below the 3-month threshold. Before your next Smart Assembly deployment, <strong>top up reserves to 15M LUX</strong> — or a single bad week could force you to liquidate productive assets at unfavourable prices.` }
+      },
+      { id: 'valuation', icon: '💎', name: 'Asset Valuation', progress: 0,
+        desc: 'Valuing on-chain assets — Smart Assemblies, gate infrastructure, and LUX-generating routes — using DCF and comparables.',
+        meta: 'LOCKED · Requires 80% completion · 1h',
+        lesson: { badge: 'MODULE 5 / 5',
+          text: `<strong>Asset valuation</strong> determines what something is worth based on its future cash flows. <em>Discounted Cash Flow (DCF)</em> analysis takes projected future revenues, discounts them back at an appropriate rate, and produces a present value.<br><br>Key inputs: <em>projected cash flows</em>, <em>discount rate</em> (cost of capital), and <em>terminal value</em> (value beyond the explicit forecast period).`,
+          tags: ['ASSET VALUATION', 'DCF ANALYSIS', 'TERMINAL VALUE'],
+          eve: `🚀 <strong>Your EVE Frontier application:</strong> Your Smart Gate generates ~800K LUX/month in tolls. At a 15% discount rate (appropriate given destruction risk), and assuming 12-month life, the gate's DCF value is approximately <strong>5.5M LUX</strong>. You paid 3M to build it — that's a 1.83x multiple, a strong Web3 infrastructure ROI.` }
+      },
+    ]
+  },
+  {
+    id: 'strategy', icon: '🚀', name: 'Strategic Management & Empire Building', colorClass: 'fill-green', progress: 25,
+    subtitle: 'Competitive positioning · Territory · Empire strategy',
+    est: '6h remaining', cert: 'Control 2+ systems · Establish dominance in one market category',
+    modules: [
+      { id: 'porter', icon: '⚔️', name: "Porter's Five Forces", progress: 100,
+        desc: "Analyze your sector's competitive dynamics — rivals, new entrants, substitutes, supplier power, buyer power.",
+        meta: '✓ COMPLETE · 45 min · Core',
+        lesson: { badge: 'MODULE 1 / 5',
+          text: `<strong>Porter's Five Forces</strong> is a framework for analysing the competitive intensity of an industry and its profit potential. The five forces:<br><br>
+          <strong>Rivalry</strong> — How fierce is competition among existing players?<br>
+          <strong>New Entrants</strong> — How easy is it for new competitors to enter?<br>
+          <strong>Substitutes</strong> — Are there alternative products that limit pricing power?<br>
+          <strong>Supplier Power</strong> — How much leverage do suppliers have?<br>
+          <strong>Buyer Power</strong> — How much leverage do customers have?`,
+          tags: ["PORTER'S FIVE FORCES", 'COMPETITIVE ANALYSIS', 'INDUSTRY STRUCTURE'],
+          eve: `🚀 <strong>Your EVE Frontier application:</strong> Sector 7 analysis: Rivalry = moderate (3 traders). New entrants = low (gate access is a hard barrier). Supplier power = HIGH — Fenris Mining is your sole Carbon Weave source. Buyer power = moderate. The critical action: <strong>diversify your supply base</strong> before Fenris exploits their leverage.` }
+      },
+      { id: 'blueocean', icon: '🌊', name: 'Blue Ocean Strategy', progress: 50,
+        desc: 'Create uncontested market space instead of competing in crowded sectors. Find the frontier no one else has claimed yet.',
+        meta: 'IN PROGRESS · 50% · 30 min remaining',
+        lesson: { badge: 'MODULE 2 / 5',
+          text: `<strong>Blue Ocean Strategy</strong> (Kim & Mauborgne) argues that lasting success comes not from beating competitors in existing markets ("red oceans"), but from creating new market space ("blue oceans") where competition is irrelevant.<br><br>The <em>Value Innovation</em> framework: simultaneously pursue differentiation AND lower cost by eliminating and reducing factors the industry takes for granted while raising and creating factors the market has never offered.`,
+          tags: ['BLUE OCEAN STRATEGY', 'VALUE INNOVATION', 'MARKET CREATION'],
+          eve: `🚀 <strong>Your EVE Frontier application:</strong> Instead of competing in the saturated Carbon Weave market, consider what no one has built yet — a <strong>Smart Assembly rental market</strong>. Smaller players need assembly access but can't afford to build. You have the infrastructure. That's a blue ocean: uncontested, high-margin, and hard to replicate quickly.` }
+      },
+      { id: 'firstmover', icon: '🥇', name: 'First-Mover Advantage', progress: 0,
+        desc: 'When being first creates durable advantage — and when fast followers win instead. Territory and network effects in EVE Frontier.',
+        meta: 'NEXT · 30 min',
+        lesson: { badge: 'MODULE 3 / 5',
+          text: `<strong>First-mover advantage</strong> exists when being first to a market creates durable competitive advantages: network effects, switching costs, resource pre-emption, or reputation. However, <em>fast followers</em> often win by learning from pioneers' mistakes while avoiding their costs.<br><br>The key question: is the advantage from being first <em>durable</em> (network effects, resource lock-up) or <em>temporary</em> (easily imitated)?`,
+          tags: ['FIRST-MOVER ADVANTAGE', 'NETWORK EFFECTS', 'FAST FOLLOWER'],
+          eve: `🚀 <strong>Your EVE Frontier application:</strong> Your gate network in Sector 7 is a first-mover resource lock-up — you physically control transit. That's durable. But your Carbon Weave trade route has no lock-up: any pilot with capital can replicate it. Focus defensive strategy on your <strong>gate infrastructure moat</strong>, not your trade routes.` }
+      },
+      { id: 'swot', icon: '🗺️', name: 'SWOT Analysis', progress: 0,
+        desc: 'Map your Strengths, Weaknesses, Opportunities, and Threats to create an honest strategic picture of your empire.',
+        meta: 'NEXT · 25 min',
+        lesson: { badge: 'MODULE 4 / 5',
+          text: `<strong>SWOT Analysis</strong> is a strategic planning framework that maps an organisation's internal factors (Strengths, Weaknesses) and external factors (Opportunities, Threats). It's most useful when used to generate <em>strategic options</em> — SO strategies (use strengths to capture opportunities), ST strategies (use strengths to mitigate threats), WO strategies (overcome weaknesses to reach opportunities), WT strategies (defensive: minimise weaknesses and avoid threats).`,
+          tags: ['SWOT ANALYSIS', 'STRATEGIC OPTIONS', 'COMPETITIVE POSITION'],
+          eve: `🚀 <strong>Your EVE Frontier application:</strong> Your SWOT: <strong>S</strong> = gate infrastructure moat, market intelligence network. <strong>W</strong> = single supplier dependency (Fenris), thin liquidity buffer. <strong>O</strong> = Sector 12 expansion, Assembly rental market. <strong>T</strong> = Void Cartel expansion, Carbon Weave price volatility. The SO strategy: use your gate moat to lock in Sector 12 before Void Cartel gets there.` }
+      },
+      { id: 'moat', icon: '🏰', name: 'Competitive Moats', progress: 0,
+        desc: 'Identify and build sustainable competitive advantages — what protects your empire from imitation over the long run.',
+        meta: 'LOCKED · Requires 80% completion · 40 min',
+        lesson: { badge: 'MODULE 5 / 5',
+          text: `A <strong>competitive moat</strong> is a durable advantage that protects a business from competition. Warren Buffett's five moat types: <em>network effects</em> (value grows with users), <em>cost advantages</em> (structurally lower costs), <em>intangible assets</em> (brands, patents), <em>switching costs</em> (painful to leave), and <em>efficient scale</em> (market too small for a second competitor).<br><br>The most powerful moats stack multiple types simultaneously.`,
+          tags: ['COMPETITIVE MOAT', 'NETWORK EFFECTS', 'SWITCHING COSTS'],
+          eve: `🚀 <strong>Your EVE Frontier application:</strong> Your gate network has two stacking moats: <strong>network effects</strong> (more gates = more value for all users) and <strong>switching costs</strong> (pilots who route through your gates build dependency on your routes). This is the same moat structure that makes toll infrastructure so valuable in the real economy — and why your empire should prioritise gate expansion over trade volume.` }
+      },
+    ]
+  },
+  {
+    id: 'tokenomics', icon: '🪙', name: 'Tokenomics & Decentralized Economics', colorClass: 'fill-gold', progress: 15,
+    subtitle: 'Token design · Monetary theory · Incentive architecture',
+    est: '7h remaining', cert: 'Design & deploy a custom currency used by 3+ players',
+    modules: [
+      { id: 'monetarytheory', icon: '🏦', name: 'Monetary Theory', progress: 100,
+        desc: 'How money gets its value, velocity of money, inflation mechanics, and what happens when anyone can create currency.',
+        meta: '✓ COMPLETE · 35 min · Core',
+        lesson: { badge: 'MODULE 1 / 5',
+          text: `<strong>Monetary theory</strong> examines the role of money in an economy. The key properties of sound money: <em>medium of exchange</em>, <em>store of value</em>, <em>unit of account</em>. The <em>quantity theory of money</em> (MV = PQ) says that money supply × velocity = price level × output.<br><br>When anyone can issue currency (as in EVE Frontier or crypto), the challenge shifts from "what is money?" to "what gives this specific money value?" The answer: credible backing, network adoption, and liquidity.`,
+          tags: ['MONETARY THEORY', 'VELOCITY OF MONEY', 'CURRENCY DESIGN'],
+          eve: `🚀 <strong>Your EVE Frontier application:</strong> LUX is the base currency — it has network effects (everyone uses it) and functional backing (required for Sui gas). A custom Tribe token you issue has neither by default. To give it value, you need to create <strong>forced demand</strong>: make it required to access your Smart Gate network, pay for Assembly slots, or receive dividends from Tribe revenues.` }
+      },
+      { id: 'tokendesign', icon: '🎨', name: 'Token Design', progress: 0,
+        desc: 'Design tokenomics: supply schedules, distribution mechanisms, utility drivers, and avoiding death spiral dynamics.',
+        meta: 'NEXT · 50 min',
+        lesson: { badge: 'MODULE 2 / 5',
+          text: `<strong>Token design</strong> determines whether a custom currency creates lasting value or collapses into zero. Key design decisions:<br><br>
+          <em>Supply schedule</em> — fixed, inflationary, or deflationary?<br>
+          <em>Distribution</em> — who gets tokens initially, and on what terms?<br>
+          <em>Utility</em> — what creates genuine demand to hold the token?<br>
+          <em>Governance</em> — what decisions can token holders influence?<br><br>
+          The <em>death spiral</em> pattern: token falls in price → holders sell → price falls further → utility collapses. Avoided by building durable utility demand.`,
+          tags: ['TOKEN DESIGN', 'TOKENOMICS', 'SUPPLY SCHEDULE'],
+          eve: `🚀 <strong>Your EVE Frontier application:</strong> If you launch a Tribe token, build utility first — require it for gate access, stake it for Assembly priority, distribute it as profit-share. That's your <strong>demand floor</strong>. Set a fixed max supply (scarcity) and distribute 40% to early contributors, hold 30% in Treasury, reward 30% to active participants. That's a credible tokenomics structure.` }
+      },
+      { id: 'networkeffects', icon: '🕸️', name: 'Network Effects', progress: 0,
+        desc: 'How value scales with users, the cold-start problem, and designing for network effect flywheel dynamics.',
+        meta: 'NEXT · 35 min',
+        lesson: { badge: 'MODULE 3 / 5',
+          text: `<strong>Network effects</strong> occur when a product or service becomes more valuable as more people use it. Metcalfe's Law says network value scales with the square of users.<br><br>Types: <em>direct network effects</em> (more users directly = more value), <em>indirect network effects</em> (more users attract more complementary services), and <em>data network effects</em> (more usage generates better data = better product).<br><br>The <em>cold-start problem</em>: new networks have zero value with zero users, making early adoption impossible without artificial seeding.`,
+          tags: ['NETWORK EFFECTS', "METCALFE'S LAW", 'FLYWHEEL'],
+          eve: `🚀 <strong>Your EVE Frontier application:</strong> Your gate network has strong indirect network effects — more gates attract more traders, which attracts more gate tolls, which funds more gates. That's a flywheel. But you have a cold-start problem in new sectors: subsidise early pilots with free or discounted gate access to seed the network before charging market rates.` }
+      },
+      { id: 'incentivearch', icon: '🎯', name: 'Incentive Architecture', progress: 0,
+        desc: 'Design incentive systems that align individual behaviour with collective outcomes — the foundation of all working economies.',
+        meta: 'NEXT · 40 min',
+        lesson: { badge: 'MODULE 4 / 5',
+          text: `<strong>Incentive architecture</strong> is the design of reward and penalty structures that align individual rational behaviour with desired collective outcomes. <em>Principal-agent theory</em> shows that when the principal (owner) and agent (operator) have different incentives, agents act in their own interest, not the principal's.<br><br>In token economies, this is solved through <em>skin in the game</em> — making agents hold tokens so their interests align with network health.`,
+          tags: ['INCENTIVE ARCHITECTURE', 'PRINCIPAL-AGENT', 'MECHANISM DESIGN'],
+          eve: `🚀 <strong>Your EVE Frontier application:</strong> Your Tribe members are agents. If they're paid flat LUX regardless of Tribe performance, their incentive is to minimise effort. If they hold Tribe tokens that appreciate with Tribe success, they behave like owners. The fix: <strong>convert flat salaries to revenue share + token grants</strong>. Align agent incentives with your principal goals.` }
+      },
+      { id: 'veloofmoney', icon: '🌀', name: 'Velocity of Money', progress: 0,
+        desc: 'How quickly money circulates through an economy, what determines velocity, and how to design for healthy monetary circulation.',
+        meta: 'LOCKED · Requires 80% completion · 30 min',
+        lesson: { badge: 'MODULE 5 / 5',
+          text: `<strong>Velocity of money</strong> measures how frequently a unit of currency is used in transactions over a period. High velocity = active economy. Low velocity = hoarding, deflation, economic stagnation.<br><br>In crypto economies, token velocity is a critical design variable: if your token is too good a store of value, people hold it instead of spending it, which collapses utility. If it has no holding incentive, people dump immediately, collapsing price. The optimal design creates <em>deliberate friction</em> between holding and spending.`,
+          tags: ['VELOCITY OF MONEY', 'MONETARY CIRCULATION', 'TOKEN ECONOMICS'],
+          eve: `🚀 <strong>Your EVE Frontier application:</strong> If you design a Tribe token with 5% staking rewards, you incentivise holding (lower velocity, higher price). If Assembly fees can only be paid in Tribe tokens, you create forced spending (higher velocity, more utility). Balance these forces — you want velocity high enough to prove utility, but low enough to maintain price appreciation.` }
+      },
+    ]
+  },
+  {
+    id: 'supplychain', icon: '⛓️', name: 'Supply Chain & Operations', colorClass: 'fill-blue', progress: 12,
+    subtitle: 'Smart Gate logistics · JIT · Network resilience',
+    est: '6h remaining', cert: 'Operate 3 active trade routes with 500K+ LUX throughput',
+    modules: [
+      { id: 'scfundamentals', icon: '📦', name: 'Supply Chain Fundamentals', progress: 100,
+        desc: 'The full network from raw material sourcing to end delivery — applied to Smart Assembly logistics pipelines.',
+        meta: '✓ COMPLETE · 30 min · Core',
+        lesson: { badge: 'MODULE 1 / 5',
+          text: `<strong>Supply chain management</strong> covers the full network of entities involved in producing and delivering a product. The key components: <em>sourcing</em> (where inputs come from), <em>production</em> (how inputs become outputs), <em>distribution</em> (how outputs reach customers), and <em>returns</em> (what happens to defective or unused goods).<br><br>Supply chain resilience — the ability to absorb disruptions and recover — is more valuable than pure efficiency in volatile environments.`,
+          tags: ['SUPPLY CHAIN', 'LOGISTICS NETWORK', 'RESILIENCE'],
+          eve: `🚀 <strong>Your EVE Frontier application:</strong> Your supply chain: Fenris Mining (source) → Carbon Weave extraction → Your Smart Storage Unit (distribution hub) → Sector 7 market → buyers. The single-supplier risk at Fenris Mining is your critical vulnerability. Before scaling throughput, diversify sourcing to at least two miners.` }
+      },
+      { id: 'jit', icon: '⏱️', name: 'Just-in-Time & Buffer Stock', progress: 0,
+        desc: 'When to hold inventory (buffer stock) vs. minimise it (JIT). The cost of holding vs. the cost of stockouts.',
+        meta: 'NEXT · 35 min',
+        lesson: { badge: 'MODULE 2 / 5',
+          text: `<strong>Just-in-Time (JIT)</strong> inventory management minimises stock on hand by receiving goods only as needed. It reduces holding costs but increases vulnerability to supply disruptions.<br><br><strong>Buffer stock</strong> is the opposite: holding excess inventory as insurance against stockouts. The optimal policy depends on the cost of holding vs. the cost of running out.<br><br>In volatile environments (hostile space), buffer stock is typically underweighted — managers underestimate tail-risk disruptions.`,
+          tags: ['JUST-IN-TIME', 'BUFFER STOCK', 'INVENTORY MANAGEMENT'],
+          eve: `🚀 <strong>Your EVE Frontier application:</strong> Your current Carbon Weave buffer is 3 days. If Fenris goes offline (happened twice last month), you stockout on day 4 and lose approximately 40K LUX in missed trade revenue. Calculate your <strong>reorder point</strong>: average daily demand × lead time + safety stock. For your operation, that's a 7-day buffer minimum.` }
+      },
+      { id: 'bullwhip', icon: '🌪️', name: 'Bullwhip Effect', progress: 0,
+        desc: 'How small demand fluctuations amplify upstream — and how to dampen supply chain volatility in your gate network.',
+        meta: 'NEXT · 30 min',
+        lesson: { badge: 'MODULE 3 / 5',
+          text: `The <strong>bullwhip effect</strong> describes how small fluctuations in end-customer demand amplify progressively upstream through the supply chain — small retail swings create massive manufacturing volatility.<br><br>Causes: <em>demand forecast errors</em>, <em>batch ordering</em> (ordering in large infrequent lots rather than continuously), <em>price fluctuations</em> (forward buying when prices are low), and <em>shortage gaming</em> (inflating orders when supply is scarce).<br><br>Solution: share real-time demand data across the supply chain.`,
+          tags: ['BULLWHIP EFFECT', 'DEMAND AMPLIFICATION', 'SUPPLY VOLATILITY'],
+          eve: `🚀 <strong>Your EVE Frontier application:</strong> When the Void Cartel threat appeared, all traders in Sector 7 simultaneously hoarded Carbon Weave. Upstream, Fenris Mining saw a 400% demand spike and scaled up extraction — then the threat passed and demand collapsed. That's a textbook bullwhip. Fix: share gate traffic data with your key suppliers so they see real demand, not panic-inflated orders.` }
+      },
+      { id: 'networkdesign', icon: '🗺️', name: 'Network Design', progress: 0,
+        desc: 'Optimal placement of Smart Gates and Storage Units to minimise transit time and cost while maximising resilience.',
+        meta: 'NEXT · 45 min',
+        lesson: { badge: 'MODULE 4 / 5',
+          text: `<strong>Network design</strong> determines where to locate facilities, how many nodes to operate, and how to route flows through a logistics network. The trade-off: more nodes = more coverage and resilience, but higher fixed costs.<br><br>Key concepts: <em>hub-and-spoke</em> (centralise at hubs, distribute via spokes — efficient), <em>point-to-point</em> (direct routes — fast but expensive), and <em>hybrid</em> networks. The optimal structure depends on volume, distance, and resilience requirements.`,
+          tags: ['NETWORK DESIGN', 'HUB-AND-SPOKE', 'LOGISTICS OPTIMISATION'],
+          eve: `🚀 <strong>Your EVE Frontier application:</strong> Your current gate layout is point-to-point — direct routes between specific systems. As you scale, transition to a <strong>hub-and-spoke model</strong>: establish a central Smart Storage hub in Sector 7 (high traffic), build spokes to Sectors 4, 9, and 12. This reduces total infrastructure cost by ~35% while increasing resilience (hub failure still leaves spoke alternatives).` }
+      },
+      { id: 'resilience', icon: '🛡️', name: 'Resilience & Redundancy', progress: 0,
+        desc: 'Building supply chains that survive disruption — single points of failure, N+1 redundancy, and recovery planning.',
+        meta: 'LOCKED · Requires 80% completion · 40 min',
+        lesson: { badge: 'MODULE 5 / 5',
+          text: `<strong>Supply chain resilience</strong> is the ability to anticipate, adapt to, and recover from disruptions. The key principle: identify <em>single points of failure</em> — nodes where disruption breaks the entire chain — and eliminate them through redundancy.<br><br><em>N+1 redundancy</em>: always have one more resource than the minimum required so that losing one still leaves the system operational. This is the standard in critical infrastructure design.`,
+          tags: ['SUPPLY CHAIN RESILIENCE', 'REDUNDANCY', 'SINGLE POINT OF FAILURE'],
+          eve: `🚀 <strong>Your EVE Frontier application:</strong> Gate Alpha-7 is your single point of failure for all Sector 12 supply. If it's destroyed, your entire northern operation collapses. Build <strong>N+1 redundancy</strong>: establish a backup route via Sector 4 that can carry 60% of Alpha-7's capacity. The cost is one additional gate (~1.5M LUX). The risk mitigation value is your entire Sector 12 revenue stream.` }
+      },
+    ]
+  },
+  {
+    id: 'diplomacy', icon: '🌐', name: 'Diplomacy & Alliance Management', colorClass: 'fill-gold', progress: 5,
+    subtitle: 'Game theory · Alliance formation · Stakeholder negotiation',
+    est: '7h remaining', cert: '3 active inter-corp agreements · Multi-party gate access policy',
+    modules: [
+      { id: 'gametheory', icon: '♟️', name: 'Game Theory', progress: 50,
+        desc: 'Prisoner\'s Dilemma, Nash Equilibrium, and how rational actors make decisions when outcomes depend on others\' choices.',
+        meta: 'IN PROGRESS · 50% · 30 min remaining',
+        lesson: { badge: 'MODULE 1 / 5',
+          text: `<strong>Game theory</strong> studies strategic decision-making where outcomes depend on the choices of multiple actors. The <em>Nash Equilibrium</em> is a stable state where no player can improve their outcome by changing their strategy alone — even if a better collective outcome exists.<br><br>The <em>Prisoner's Dilemma</em> shows why cooperation is hard: individually rational choices (defect) lead to collectively worse outcomes than mutual cooperation. The solution: <em>repeated games</em> with reputation and retaliation create incentives to cooperate.`,
+          tags: ['GAME THEORY', 'NASH EQUILIBRIUM', "PRISONER'S DILEMMA"],
+          eve: `🚀 <strong>Your EVE Frontier application:</strong> Your standoff with Void Cartel is a repeated game. A one-time price war benefits neither of you — you both lose margin. The Nash Equilibrium is tacit price coordination: each respects the other's territory. Signal this by <strong>not undercutting Void Cartel's prices</strong> in their sectors. They will likely respond in kind, creating a stable duopoly.` }
+      },
+      { id: 'negotiation', icon: '🤝', name: 'Negotiation Strategy', progress: 0,
+        desc: 'BATNA, anchoring, zone of possible agreement, and how to negotiate inter-corp contracts that actually hold.',
+        meta: 'NEXT · 40 min',
+        lesson: { badge: 'MODULE 2 / 5',
+          text: `<strong>Negotiation strategy</strong> determines outcomes before the negotiation begins. Key concepts:<br><br>
+          <em>BATNA</em> — Best Alternative to Negotiated Agreement: your walk-away option determines your power<br>
+          <em>ZOPA</em> — Zone of Possible Agreement: the range where a deal can be struck<br>
+          <em>Anchoring</em> — the first number stated disproportionately influences the outcome<br>
+          <em>Integrative vs. distributive</em> — expand the pie vs. fight over the slice`,
+          tags: ['NEGOTIATION', 'BATNA', 'ANCHORING'],
+          eve: `🚀 <strong>Your EVE Frontier application:</strong> Before negotiating gate access with House Solara, define your BATNA: what happens if talks fail? If you have a viable alternative route, your power increases — you can walk away. If you're dependent, they know it. Before the next negotiation, <strong>build your outside option first</strong>, then open talks. Never negotiate without a BATNA.` }
+      },
+      { id: 'alliancetheory', icon: '🏛️', name: 'Alliance Theory', progress: 0,
+        desc: 'When to form alliances, how to structure them for stability, and what makes inter-corp agreements hold under pressure.',
+        meta: 'NEXT · 35 min',
+        lesson: { badge: 'MODULE 3 / 5',
+          text: `<strong>Alliance theory</strong> examines when and how organisations form cooperative relationships with potential competitors. Key conditions for stable alliances: <em>complementary capabilities</em> (each partner contributes something unique), <em>aligned incentives</em> (both benefit from alliance success), and <em>verifiable commitments</em> (each can confirm the other is holding to terms).<br><br>Alliances fail most often when one partner free-rides on the other's contributions, or when incentives diverge as circumstances change.`,
+          tags: ['ALLIANCE THEORY', 'STRATEGIC PARTNERSHIP', 'COALITION BUILDING'],
+          eve: `🚀 <strong>Your EVE Frontier application:</strong> A Tribe alliance with House Solara works if they bring manufacturing capacity and you bring distribution (gate network). Complementary. The risk: if they build their own gates, the alliance loses value for them. Lock in the partnership with a <strong>mutual gate-access treaty</strong> — both sides grant each other access, creating bilateral dependency that makes the alliance self-reinforcing.` }
+      },
+      { id: 'stakeholder', icon: '🗣️', name: 'Stakeholder Management', progress: 0,
+        desc: 'Map, prioritise, and manage the expectations of every party with an interest in your empire\'s operations.',
+        meta: 'NEXT · 30 min',
+        lesson: { badge: 'MODULE 4 / 5',
+          text: `<strong>Stakeholder management</strong> is the process of identifying, mapping, and managing the relationships with all parties that have an interest in your organisation's activities. The classic framework: map stakeholders on a <em>power-interest grid</em> — high power/high interest (manage closely), high power/low interest (keep satisfied), low power/high interest (keep informed), low power/low interest (monitor).<br><br>Failed stakeholder management is the most common cause of avoidable conflict in complex organisations.`,
+          tags: ['STAKEHOLDER MANAGEMENT', 'POWER-INTEREST GRID', 'COALITION'],
+          eve: `🚀 <strong>Your EVE Frontier application:</strong> Your key stakeholders: Tribe members (high power, high interest — manage closely), Fenris Mining (high power, low interest — keep satisfied with reliable orders), independent pilots using your gates (low power, high interest — keep informed of access policy changes), Void Cartel (high power, variable interest — monitor carefully). Run this grid quarterly.` }
+      },
+      { id: 'contracttheory', icon: '📜', name: 'Contract Theory', progress: 0,
+        desc: 'How contracts reduce information asymmetry, the principal-agent problem, and designing enforceable inter-corp agreements.',
+        meta: 'LOCKED · Requires 80% completion · 40 min',
+        lesson: { badge: 'MODULE 5 / 5',
+          text: `<strong>Contract theory</strong> examines how contracts can be designed to align incentives between parties with different information and interests. The <em>principal-agent problem</em>: the agent (contractor) has private information and may act against the principal's (client's) interests unless the contract is designed to prevent it.<br><br>In on-chain environments, <em>smart contracts</em> enforce agreement terms automatically — eliminating the need for trust between counterparties and reducing the scope for agent opportunism.`,
+          tags: ['CONTRACT THEORY', 'PRINCIPAL-AGENT', 'SMART CONTRACTS'],
+          eve: `🚀 <strong>Your EVE Frontier application:</strong> Your gate access contract with House Solara is enforced by a Smart Assembly rule — they can only transit if their wallet holds the required access token. That's a self-enforcing smart contract: no trust needed, no dispute resolution. This is the same mechanic that <strong>DeFi protocols</strong> use to run billion-dollar lending markets without counterparty risk.` }
+      },
+    ]
+  },
+  {
+    id: 'entrepreneurship', icon: '🛠️', name: 'Entrepreneurship & Builder Economics', colorClass: 'fill-green', progress: 8,
+    subtitle: 'Lean startup · Platform economics · Developer monetisation',
+    est: '8h remaining', cert: 'Deploy a Smart Assembly used by 5+ players · Generate EVE Token rewards',
+    modules: [
+      { id: 'leanstartup', icon: '🔄', name: 'Lean Startup', progress: 100,
+        desc: 'Build-measure-learn loops, minimum viable products, and how to iterate from idea to validated market fit fast.',
+        meta: '✓ COMPLETE · 30 min · Core',
+        lesson: { badge: 'MODULE 1 / 5',
+          text: `The <strong>Lean Startup</strong> methodology (Eric Ries) replaces elaborate business plans with rapid experimentation. The core loop: <em>Build</em> a minimum viable product → <em>Measure</em> real user behaviour → <em>Learn</em> what actually matters → repeat.<br><br>A <em>pivot</em> is a structured course correction that tests a new hypothesis about product, strategy, or growth when the current approach isn't working. Most successful companies pivot 1–3 times before finding product-market fit.`,
+          tags: ['LEAN STARTUP', 'MVP', 'BUILD-MEASURE-LEARN'],
+          eve: `🚀 <strong>Your EVE Frontier application:</strong> Before building a full Assembly rental marketplace, test the hypothesis with an MVP: offer one Assembly slot to one external pilot for 1,000 LUX/week. Measure: do they pay? Do they return? Do they refer others? That's your build-measure-learn loop. Only scale after you've <strong>validated demand with real LUX</strong>.` }
+      },
+      { id: 'platformecon', icon: '🌉', name: 'Platform Economics', progress: 0,
+        desc: 'Two-sided markets, platform design, and how to build an ecosystem where other builders extend your infrastructure.',
+        meta: 'NEXT · 45 min',
+        lesson: { badge: 'MODULE 2 / 5',
+          text: `<strong>Platform economics</strong> studies multi-sided markets where a platform creates value by connecting two or more distinct user groups. Platforms don't create value directly — they enable value creation between participants.<br><br>The key asymmetry: often one side is subsidised (e.g., app developers get free tools) to attract the other side that pays (e.g., end users). The platform's role is to reduce transaction costs between the two sides and capture a share of the value created.`,
+          tags: ['PLATFORM ECONOMICS', 'TWO-SIDED MARKET', 'ECOSYSTEM DESIGN'],
+          eve: `🚀 <strong>Your EVE Frontier application:</strong> Your gate network is already a platform — you connect cargo pilots (side 1) with destination markets (side 2) and capture toll revenue. The next layer: let other builders deploy Smart Assemblies at your gate nodes, making your infrastructure a <strong>developer platform</strong>. You become the App Store of your sector — collecting a share of all value created on top of your infrastructure.` }
+      },
+      { id: 'networkeffects2', icon: '🔗', name: 'Monetisation Strategy', progress: 0,
+        desc: 'Revenue models for on-chain builders — tolls, subscriptions, access tokens, revenue share, and EVE Token rewards.',
+        meta: 'NEXT · 35 min',
+        lesson: { badge: 'MODULE 3 / 5',
+          text: `<strong>Monetisation strategy</strong> determines how value created by your product is captured as revenue. Common models for on-chain builders:<br><br>
+          <em>Transaction fees</em> — take a % of each trade routed through your infrastructure<br>
+          <em>Access tokens</em> — charge for permission to use a resource<br>
+          <em>Subscription</em> — recurring fee for ongoing service<br>
+          <em>Revenue share</em> — split earnings with contributors<br>
+          <em>Protocol rewards</em> — EVE Tokens distributed for builder activity`,
+          tags: ['MONETISATION', 'REVENUE MODELS', 'EVE TOKEN REWARDS'],
+          eve: `🚀 <strong>Your EVE Frontier application:</strong> You currently earn from gate tolls (transaction fees). Layer in: access tokens for Smart Assembly priority (subscription-like), a 2% cut of all trades completed via your Storage Units (protocol fee), and EVE Token rewards for builder contributions. <strong>Diversify your revenue model</strong> — any single stream can be disrupted; multiple streams compound.` }
+      },
+      { id: 'devecosystem', icon: '🧩', name: 'Developer Ecosystem Design', progress: 0,
+        desc: 'How to attract builders to your infrastructure, design APIs and incentives that make your platform the default choice.',
+        meta: 'NEXT · 50 min',
+        lesson: { badge: 'MODULE 4 / 5',
+          text: `<strong>Developer ecosystem design</strong> is the discipline of making your infrastructure so useful, well-documented, and well-incentivised that other builders choose to extend it rather than build alternatives. Key levers:<br><br>
+          <em>Developer experience (DX)</em> — how easy is it to build on top of your platform?<br>
+          <em>Incentive alignment</em> — do builders profit when you profit?<br>
+          <em>Composability</em> — can builders mix your system with others?<br>
+          <em>Governance</em> — do builders have voice in platform decisions?`,
+          tags: ['DEVELOPER ECOSYSTEM', 'COMPOSABILITY', 'PLATFORM GOVERNANCE'],
+          eve: `🚀 <strong>Your EVE Frontier application:</strong> EVE Frontier's Smart Assembly system is composable — you can combine your gate with other builders' assemblies to create new functionality. This is your moat: builders who integrate with your gate network are dependent on your uptime and access policies. Design your gate as an <strong>open platform</strong>: documented access rules, low fees for builders, and a share of EVE Token rewards that flows to extension builders.` }
+      },
+      { id: 'exitstrategy', icon: '🎯', name: 'Exit & Value Realisation', progress: 0,
+        desc: 'How to think about the long-term value of what you\'re building — exits, asset sales, and on-chain legacy.',
+        meta: 'LOCKED · Requires 80% completion · 35 min',
+        lesson: { badge: 'MODULE 5 / 5',
+          text: `<strong>Exit strategy</strong> is a plan for how founders eventually realise the value of what they've built. In traditional business: IPO, acquisition, or management buyout. In on-chain environments, the analogues are different — but the principle is the same: create durable value, then capture it.<br><br>On-chain exit options: <em>sell the Smart Assembly</em> (your infrastructure is an NFT — it can be transferred for LUX), <em>DAO conversion</em> (transfer governance to token holders and collect ongoing fees), or <em>protocol integration</em> (get your Assembly adopted as core infrastructure by larger ecosystems).`,
+          tags: ['EXIT STRATEGY', 'VALUE REALISATION', 'ON-CHAIN ASSETS'],
+          eve: `🚀 <strong>Your EVE Frontier application:</strong> Your gate network, if it generates 800K LUX/month, has a market value of approximately 5–10M LUX (6–12x monthly revenue — standard infrastructure multiple). As an on-chain asset, it's genuinely sellable to another player who wants to enter the logistics business. <strong>Build as if you might sell</strong>: document your routes, formalise your contracts, and maintain your reputation. That's your exit multiple.` }
+      },
+    ]
+  },
+];
+
+let activeTrackId = 'markets';
+
+function initCurriculum() {
+  const nav = document.getElementById('curriculumTrackNav');
+  if (!nav) return;
+  nav.innerHTML = TRACKS.map(t => `
+    <button class="track-nav-btn${t.id === activeTrackId ? ' active' : ''}" onclick="selectTrack('${t.id}')">
+      <span class="track-nav-icon">${t.icon}</span>
+      <span>${t.name.split('&')[0].trim()}</span>
+      <span class="track-nav-pct">${t.progress}%</span>
+    </button>
+  `).join('');
+  renderTrack(activeTrackId);
+}
+
+function selectTrack(id) {
+  const track = TRACKS.find(t => t.id === id);
+  if (!track) return;
+  activeTrackId = id;
+
+  // Update nav buttons
+  document.querySelectorAll('.track-nav-btn').forEach(btn => btn.classList.remove('active'));
+  document.querySelectorAll('.track-nav-btn').forEach(btn => {
+    if (btn.textContent.includes(track.name.split('&')[0].trim())) btn.classList.add('active');
+  });
+
+  // Update dashboard track cards (highlight active)
+  document.querySelectorAll('.track-card').forEach(card => card.classList.remove('active'));
+  const matchCard = [...document.querySelectorAll('.track-card')].find(c => c.getAttribute('onclick')?.includes(`'${id}'`));
+  if (matchCard) matchCard.classList.add('active');
+
+  // Switch to curriculum tab if triggered from dashboard
+  const currTab = document.querySelector('[data-tab="curriculum"]');
+  if (currTab && !document.getElementById('tab-curriculum').classList.contains('active')) {
+    setTab(currTab);
+  }
+
+  renderTrack(id);
+  showToast('TRACK SELECTED', `Switched to <strong>${track.icon} ${track.name}</strong>`, 'blue');
+}
+
+function renderTrack(id) {
+  const track = TRACKS.find(t => t.id === id);
+  if (!track) return;
+  const list = document.getElementById('courseList');
+  if (!list) return;
+
+  const fillColor = track.colorClass;
+  list.innerHTML = `
+    <div class="panel" style="padding:16px 20px;margin-bottom:4px;">
+      <div style="font-family:'Orbitron',sans-serif;font-size:10px;letter-spacing:0.2em;color:var(--dim);margin-bottom:4px;">CURRENT TRACK</div>
+      <div style="font-family:'Orbitron',sans-serif;font-size:15px;color:var(--gold);">${track.icon} ${track.name}</div>
+      <div style="font-size:10px;color:var(--dim);margin-top:4px;">${track.modules.length} modules · ${track.progress}% complete · ${track.est}</div>
+      <div style="font-size:10px;color:var(--muted);margin-top:2px;">🏅 Cert: ${track.cert}</div>
+      <div class="track-progress-bar" style="margin-top:10px;height:5px;"><div class="track-progress-fill ${fillColor}" style="width:${track.progress}%"></div></div>
+    </div>
+    ${track.modules.map(m => `
+      <div class="course-card${m.progress === 100 ? ' active-course' : ''}" onclick="showLesson('${track.id}','${m.id}',this)">
+        <div class="course-icon">${m.icon}</div>
+        <div class="course-info">
+          <div class="course-name">${m.name}</div>
+          <div class="course-desc">${m.desc}</div>
+          <div class="course-bar"><div class="course-bar-fill ${fillColor}" style="width:${m.progress}%"></div></div>
+          <div class="course-meta">${m.meta}</div>
+        </div>
+      </div>
+    `).join('')}
+  `;
+
+  // Auto-show first in-progress or completed lesson
+  const autoModule = track.modules.find(m => m.progress > 0 && m.progress < 100) || track.modules.find(m => m.progress === 100);
+  if (autoModule) {
+    const firstCard = list.querySelectorAll('.course-card')[track.modules.indexOf(autoModule)];
+    showLesson(track.id, autoModule.id, firstCard);
+  }
+}
+
+function showLesson(trackId, moduleId, cardEl) {
+  // Deactivate all cards
+  document.querySelectorAll('.course-card').forEach(c => c.classList.remove('active-course'));
+  if (cardEl) cardEl.classList.add('active-course');
+
+  const track = TRACKS.find(t => t.id === trackId);
+  if (!track) return;
+  const mod = track.modules.find(m => m.id === moduleId);
+  if (!mod || !mod.lesson) return;
+  const l = mod.lesson;
+
+  document.getElementById('lessonTitle').textContent = mod.name;
+  document.getElementById('lessonTitle').style.color = '';
+  document.getElementById('lessonBadge').textContent = l.badge;
+  document.getElementById('lessonText').innerHTML = l.text;
+  document.getElementById('lessonText').style.color = '';
+  document.getElementById('lessonTags').innerHTML = l.tags.map(t => `<span class="lesson-tag">${t}</span>`).join('');
+  const divider = document.getElementById('lessonDivider');
+  const eveEl = document.getElementById('lessonEve');
+  const btn = document.getElementById('lessonBtn');
+  if (divider) divider.style.display = '';
+  if (eveEl) { eveEl.innerHTML = l.eve; eveEl.style.display = ''; }
+  if (btn) btn.style.display = '';
 }
 
 // ── TAB SWITCHING ─────────────────────────────────────────────────
@@ -2263,64 +2895,12 @@ function setTab(el) {
   document.getElementById('tab-' + el.dataset.tab).classList.add('active');
 }
 
-// ── CURRICULUM LESSONS ────────────────────────────────────────────
-const lessons = {
-  porter: {
-    title: "Porter's Five Forces",
-    badge: "MODULE 1 / 7",
-    text: `<strong>Porter's Five Forces</strong> is a framework for analyzing the competitive forces that shape an industry. The five forces are: <em>rivalry among competitors</em>, <em>threat of new entrants</em>, <em>bargaining power of suppliers</em>, <em>bargaining power of buyers</em>, and <em>threat of substitutes</em>.<br><br>Together, these determine how profitable a market can be over the long run.`,
-    tags: ["PORTER'S FRAMEWORK", "COMPETITIVE ANALYSIS", "INDUSTRY STRUCTURE"],
-    eve: `🚀 <strong>Your EVE Frontier application:</strong> In Sector 7, you face moderate rivalry (3 competing traders), low threat of new entrants (gate access is a barrier), and high supplier power from Fenris Mining Co. — they're your only Carbon Weave source. This is a <strong>concentrated supplier risk</strong>. Diversify your supply base.`
-  },
-  bcg: {
-    title: "BCG Growth-Share Matrix",
-    badge: "MODULE 2 / 7",
-    text: `The <strong>BCG Matrix</strong> classifies a portfolio's business units by market growth rate and relative market share into four quadrants:<br><br>
-    <strong>Stars</strong> — high growth, high share (invest heavily)<br>
-    <strong>Cash Cows</strong> — low growth, high share (harvest profits)<br>
-    <strong>Question Marks</strong> — high growth, low share (decide: invest or divest)<br>
-    <strong>Dogs</strong> — low growth, low share (divest)`,
-    tags: ["BCG MATRIX", "PORTFOLIO MANAGEMENT", "CAPITAL ALLOCATION"],
-    eve: `🚀 <strong>Your EVE Frontier application:</strong> Your Sector 7 Carbon Weave route = <strong>Cash Cow</strong>. Your Sector 12 mineral expansion = <strong>Star</strong> (high growth, invest!). Gate Alpha-3 with low traffic = <strong>Dog</strong> — consider decommissioning. Sector 9 Building Foam experiment = <strong>Question Mark</strong>.`
-  },
-  arbitrage: {
-    title: "Arbitrage & Price Discovery",
-    badge: "MODULE 3 / 7",
-    text: `<strong>Arbitrage</strong> is the simultaneous purchase and sale of an asset to profit from a difference in price across markets. In theory, arbitrage is "risk-free" — but execution risk, transport costs, and information lag introduce real risk.<br><br>
-    <em>Price discovery</em> is the process by which markets determine the equilibrium price of an asset through buyer/seller interactions.`,
-    tags: ["ARBITRAGE", "PRICE DISCOVERY", "MARKET MICROSTRUCTURE"],
-    eve: `🚀 <strong>Your EVE Frontier application:</strong> Current spread between Sector 7 and 12 is ~18% on mineral transit. With 3 gate hops and ~12 min travel, your net arbitrage yield is approximately <strong>11–14%</strong> after fuel costs. That's a strong risk-adjusted return if you can lock the route.`
-  },
-  supplychain: {
-    title: "Supply Chain Theory",
-    badge: "MODULE 4 / 7",
-    text: `<strong>Supply chain management</strong> covers the full network of entities involved in producing and delivering a product — from raw material suppliers to end consumers.<br><br>
-    Key concepts: <em>just-in-time delivery</em> (minimize inventory cost), <em>bullwhip effect</em> (demand variability amplifies upstream), <em>node resilience</em> (single points of failure), and <em>network optimization</em> (minimize cost while maximizing throughput).`,
-    tags: ["SUPPLY CHAIN", "JIT LOGISTICS", "NETWORK RESILIENCE"],
-    eve: `🚀 <strong>Your EVE Frontier application:</strong> Your gate network is your supply chain. Gate Alpha-7 is a critical single-point-of-failure — Void Cartel could disrupt your entire Sector 12 supply line. Apply <strong>redundancy planning</strong>: establish a backup route via Sector 4 before scaling mineral transport.`
-  },
-  riskmanagement: {
-    title: "Risk Management",
-    badge: "MODULE 5 / 7",
-    text: `<strong>Risk management</strong> is the process of identifying, assessing, and controlling threats to an organization's capital and earnings.<br><br>
-    Key tools: <em>Value at Risk (VaR)</em> — maximum expected loss at a given confidence level; <em>hedging</em> — taking offsetting positions; <em>diversification</em> — spreading risk across uncorrelated assets; <em>scenario analysis</em> — stress-testing against extreme outcomes.`,
-    tags: ["RLUX MANAGEMENT", "VALUE AT RLUX", "PORTFOLIO HEDGING"],
-    eve: `🚀 <strong>Your EVE Frontier application:</strong> Your 3 undefended gate assets represent concentrated operational risk. Apply <strong>VaR thinking</strong>: if Void Cartel destroys Gate Alpha-7, you lose ~4M LUX (your worst-case 1-day loss). Your current reserve fund (4M LUX) is exactly at risk threshold — dangerously under-hedged.`
-  }
-};
-
-function showLesson(id) {
-  document.querySelectorAll('.course-card').forEach(c => c.classList.remove('active-course'));
-  event.currentTarget.classList.add('active-course');
-  const l = lessons[id];
-  if (!l) return;
-  document.getElementById('lessonTitle').innerHTML = l.title;
-  document.getElementById('lessonBadge').textContent = l.badge;
-  document.getElementById('lessonText').innerHTML = l.text;
-  document.getElementById('lessonEve').innerHTML = l.eve;
-  const tagsEl = document.getElementById('lessonPanel').querySelector('.lesson-body > div:nth-child(3)');
-  if (tagsEl) tagsEl.innerHTML = l.tags.map(t => `<span class="lesson-tag">${t}</span>`).join('');
+function switchTab(name) {
+  const btn = document.querySelector(`.tab[data-tab="${name}"]`);
+  if (btn) setTab(btn);
 }
+
+// ── CURRICULUM LESSONS — now driven by TRACKS data above ──────────
 
 // ══════════════════════════════════════════════════════════════════
 // DAY 3 — MBA CONCEPT-TAGGING SYSTEM
@@ -2376,16 +2956,16 @@ const MBA_CONCEPT_MAP = {
   // ── Risk & Security Events ────────────────────────────────────
   RiskAlert: {
     framework:  'Risk Management',
-    lessonId:   'riskmanagement',
-    concepts:   ['VALUE AT RLUX', 'OPERATIONAL RLUX'],
+    lessonId:   'resilience',
+    concepts:   ['VALUE AT RISK', 'OPERATIONAL RISK'],
     feedColor:  'dot-red',
     message:    (d) => `Risk alert: <strong>${d.asset || 'Asset'}</strong> exposed · VaR model triggered`,
-    toast:      (d) => ({ title: 'MBA TRIGGER — RLUX MANAGEMENT', body: `Undefended assets = concentrated <strong>operational risk</strong>. VaR models quantify your maximum expected loss — currently at reserve threshold.`, type: 'red' }),
+    toast:      (d) => ({ title: 'MBA TRIGGER — RISK MANAGEMENT', body: `Undefended assets = concentrated <strong>operational risk</strong>. VaR models quantify your maximum expected loss — currently at reserve threshold.`, type: 'red' }),
     certProgress: { track: 'risk', delta: 10 },
   },
   GateAttacked: {
     framework:  'Scenario Analysis & Hedging',
-    lessonId:   'riskmanagement',
+    lessonId:   'resilience',
     concepts:   ['SCENARIO ANALYSIS', 'HEDGING STRATEGIES'],
     feedColor:  'dot-red',
     message:    (d) => `Gate attacked: <strong>${d.gate || 'Gate'}</strong> — scenario analysis module active`,
@@ -2395,7 +2975,7 @@ const MBA_CONCEPT_MAP = {
   // ── Logistics & Supply Chain Events ──────────────────────────
   ShipmentDelivered: {
     framework:  'Supply Chain Management',
-    lessonId:   'supplychain',
+    lessonId:   'jit',
     concepts:   ['JIT LOGISTICS', 'NETWORK THROUGHPUT'],
     feedColor:  'dot-green',
     message:    (d) => `Shipment delivered via <strong>${d.route || 'route'}</strong> · supply chain efficiency +`,
@@ -2404,7 +2984,7 @@ const MBA_CONCEPT_MAP = {
   },
   RouteEstablished: {
     framework:  'Network Design & Logistics',
-    lessonId:   'supplychain',
+    lessonId:   'networkdesign',
     concepts:   ['NETWORK DESIGN', 'SUPPLY CHAIN RESILIENCE'],
     feedColor:  'dot-blue',
     message:    (d) => `Trade route established: ${d.from || 'Origin'} → ${d.to || 'Destination'}`,
@@ -2423,7 +3003,7 @@ const MBA_CONCEPT_MAP = {
   },
   PorterForce: {
     framework:  "Porter's Five Forces",
-    lessonId:   'porter',
+    lessonId:   'porter',  /* maps to strategy track */
     concepts:   ["PORTER'S FIVE FORCES", 'COMPETITIVE INTENSITY'],
     feedColor:  'dot-blue',
     message:    (d) => `Competitive pressure: <strong>${d.force || 'New entrant'}</strong> — Porter's Five Forces active`,
@@ -2444,9 +3024,13 @@ function processMBAEvent(eventType, data = {}) {
   const feedMsg = rule.message(data);
   injectFeedItem(rule.feedColor, feedMsg);
 
-  // Optionally highlight relevant lesson
-  if (rule.lessonId && document.querySelector(`[onclick="showLesson('${rule.lessonId}')"]`)) {
-    showToast('LESSON AVAILABLE', `Click <em>${rule.lessonId}</em> in the Curriculum tab to explore this concept.`, 'gold', 5000);
+  // Optionally highlight relevant lesson (find which track contains this moduleId)
+  if (rule.lessonId) {
+    const matchTrack = TRACKS.find(t => t.modules.some(m => m.id === rule.lessonId));
+    if (matchTrack) {
+      const mod = matchTrack.modules.find(m => m.id === rule.lessonId);
+      showToast('LESSON AVAILABLE', `Open <strong>${matchTrack.icon} ${matchTrack.name}</strong> in the Curriculum tab — <em>${mod.name}</em> is directly relevant.`, 'gold', 5000);
+    }
   }
 
   // Update cert progress if applicable
@@ -2738,6 +3322,7 @@ function tickFeed() {
 updateChart();
 setInterval(tickMarket, 3000);
 setInterval(tickFeed, 12000);
+initCurriculum();
 </script>
 </body>
 </html>
